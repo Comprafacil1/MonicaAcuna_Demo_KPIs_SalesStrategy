@@ -239,3 +239,24 @@ applyFilters();
 
 </body>
 </html>
+<script>
+// Live update automático cada 5 segundos
+setInterval(() => {
+    // Simular cambios aleatorios
+    leadsData.forEach(l=>{
+        l.value = Math.round(l.value * (0.95 + Math.random()*0.1)); // +-5% random
+        const stages = ['Contactado','Calificado','Propuesta','Cerrado'];
+        l.stage = stages[Math.floor(Math.random()*stages.length)];
+    });
+
+    // Actualizar pipeline
+    const counts = {Contactado:0,Calificado:0,Propuesta:0,Cerrado:0};
+    leadsData.forEach(l=>counts[l.stage]++);
+    pipelineChart.data.datasets[0].data = [counts.Contactado, counts.Calificado, counts.Propuesta, counts.Cerrado];
+    pipelineChart.update();
+
+    // Actualizar KPIs y tabla según filtros activos
+    applyFilters();
+
+}, 5000); // cada 5000ms = 5 segundos
+</script>
