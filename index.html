@@ -2,72 +2,29 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Simulador de Ventas KAM Premium</title>
+<title>MonicaAcuna_SalesStrategy - Dashboard Premium KAM</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 <style>
-body {
-  font-family: 'Arial', sans-serif;
-  background-color: #2A2F3A;
-  color: #fff;
-  margin: 0; padding: 0;
-}
-header {
-  padding: 20px 40px;
-  background-color: #1F2230;
-}
-header h1 {
-  margin: 0;
-  font-size: 32px;
-  color: #9B8CF6;
-  font-weight: bold;
-}
-.kpi-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  padding: 20px 40px;
-}
-.kpi {
-  background-color: #333847;
-  padding: 20px;
-  margin: 10px;
-  border-radius: 12px;
-  min-width: 150px;
-  text-align: center;
-}
-.kpi h2 { font-size: 24px; color: #9B8CF6; margin: 0;}
-.kpi p { font-size: 14px; color: #8A8D91; margin: 5px 0 0;}
-button {
-  margin: 10px 40px;
-  padding: 8px 12px;
-  border-radius: 6px;
-  border: none;
-  background-color: #5D3FD3;
-  color: white;
-  cursor: pointer;
-  font-weight: bold;
-}
-.dashboard {
-  display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(350px,1fr));
-  gap: 20px;
-  padding: 20px 40px;
-}
-.card {
-  background-color: #333847;
-  padding: 20px;
-  border-radius: 12px;
-}
-#map {height: 400px; border-radius:12px;}
-.notes {padding:10px 40px; font-size:12px; color:#8A8D91;}
+body { font-family: 'Arial', sans-serif; background:#2A2F3A; color:#fff; margin:0; padding:0; }
+header { padding:20px 40px; background:#1F2230; }
+header h1 { margin:0; font-size:32px; color:#9B8CF6; font-weight:bold; }
+.kpi-container { display:flex; flex-wrap:wrap; justify-content:space-around; padding:20px 40px; }
+.kpi { background:#333847; padding:20px; margin:10px; border-radius:12px; min-width:150px; text-align:center; }
+.kpi h2 { font-size:24px; color:#9B8CF6; margin:0; }
+.kpi p { font-size:14px; color:#8A8D91; margin:5px 0 0; }
+button { margin:10px 40px; padding:8px 12px; border-radius:6px; border:none; background:#5D3FD3; color:white; cursor:pointer; font-weight:bold; }
+.dashboard { display:grid; grid-template-columns:repeat(auto-fit,minmax(350px,1fr)); gap:20px; padding:20px 40px; }
+.card { background:#333847; padding:20px; border-radius:12px; }
+#map { height:400px; border-radius:12px; }
+.notes { padding:10px 40px; font-size:12px; color:#8A8D91; }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>Simulador de Ventas KAM Premium</h1>
+  <h1>Simulador de Ventas KAM - MonicaAcuna_SalesStrategy</h1>
 </header>
 
 <section class="kpi-container">
@@ -114,12 +71,11 @@ button {
 </div>
 
 <script>
-// --- Datos inventados ---
-const regions = ["Norte", "Centro", "Sur", "Metropolitana", "Araucanía"];
-const services = ["Consultoría", "Capacitación", "Implementación", "Soporte", "Custom"];
+// --- Datos inventados pero realistas ---
+const regions = ["Norte","Centro","Sur","Metropolitana","Araucanía"];
+const services = ["Consultoría","Capacitación","Implementación","Soporte","Custom"];
 const months = ["Enero","Febrero","Marzo","Abril","Mayo","Junio"];
 let leadsData = [];
-
 for(let i=0;i<50;i++){
   leadsData.push({
     name:"Cliente "+(i+1),
@@ -131,7 +87,7 @@ for(let i=0;i<50;i++){
   });
 }
 
-// --- Funciones KPIs ---
+// --- KPIs ---
 function updateKPIs(filteredLeads){
   const total = filteredLeads.reduce((sum,l)=>sum+l.value,0);
   document.getElementById('totalSales').innerText = `$${total}`;
@@ -142,7 +98,7 @@ function updateKPIs(filteredLeads){
   document.getElementById('activeClients').innerText = filteredLeads.length;
 }
 
-// --- Filtros (simulados por mapa) ---
+// --- Filtros ---
 let currentRegionFilter = "all";
 function applyFilters(){
   let filtered = leadsData;
@@ -158,43 +114,60 @@ const forecastCtx = document.getElementById('forecastChart').getContext('2d');
 const customerCtx = document.getElementById('customerChart').getContext('2d');
 const topSalesCtx = document.getElementById('topSalesChart').getContext('2d');
 
-let segmentationChart = new Chart(segmentationCtx,{type:'pie',data:{labels:services,datasets:[{data:[],backgroundColor:['#5D3FD3','#9B8CF6','#8A8D91','#7A73B8','#B0A8D6']}]},options:{responsive:true}});
-let categoryChart = new Chart(categoryCtx,{type:'bar',data:{labels:services,datasets:[{data:[],backgroundColor:'#5D3FD3'}]},options:{responsive:true}});
-let forecastChart = new Chart(forecastCtx,{type:'line',data:{labels:months,datasets:[{label:'Ventas',data:[],borderColor:'#9B8CF6',backgroundColor:'rgba(155,140,246,0.2)',fill:true,tension:0.4}]}});
-let customerChart = new Chart(customerCtx,{type:'pie',data:{labels:regions,datasets:[{data:[],backgroundColor:['#5D3FD3','#9B8CF6','#8A8D91','#7A73B8','#B0A8D6']}]},options:{responsive:true}});
-let topSalesChart = new Chart(topSalesCtx,{type:'bar',data:{labels:services,datasets:[{data:[],backgroundColor:'#9B8CF6'}]}});
+let segmentationChart = new Chart(segmentationCtx,{
+  type:'pie',
+  data:{labels:services,datasets:[{data:[],backgroundColor:['#5D3FD3','#9B8CF6','#8A8D91','#7A73B8','#B0A8D6']}]},
+  options:{responsive:true}
+});
+let categoryChart = new Chart(categoryCtx,{
+  type:'bar',
+  data:{labels:services,datasets:[{data:[],backgroundColor:'#5D3FD3'}]},
+  options:{responsive:true}
+});
+let forecastChart = new Chart(forecastCtx,{
+  type:'line',
+  data:{labels:months,datasets:[
+    {label:'Ventas',data:[],borderColor:'#9B8CF6',backgroundColor:'rgba(155,140,246,0.2)',fill:true,tension:0.4},
+    {label:'Forecast',data:[],borderColor:'#7A73B8',backgroundColor:'rgba(122,115,184,0.2)',fill:true,tension:0.4}
+  ]},
+  options:{responsive:true}
+});
+let customerChart = new Chart(customerCtx,{
+  type:'pie',
+  data:{labels:regions,datasets:[{data:[],backgroundColor:['#5D3FD3','#9B8CF6','#8A8D91','#7A73B8','#B0A8D6']}]},
+  options:{responsive:true}
+});
+let topSalesChart = new Chart(topSalesCtx,{
+  type:'bar',
+  data:{labels:services,datasets:[{data:[],backgroundColor:'#9B8CF6'}]},
+  options:{responsive:true}
+});
 
 // --- Update Charts ---
 function updateCharts(filtered){
-  // Segmentation
-  let segData = services.map(s=>filtered.filter(f=>f.service===s).length);
-  segmentationChart.data.datasets[0].data = segData;
+  segmentationChart.data.datasets[0].data = services.map(s=>filtered.filter(f=>f.service===s).length);
   segmentationChart.update();
-  // Category chart
-  let catData = services.map(s=>filtered.filter(f=>f.service===s).reduce((sum,l)=>sum+l.value,0));
-  categoryChart.data.datasets[0].data = catData;
+
+  categoryChart.data.datasets[0].data = services.map(s=>filtered.filter(f=>f.service===s).reduce((sum,l)=>sum+l.value,0));
   categoryChart.update();
-  // Forecast chart
-  let forecastData = months.map(m=>filtered.filter(f=>f.month===m).reduce((sum,l)=>sum+l.value,0));
-  forecastChart.data.datasets[0].data = forecastData;
+
+  forecastChart.data.datasets[0].data = months.map(m=>filtered.filter(f=>f.month===m).reduce((sum,l)=>sum+l.value,0));
+  forecastChart.data.datasets[1].data = months.map(m=>filtered.filter(f=>f.month===m).reduce((sum,l)=>sum+l.value*1.2,0));
   forecastChart.update();
-  // Customer distribution
-  let custData = regions.map(r=>filtered.filter(f=>f.region===r).length);
-  customerChart.data.datasets[0].data = custData;
+
+  customerChart.data.datasets[0].data = regions.map(r=>filtered.filter(f=>f.region===r).length);
   customerChart.update();
-  // Top Sales
-  let topData = services.map(s=>filtered.filter(f=>f.service===s).reduce((sum,l)=>sum+l.value,0));
-  topSalesChart.data.datasets[0].data = topData;
+
+  topSalesChart.data.datasets[0].data = services.map(s=>filtered.filter(f=>f.service===s).reduce((sum,l)=>sum+l.value,0));
   topSalesChart.update();
 }
 
 // --- Leaflet Map ---
 const map = L.map('map').setView([-33.45,-70.6667],5);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+const coordsArray = [[-20,-70],[-33,-70],[-39,-72],[-33,-70],[-38,-72]];
 regions.forEach((r,i)=>{
-  // Fake marker center of region
-  let coords = [[-20,-70],[-33,-70],[-39,-72],[-33,-70],[-38,-72]][i];
-  L.circle(coords,{color:'#9B8CF6',fillColor:'#5D3FD3',fillOpacity:0.5,radius:50000})
+  L.circle(coordsArray[i],{color:'#9B8CF6',fillColor:'#5D3FD3',fillOpacity:0.5,radius:50000})
     .addTo(map)
     .bindPopup(r)
     .on('click',()=>{ currentRegionFilter=r; applyFilters(); });
