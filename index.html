@@ -11,83 +11,29 @@
       background-color:#1a1a1a;
       color:#eee;
     }
-    h1, h2 {
-      text-align:center;
-      margin:10px 0;
-    }
-    .kpi-container {
-      display:flex;
-      justify-content:space-around;
-      margin:20px;
-      flex-wrap:wrap;
-    }
-    .kpi-box {
-      background:#2a2a2a;
-      padding:15px;
-      border-radius:12px;
-      width:220px;
-      margin:10px;
-      text-align:center;
-    }
-    .chart-container {
-      width: 90%;
-      max-width: 1000px;
-      margin: 20px auto;
-      background:#2a2a2a;
-      padding:20px;
-      border-radius:12px;
-    }
-    .month-selector {
-      display:flex;
-      justify-content:center;
-      margin:15px 0;
-      gap:10px;
-    }
-    .month-selector button {
-      padding:8px 12px;
-      background:#5e2a7e;
-      color:white;
-      border:none;
-      border-radius:6px;
-      cursor:pointer;
-    }
-    .month-selector button.active {
-      background:#bfa0ff;
-      color:#1a1a1a;
-      font-weight:bold;
-    }
-    table {
-      width:90%;
-      margin:20px auto;
-      border-collapse: collapse;
-      background:#2a2a2a;
-      border-radius:12px;
-      overflow:hidden;
-    }
-    th, td {
-      padding:10px;
-      text-align:center;
-      border-bottom:1px solid #444;
-    }
-    th {
-      background:#3a3a3a;
-    }
-    .map-container {
-      width:90%;
-      margin:0 auto 20px auto;
-      padding:20px;
-      background:#2a2a2a;
-      border-radius:12px;
-    }
+    h1,h2,h3 { text-align:center; margin:10px 0; }
+    .kpi-container { display:flex; justify-content:space-around; flex-wrap:wrap; margin:20px; }
+    .kpi-box { background:#2a2a2a; padding:15px; border-radius:12px; width:220px; margin:10px; text-align:center; }
+    .chart-container { width:90%; max-width:600px; height:400px; margin:20px auto; background:#2a2a2a; padding:20px; border-radius:12px; }
+    .month-selector { display:flex; justify-content:center; margin:15px 0; gap:10px; }
+    .month-selector button { padding:8px 12px; background:#5e2a7e; color:white; border:none; border-radius:6px; cursor:pointer; }
+    .month-selector button.active { background:#bfa0ff; color:#1a1a1a; font-weight:bold; }
+    table { width:90%; margin:20px auto; border-collapse: collapse; background:#2a2a2a; border-radius:12px; overflow:hidden; }
+    th,td { padding:10px; text-align:center; border-bottom:1px solid #444; }
+    th { background:#3a3a3a; }
+    .map-container { width:90%; margin:20px auto; padding:20px; background:#2a2a2a; border-radius:12px; }
+    .user-dashboard { width:90%; max-width:700px; margin:20px auto; padding:20px; background:#2a2a2a; border-radius:12px; }
+    input[type="number"] { width:80px; margin:5px; padding:5px; border-radius:6px; border:none; text-align:center; }
+    .kpi-explanation { width:90%; max-width:700px; margin:20px auto; padding:20px; background:#2a2a2a; border-radius:12px; }
   </style>
 </head>
 <body>
 
-  <!-- Título principal -->
+  <!-- Título -->
   <h1>Demo KPI´s Sales Strategy</h1>
   <h2>Top KPIs de Ventas</h2>
 
-  <!-- Imagen de portada -->
+  <!-- Imagen portada -->
   <div style="position:relative; text-align:center; margin:20px 0;">
     <img src="https://raw.githubusercontent.com/Comprafacil1/global-sales-strategy-lab/main/vlue%20cost.PNG" 
          style="max-width:700px; width:100%; border-radius:12px; filter:blur(1px) brightness(70%);">
@@ -102,26 +48,22 @@
     <div class="kpi-box">
       <h3>💰 Ingresos Totales</h3>
       <p id="kpi-revenue">45,000 USD</p>
-      <small>*Total de ventas en todos los servicios y regiones.</small>
     </div>
     <div class="kpi-box">
       <h3>📈 Forecast</h3>
       <p id="kpi-forecast">60,000 USD</p>
-      <small>*Pronóstico de ventas para el trimestre.</small>
     </div>
     <div class="kpi-box">
       <h3>🛒 Leads Generados</h3>
       <p id="kpi-leads">120</p>
-      <small>*Número de potenciales clientes contactados.</small>
     </div>
     <div class="kpi-box">
       <h3>⚡ Tasa de Conversión</h3>
       <p id="kpi-conversion">30%</p>
-      <small>*Porcentaje de leads que se convirtieron en ventas.</small>
     </div>
   </div>
 
-  <!-- Selector de meses -->
+  <!-- Selector meses -->
   <div class="month-selector">
     <button class="active" onclick="changeMonth('Diciembre')">Diciembre</button>
     <button onclick="changeMonth('Enero')">Enero</button>
@@ -129,17 +71,15 @@
     <button onclick="changeMonth('Marzo')">Marzo</button>
   </div>
 
-  <!-- Gráfico de dona de ventas por categoría -->
+  <!-- Gráficos -->
   <div class="chart-container">
     <canvas id="salesDonut"></canvas>
   </div>
-
-  <!-- Gráfico de barras: Top servicios -->
   <div class="chart-container">
     <canvas id="topServices"></canvas>
   </div>
 
-  <!-- Mapa de Chile conceptual -->
+  <!-- Mapa Chile en cajón con tabla de regiones -->
   <div class="map-container">
     <h3>Mapa de Ventas por Región</h3>
     <canvas id="mapChile" height="150"></canvas>
@@ -149,6 +89,26 @@
       <tr><td>Centro</td><td id="center-sales">20,000</td></tr>
       <tr><td>Sur</td><td id="south-sales">13,000</td></tr>
     </table>
+  </div>
+
+  <!-- Cajón para usuario crear su dashboard -->
+  <div class="user-dashboard">
+    <h3>🖊️ Crea tu propio Dashboard</h3>
+    <p>Introduce tus datos y observa cómo los KPIs y gráficos se actualizan automáticamente:</p>
+    <label>Ingresos: <input type="number" id="input-revenue" value="45000"></label>
+    <label>Forecast: <input type="number" id="input-forecast" value="60000"></label>
+    <label>Leads: <input type="number" id="input-leads" value="120"></label>
+    <label>Conversión (%): <input type="number" id="input-conversion" value="30"></label>
+    <button onclick="updateUserDashboard()">Actualizar Dashboard</button>
+  </div>
+
+  <!-- Explicación de KPIs -->
+  <div class="kpi-explanation">
+    <h3>💡 Explicación de KPIs</h3>
+    <p>💰 <b>Ingresos Totales:</b> Todo el dinero que entra de ventas, ¡como la billetera de tu empresa! 💎</p>
+    <p>📈 <b>Forecast:</b> Pronóstico de ventas futuras, para que siempre estés preparado y chic 😎</p>
+    <p>🛒 <b>Leads Generados:</b> Personas interesadas en tus servicios, ¡potenciales clientes premium! 🏆</p>
+    <p>⚡ <b>Tasa de Conversión:</b> Porcentaje de leads que se convierten en clientes, mide tu efectividad y estrategia 💼</p>
   </div>
 
 <script>
@@ -181,19 +141,18 @@
     event.target.classList.add("active");
   }
 
+  // Graficos
   const ctxDonut = document.getElementById('salesDonut').getContext('2d');
   let salesDonut = new Chart(ctxDonut, {
     type:'doughnut',
     data:{
       labels:salesData["Diciembre"].categories,
-      datasets:[{
-        data:salesData["Diciembre"].catValues,
-        backgroundColor:['#bfa0ff','#8c52ff','#5e2a7e']
-      }]
+      datasets:[{ data:salesData["Diciembre"].catValues, backgroundColor:['#bfa0ff','#8c52ff','#5e2a7e'] }]
     },
     options:{
+      responsive:true,
       plugins:{
-        legend:{display:true, position:'bottom', labels:{usePointStyle:true, pointStyle:'rect', padding:15}}
+        legend:{display:true, position:'bottom', labels:{usePointStyle:true, pointStyle:'rect', padding:15, color:'#eee', font:{size:14}}}
       }
     }
   });
@@ -203,13 +162,14 @@
     type:'bar',
     data:{
       labels:salesData["Diciembre"].topServices,
-      datasets:[{
-        label:'Unidades Vendidas',
-        data:salesData["Diciembre"].topValues,
-        backgroundColor:'#bfa0ff'
-      }]
+      datasets:[{label:'Unidades Vendidas', data:salesData["Diciembre"].topValues, backgroundColor:'#bfa0ff'}]
     },
-    options:{responsive:true, plugins:{legend:{display:false}}}
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      scales:{ x:{ticks:{color:'#eee', font:{size:14}}}, y:{ticks:{color:'#eee', font:{size:14}}, beginAtZero:true} },
+      plugins:{legend:{display:false}}
+    }
   });
 
   function updateCharts(month){
@@ -224,6 +184,14 @@
     document.getElementById("north-sales").innerText = Math.round(salesData[month].Revenue*0.27);
     document.getElementById("center-sales").innerText = Math.round(salesData[month].Revenue*0.44);
     document.getElementById("south-sales").innerText = Math.round(salesData[month].Revenue*0.29);
+  }
+
+  // Dashboard usuario
+  function updateUserDashboard(){
+    document.getElementById("kpi-revenue").innerText = document.getElementById("input-revenue").value + " USD";
+    document.getElementById("kpi-forecast").innerText = document.getElementById("input-forecast").value + " USD";
+    document.getElementById("kpi-leads").innerText = document.getElementById("input-leads").value;
+    document.getElementById("kpi-conversion").innerText = document.getElementById("input-conversion").value + "%";
   }
 
 </script>
