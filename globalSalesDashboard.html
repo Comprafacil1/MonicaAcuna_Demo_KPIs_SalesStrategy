@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Global Sales Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f7f7f7;
+        margin: 0;
+        padding: 0;
+    }
+    header {
+        background-color: #ffffff;
+        padding: 20px 40px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    header h1 {
+        margin: 0;
+        color: #6c5ce7; /* Pastel premium */
+        font-size: 28px;
+    }
+    .kpi-container {
+        display: flex;
+        justify-content: space-around;
+        padding: 20px 40px;
+    }
+    .kpi {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        text-align: center;
+        flex: 1;
+        margin: 0 10px;
+    }
+    .kpi h2 {
+        margin: 0;
+        font-size: 22px;
+        color: #333;
+    }
+    .kpi p {
+        font-size: 16px;
+        color: #666;
+    }
+    .dashboard {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 20px;
+        padding: 20px 40px;
+    }
+    .card {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    table th, table td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    table th {
+        background-color: #f1f1f1;
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>Global Sales Dashboard</h1>
+</header>
+
+<section class="kpi-container">
+    <div class="kpi">
+        <h2 id="totalSales">0</h2>
+        <p>Ventas Totales</p>
+    </div>
+    <div class="kpi">
+        <h2 id="conversionRate">0%</h2>
+        <p>Tasa de Conversión</p>
+    </div>
+    <div class="kpi">
+        <h2 id="activeClients">0</h2>
+        <p>Clientes Activos</p>
+    </div>
+    <div class="kpi">
+        <h2 id="forecastValue">0</h2>
+        <p>Forecast</p>
+    </div>
+</section>
+
+<section class="dashboard">
+    <div class="card">
+        <h3>Pipeline</h3>
+        <canvas id="pipelineChart"></canvas>
+    </div>
+    <div class="card">
+        <h3>Forecast Ventas</h3>
+        <canvas id="forecastChart"></canvas>
+    </div>
+    <div class="card">
+        <h3>Segmentación de Clientes</h3>
+        <canvas id="segmentationChart"></canvas>
+    </div>
+    <div class="card">
+        <h3>Leads Activos</h3>
+        <table id="leadsTable">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Estado</th>
+                    <th>Región</th>
+                    <th>Valor Estimado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Lead A</td><td>Contactado</td><td>Sur</td><td>$5,000</td></tr>
+                <tr><td>Lead B</td><td>Propuesta</td><td>Norte</td><td>$8,000</td></tr>
+                <tr><td>Lead C</td><td>Calificado</td><td>Centro</td><td>$4,500</td></tr>
+                <tr><td>Lead D</td><td>Cerrado</td><td>Sur</td><td>$7,200</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<script>
+    // KPIs dinámicos
+    document.getElementById('totalSales').innerText = "$34,700";
+    document.getElementById('conversionRate').innerText = "42%";
+    document.getElementById('activeClients').innerText = "128";
+    document.getElementById('forecastValue').innerText = "$45,000";
+
+    // Pipeline Chart
+    const pipelineCtx = document.getElementById('pipelineChart').getContext('2d');
+    const pipelineChart = new Chart(pipelineCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Contactado', 'Calificado', 'Propuesta', 'Cerrado'],
+            datasets: [{
+                label: 'Leads',
+                data: [50, 35, 25, 15],
+                backgroundColor: [
+                    'rgba(108, 92, 231, 0.6)',
+                    'rgba(99, 255, 132, 0.6)',
+                    'rgba(255, 159, 64, 0.6)',
+                    'rgba(255, 99, 132, 0.6)'
+                ],
+                borderColor: [
+                    'rgba(108, 92, 231, 1)',
+                    'rgba(99, 255, 132, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(255, 99, 132, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: { responsive: true }
+    });
+
+    // Forecast Chart
+    const forecastCtx = document.getElementById('forecastChart').getContext('2d');
+    const forecastChart = new Chart(forecastCtx, {
+        type: 'line',
+        data: {
+            labels: ['Enero','Febrero','Marzo','Abril','Mayo','Junio'],
+            datasets: [{
+                label: 'Forecast',
+                data: [7000, 8000, 7500, 9000, 8500, 10000],
+                backgroundColor: 'rgba(108, 92, 231, 0.2)',
+                borderColor: 'rgba(108, 92, 231, 1)',
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: { responsive: true }
+    });
+
+    // Segmentación Chart
+    const segCtx = document.getElementById('segmentationChart').getContext('2d');
+    const segmentationChart = new Chart(segCtx, {
+        type: 'pie',
+        data: {
+            labels: ['Norte', 'Centro', 'Sur'],
+            datasets: [{
+                label: 'Clientes por Región',
+                data: [45, 35, 50],
+                backgroundColor: [
+                    'rgba(255, 159, 64, 0.6)',
+                    'rgba(108, 92, 231, 0.6)',
+                    'rgba(99, 255, 132, 0.6)'
+                ],
+                borderColor: [
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(108, 92, 231, 1)',
+                    'rgba(99, 255, 132, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: { responsive: true }
+    });
+</script>
+
+</body>
+</html>
