@@ -1,258 +1,251 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>MonicaAcuna_SalesStrategy - Dashboard Premium KAM</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-<style>
-body { font-family: 'Arial', sans-serif; background:#2A2F3A; color:#fff; margin:0; padding:0; }
-header { padding:20px 40px; background:#1F2230; text-align:center; }
-header h1 { margin:0; font-size:32px; color:#9B8CF6; font-weight:bold; }
-header p { margin-top:5px; color:#8A8D91; font-size:16px; }
-.kpi-container { display:flex; flex-wrap:wrap; justify-content:space-around; padding:20px 40px; }
-.kpi { background:#333847; padding:20px; margin:10px; border-radius:12px; min-width:150px; text-align:center; }
-.kpi h2 { font-size:24px; color:#9B8CF6; margin:0; }
-.kpi p { font-size:14px; color:#8A8D91; margin:5px 0 0; }
-button { margin:10px 5px; padding:8px 12px; border-radius:6px; border:none; background:#5D3FD3; color:white; cursor:pointer; font-weight:bold; }
-button:hover { background:#9B8CF6; }
-.meses-container { display:flex; justify-content:center; gap:10px; margin:20px 0; }
-.mes-btn { padding:8px 12px; border-radius:6px; border:none; background:#5D3FD3; color:white; cursor:pointer; font-weight:bold; transition:0.3s; }
-.mes-btn:hover, .mes-btn.active { background:#9B8CF6; }
-.dashboard { display:grid; grid-template-columns:repeat(auto-fit,minmax(350px,1fr)); gap:20px; padding:20px 40px; }
-.card { background:#333847; padding:20px; border-radius:12px; }
-#map { height:400px; border-radius:12px; }
-.notes { padding:10px 40px; font-size:12px; color:#8A8D91; }
-.table-container { overflow-x:auto; margin-top:10px; }
-table { width:100%; border-collapse:collapse; }
-th, td { padding:8px; text-align:center; border-bottom:1px solid #555; color:#fff; }
-th { background-color:#5D3FD3; }
-</style>
+  <meta charset="UTF-8">
+  <title>MonicaAcuna_SalesStrategy - Demo</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <style>
+    body{background-color:#2c2c2c;color:#f0f0f0;font-family:Arial,sans-serif;margin:0;padding:0;}
+    header{padding:20px;text-align:center;background-color:#3a3a3a;}
+    header h1{color:#D8BFD8;margin:0;}
+    header p{color:#E6E6FA;margin:5px 0;}
+    .kpi-container, .kpi-roles{display:flex;justify-content:space-around;padding:20px;}
+    .kpi, .kpi-role{background:#3a3a3a;border-radius:10px;padding:15px;text-align:center;min-width:150px;}
+    .charts-container{display:flex;flex-wrap:wrap;justify-content:space-around;padding:20px;}
+    canvas{background:#3a3a3a;border-radius:10px;margin:10px;}
+    #map{height:300px;width:400px;margin:20px auto;border-radius:10px;}
+    table{width:80%;margin:20px auto;border-collapse:collapse;}
+    th,td{padding:10px;border:1px solid #555;text-align:center;background:#3a3a3a;}
+    input[type=number]{width:80px;background:#2c2c2c;color:#fff;border:none;text-align:center;}
+    .notes{font-size:16px;line-height:1.6;padding:20px 40px;background:#3a3a3a;border-radius:10px;margin:20px;}
+  </style>
 </head>
 <body>
 
 <header>
-  <h1>MonicaAcuna_SalesStrategy</h1>
-  <p>📊 Dashboard de Ventas Premium KAM</p>
+  <h1>MonicaAcuna_SalesStrategy - Demo</h1>
+  <p>📊 Dashboard de Ventas Premium KAM / Sales Rep</p>
 </header>
 
+<!-- KPIs Globales -->
 <section class="kpi-container">
-  <div class="kpi"><h2 id="totalVentas">$0</h2><p>Ventas Totales</p></div>
-  <div class="kpi"><h2 id="leadsCalificados">0</h2><p>Leads Calificados</p></div>
-  <div class="kpi"><h2 id="tasaConversion">0%</h2><p>Tasa de Conversión</p></div>
-  <div class="kpi"><h2 id="forecastMensual">$0</h2><p>Forecast Mensual</p></div>
+  <div class="kpi"><h2 id="mrr">$0</h2><p>MRR (Ingresos Recurrentes)</p></div>
+  <div class="kpi"><h2 id="ltvCacRatio">0.0</h2><p>LTV / CAC</p></div>
+  <div class="kpi"><h2 id="churnRate">0%</h2><p>Tasa de Churn</p></div>
   <div class="kpi"><h2 id="clientesActivos">0</h2><p>Clientes Activos</p></div>
 </section>
 
-<div class="meses-container"></div>
-<button id="avanzarMesBtn">Avanzar Mes</button>
-
-<section class="dashboard">
-  <div class="card">
-    <h3>Top 3 Regiones</h3>
-    <div id="map"></div>
-    <div class="table-container">
-      <table id="top3Table">
-        <thead><tr><th>Región</th><th>Ventas</th></tr></thead>
-        <tbody></tbody>
-      </table>
-    </div>
-  </div>
-  <div class="card">
-    <h3>Bottom 3 Regiones</h3>
-    <div class="table-container">
-      <table id="bottom3Table">
-        <thead><tr><th>Región</th><th>Ventas</th></tr></thead>
-        <tbody></tbody>
-      </table>
-    </div>
-  </div>
-  <div class="card">
-    <h3>Segmentación de Clientes</h3>
-    <canvas id="segmentacionClientes"></canvas>
-  </div>
-  <div class="card">
-    <h3>Top Ventas de Servicios</h3>
-    <canvas id="topServicios"></canvas>
-  </div>
-  <div class="card">
-    <h3>Ventas en el Tiempo + Forecast</h3>
-    <canvas id="ventasForecast"></canvas>
-    <div class="table-container">
-      <table id="tablaMensual">
-        <thead><tr><th>Mes</th><th>Ventas</th><th>Forecast</th></tr></thead>
-        <tbody></tbody>
-      </table>
-    </div>
-  </div>
+<!-- KPIs por Rol -->
+<section class="kpi-roles">
+  <div class="kpi-role"><h3>KAM</h3><p id="mrrKAM">$0</p><p id="ltvCacKAM">0.0</p><p id="churnKAM">0%</p></div>
+  <div class="kpi-role"><h3>Sales Rep</h3><p id="mrrSR">$0</p><p id="ltvCacSR">0.0</p><p id="churnSR">0%</p></div>
 </section>
 
+<!-- Gráficos -->
+<div class="charts-container">
+  <canvas id="mrrChart" width="400" height="200"></canvas>
+  <canvas id="ltvChart" width="400" height="200"></canvas>
+  <canvas id="churnChart" width="400" height="200"></canvas>
+</div>
+
+<!-- Mapa -->
+<div id="map"></div>
+
+<!-- Tabla Editable -->
+<table id="tablaMensual">
+  <thead>
+    <tr><th>Mes</th><th>Ventas</th><th>Forecast</th></tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<!-- Explicación -->
 <div class="notes">
-* KPIs actualizados automáticamente cada 5 segundos<br>
-* Click en mapa para filtrar por región<br>
-* Botón “Avanzar Mes” simula nuevos resultados<br>
-* Haz click en los meses para filtrar KPIs y gráficos por mes
+  <p>📈 <b>MRR (Ingresos Recurrentes Mensuales):</b> Representa el total de ingresos que la empresa espera recibir cada mes de sus clientes suscritos. Permite medir el crecimiento y la salud financiera del negocio SaaS.</p>
+  <p>💰 <b>LTV / CAC (Valor de Vida del Cliente / Costo de Adquisición):</b> Indica la rentabilidad de cada cliente. Un ratio mayor a 3 significa que cada cliente aporta más valor del que cuesta adquirirlo.</p>
+  <p>📉 <b>Churn Rate (Tasa de Cancelación):</b> Muestra el porcentaje de clientes que dejan de usar el servicio cada mes. Ayuda a identificar problemas de retención y satisfacción.</p>
+  <p>👥 <b>Clientes Activos:</b> Número total de clientes activos en el mes, útil para evaluar la base de clientes y segmentar por rol o región.</p>
 </div>
 
 <script>
-// --- Datos inventados ---
-const regiones = ["Norte","Centro","Sur","Metropolitana","Araucanía"];
-const servicios = ["Consultoría","Capacitación","Implementación","Soporte","Custom"];
 const meses = ["Diciembre","Enero","Febrero","Marzo"];
-let mesActual = "all";
-
+const roles = ["KAM","Sales Rep"];
+const regiones = ["Norte","Centro","Sur"];
+const servicios = ["Consultoría","Software","Soporte","Implementación","Capacitación"];
 let leadsData = [];
-for(let i=0;i<50;i++){
-  leadsData.push({
-    nombre:"Cliente "+(i+1),
-    region: regiones[Math.floor(Math.random()*regiones.length)],
-    servicio: servicios[Math.floor(Math.random()*servicios.length)],
-    mes: meses[Math.floor(Math.random()*meses.length)],
-    valor: Math.floor(Math.random()*10000)+1000,
-    etapa: ["Contactado","Calificado","Propuesta","Cerrado"][Math.floor(Math.random()*4)]
-  });
+
+// Generar datos prorrateados
+function generarDatosProrrateados(){
+  leadsData=[];
+  for(let i=0;i<50;i++){
+    const valorBase = Math.floor(Math.random()*10000)+5000;
+    const mesMarzo = Math.floor(valorBase*0.3);
+    const valorMeses = [Math.floor(valorBase*0.2), Math.floor(valorBase*0.25), Math.floor(valorBase*0.25), mesMarzo];
+    meses.forEach((mes,index)=>{
+      leadsData.push({
+        nombre:`Cliente ${i+1}-${mes}`,
+        region: regiones[Math.floor(Math.random()*regiones.length)],
+        servicio: servicios[Math.floor(Math.random()*servicios.length)],
+        mes: mes,
+        valor: valorMeses[index],
+        rol: roles[Math.floor(Math.random()*roles.length)]
+      });
+    });
+  }
 }
 
-// --- KPIs ---
+// Aplicar filtros y actualizar KPI, tabla y gráficos
+function aplicarFiltros(){
+  // Filtrar todo
+  actualizarKPIs(leadsData);
+  actualizarTablas(leadsData);
+  actualizarGraficos(leadsData);
+}
+
+// KPIs Globales y por rol
 function actualizarKPIs(filtered){
   const total = filtered.reduce((sum,l)=>sum+l.valor,0);
-  document.getElementById('totalVentas').innerText = `$${total}`;
-  document.getElementById('leadsCalificados').innerText = filtered.filter(l=>l.etapa!=="Contactado").length;
-  const conversion = Math.round(filtered.filter(l=>l.etapa==="Cerrado").length/filtered.length*100)||0;
-  document.getElementById('tasaConversion').innerText = `${conversion}%`;
-  document.getElementById('forecastMensual').innerText = `$${Math.round(total*1.2)}`;
+  const mrr = Math.round(total/12);
+  document.getElementById('mrr').innerText = `$${mrr}`;
+  const cac = 500;
+  const avgValor = filtered.length ? total/filtered.length : 0;
+  const ltv = avgValor*24;
+  const ratio = (ltv/cac).toFixed(2);
+  document.getElementById('ltvCacRatio').innerText = ratio;
+  const churn = Math.round((Math.random()*10 + 2));
+  document.getElementById('churnRate').innerText = `${churn}%`;
   document.getElementById('clientesActivos').innerText = filtered.length;
-}
 
-// --- Filtrar ---
-let regionActual = "all";
-function aplicarFiltros(){
-  let filtrados = leadsData;
-  if(regionActual!=="all") filtrados = filtrados.filter(l=>l.region===regionActual);
-  if(mesActual!=="all") filtrados = filtrados.filter(l=>l.mes===mesActual);
-  actualizarKPIs(filtrados);
-  actualizarGraficos(filtrados);
-  actualizarTablas(filtrados);
-}
-
-// --- Generar botones meses ---
-const mesesContainer = document.querySelector('.meses-container');
-meses.forEach(m => {
-  const btn = document.createElement('button');
-  btn.className = 'mes-btn';
-  btn.innerText = m;
-  btn.addEventListener('click', ()=>{
-    mesActual = m;
-    document.querySelectorAll('.mes-btn').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    aplicarFiltros();
+  roles.forEach(rol=>{
+    const rolData = filtered.filter(f=>f.rol===rol);
+    const totalRol = rolData.reduce((sum,l)=>sum+l.valor,0);
+    const mrrRol = Math.round(totalRol/12);
+    document.getElementById(`mrr${rol==='KAM'?'KAM':'SR'}`).innerText=`$${mrrRol}`;
+    const avgRol = rolData.length ? totalRol/rolData.length : 0;
+    const ltvRol = avgRol*24;
+    document.getElementById(`ltvCac${rol==='KAM'?'KAM':'SR'}`).innerText=(ltvRol/cac).toFixed(2);
+    const churnRol = Math.round((Math.random()*10 + 2));
+    document.getElementById(`churn${rol==='KAM'?'KAM':'SR'}`).innerText=`${churnRol}%`;
   });
-  mesesContainer.appendChild(btn);
-});
-
-// --- Charts ---
-const segmentacionCtx = document.getElementById('segmentacionClientes').getContext('2d');
-const topServiciosCtx = document.getElementById('topServicios').getContext('2d');
-const ventasForecastCtx = document.getElementById('ventasForecast').getContext('2d');
-
-let segmentacionChart = new Chart(segmentacionCtx,{
-  type:'doughnut',
-  data:{labels:servicios,datasets:[{data:[],backgroundColor:['#5D3FD3','#9B8CF6','#8A8D91','#7A73B8','#B0A8D6']}]},
-  options:{responsive:true}
-});
-let topServiciosChart = new Chart(topServiciosCtx,{
-  type:'bar',
-  data:{labels:servicios,datasets:[{data:[],backgroundColor:'#9B8CF6'}]},
-  options:{responsive:true}
-});
-let ventasForecastChart = new Chart(ventasForecastCtx,{
-  type:'line',
-  data:{labels:meses,datasets:[
-    {label:'Ventas',data:[],borderColor:'#9B8CF6',backgroundColor:'rgba(155,140,246,0.2)',fill:true,tension:0.4},
-    {label:'Forecast',data:[],borderColor:'#7A73B8',backgroundColor:'rgba(122,115,184,0.2)',fill:true,tension:0.4}
-  ]},
-  options:{responsive:true}
-});
-
-// --- Actualizar gráficos ---
-function actualizarGraficos(filtered){
-  segmentacionChart.data.datasets[0].data = servicios.map(s=>filtered.filter(f=>f.servicio===s).length);
-  segmentacionChart.update();
-
-  topServiciosChart.data.datasets[0].data = servicios.map(s=>filtered.filter(f=>f.servicio===s).reduce((sum,l)=>sum+l.valor,0));
-  topServiciosChart.update();
-
-  ventasForecastChart.data.datasets[0].data = meses.map(m=>filtered.filter(f=>f.mes===m).reduce((sum,l)=>sum+l.valor,0));
-  ventasForecastChart.data.datasets[1].data = meses.map(m=>filtered.filter(f=>f.mes===m).reduce((sum,l)=>sum+l.valor*1.2,0));
-  ventasForecastChart.update();
 }
 
-// --- Tablas ---
+// Tabla editable
 function actualizarTablas(filtered){
-  const top3 = [...filtered].sort((a,b)=>b.valor-a.valor).slice(0,3);
-  const bottom3 = [...filtered].sort((a,b)=>a.valor-b.valor).slice(0,3);
-
-  const top3Body = document.querySelector('#top3Table tbody');
-  top3Body.innerHTML = '';
-  top3.forEach(r=>{
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${r.region}</td><td>${r.valor}</td>`;
-    top3Body.appendChild(tr);
-  });
-
-  const bottom3Body = document.querySelector('#bottom3Table tbody');
-  bottom3Body.innerHTML = '';
-  bottom3.forEach(r=>{
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${r.region}</td><td>${r.valor}</td>`;
-    bottom3Body.appendChild(tr);
-  });
-
   const tablaMensualBody = document.querySelector('#tablaMensual tbody');
   tablaMensualBody.innerHTML = '';
   meses.forEach(m=>{
     const total = filtered.filter(f=>f.mes===m).reduce((sum,l)=>sum+l.valor,0);
     const forecast = Math.round(total*1.2);
     const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${m}</td><td>${total}</td><td>${forecast}</td>`;
+    tr.innerHTML = `<td>${m}</td>
+                    <td><input type="number" value="${total}" data-mes="${m}" class="ventasInput"></td>
+                    <td><input type="number" value="${forecast}" disabled></td>`;
     tablaMensualBody.appendChild(tr);
+  });
+
+  document.querySelectorAll('.ventasInput').forEach(input=>{
+    input.addEventListener('change', (e)=>{
+      const mes = e.target.dataset.mes;
+      const nuevoValor = Number(e.target.value);
+      leadsData.forEach(l=>{
+        if(l.mes===mes){
+          l.valor = Math.round(nuevoValor / filtered.filter(f=>f.mes===mes).length);
+        }
+      });
+      aplicarFiltros();
+    });
   });
 }
 
-// --- Leaflet Map ---
-const map = L.map('map').setView([-33.45,-70.6667],5);
+// Graficos
+let mrrChart, ltvChart, churnChart;
+function actualizarGraficos(filtered){
+  const totalPorMes = meses.map(m=>filtered.filter(f=>f.mes===m).reduce((sum,l)=>sum+l.valor,0));
+  const forecastPorMes = totalPorMes.map(v=>Math.round(v*1.2));
+  const ctxMRR = document.getElementById('mrrChart').getContext('2d');
+  if(mrrChart) mrrChart.destroy();
+  mrrChart = new Chart(ctxMRR,{
+    type:'line',
+    data:{
+      labels:meses,
+      datasets:[{
+        label:'MRR',
+        data:totalPorMes,
+        borderColor:'#D8BFD8',
+        backgroundColor:'rgba(216,191,216,0.2)',
+        fill:true
+      },{
+        label:'Forecast',
+        data:forecastPorMes,
+        borderColor:'#9B8CF6',
+        borderDash:[5,5],
+        fill:false
+      }]
+    },
+    options:{responsive:true,plugins:{legend:{labels:{color:'#fff'}}}}
+  });
+
+  const ctxLTV = document.getElementById('ltvChart').getContext('2d');
+  if(ltvChart) ltvChart.destroy();
+  const ltvKAM = filtered.filter(f=>f.rol==='KAM').reduce((sum,l)=>sum+l.valor,0);
+  const ltvSR = filtered.filter(f=>f.rol==='Sales Rep').reduce((sum,l)=>sum+l.valor,0);
+  ltvChart = new Chart(ctxLTV,{
+    type:'bar',
+    data:{
+      labels:['KAM','Sales Rep'],
+      datasets:[{label:'LTV/CAC',data:[ltvKAM,ltvSR],backgroundColor:['#D8BFD8','#9B8CF6'] }]
+    },
+    options:{responsive:true,plugins:{legend:{display:false}}}
+  });
+
+  const ctxChurn = document.getElementById('churnChart').getContext('2d');
+  if(churnChart) churnChart.destroy();
+  const churnKAM = Math.round(Math.random()*10+2);
+  const churnSR = Math.round(Math.random()*10+2);
+  churnChart = new Chart(ctxChurn,{
+    type:'doughnut',
+    data:{
+      labels:['KAM','Sales Rep'],
+      datasets:[{data:[churnKAM,churnSR],backgroundColor:['#D8BFD8','#9B8CF6'] }]
+    },
+    options:{
+      responsive:true,
+      plugins:{
+        legend:{position:'bottom',labels:{usePointStyle:true,color:'#fff',boxWidth:12}},
+        datalabels:{
+          color:'#fff',
+          formatter:(value,ctx)=>value+'%',
+          anchor:'end',align:'end',offset:10,font:{weight:'bold',size:12}
+        }
+      }
+    },
+    plugins:[ChartDataLabels]
+  });
+}
+
+// Mapa
+const coords = [[-19.0,-70.0],[-33.0,-70.7],[-39.0,-72.0]];
+let regionActual=null;
+const map = L.map('map').setView([-33.5,-70.7],5);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-const coords = [[-20,-70],[-33,-70],[-39,-72],[-33,-70],[-38,-72]];
 regiones.forEach((r,i)=>{
-  L.circle(coords[i],{color:'#9B8CF6',fillColor:'#5D3FD3',fillOpacity:0.5,radius:50000})
-    .addTo(map)
+  L.circle(coords[i],{
+    color:'#9B8CF6',
+    fillColor:'#5D3FD3',
+    fillOpacity:0.5,
+    radius:50000
+  }).addTo(map)
     .bindPopup(r)
     .on('click',()=>{ regionActual=r; aplicarFiltros(); });
 });
 
-// --- Botón avanzar mes ---
-document.getElementById('avanzarMesBtn').addEventListener('click',()=>{
-  leadsData.forEach(l=>{
-    l.valor = Math.round(l.valor*(0.9+Math.random()*0.2));
-    const etapas = ["Contactado","Calificado","Propuesta","Cerrado"];
-    l.etapa = etapas[Math.floor(Math.random()*4)];
-  });
-  aplicarFiltros();
-});
-
-// --- Live Update ---
-setInterval(()=>{
-  leadsData.forEach(l=>{
-    l.valor = Math.round(l.valor*(0.95+Math.random()*0.1));
-    const etapas = ["Contactado","Calificado","Propuesta","Cerrado"];
-    l.etapa = etapas[Math.floor(Math.random()*4)];
-  });
-  aplicarFiltros();
-},5000);
-
-// --- Inicializar ---
+// Inicializar
+generarDatosProrrateados();
 aplicarFiltros();
 </script>
+
 </body>
 </html>
