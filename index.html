@@ -2,112 +2,130 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Global Sales Dashboard</title>
+<title>Simulador de Ventas</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
-    body {
-        font-family: 'Arial', sans-serif;
-        background-color: #f7f7f7;
-        margin: 0;
-        padding: 0;
-    }
-    header {
-        background-color: #ffffff;
-        padding: 20px 40px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-    header h1 {
-        margin: 0;
-        color: #6c5ce7; /* Pastel premium */
-        font-size: 28px;
-    }
-    .kpi-container {
-        display: flex;
-        justify-content: space-around;
-        padding: 20px 40px;
-    }
-    .kpi {
-        background-color: #ffffff;
-        padding: 20px;
-        border-radius: 12px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        text-align: center;
-        flex: 1;
-        margin: 0 10px;
-    }
-    .kpi h2 {
-        margin: 0;
-        font-size: 22px;
-        color: #333;
-    }
-    .kpi p {
-        font-size: 16px;
-        color: #666;
-    }
-    .dashboard {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-        gap: 20px;
-        padding: 20px 40px;
-    }
-    .card {
-        background-color: #ffffff;
-        padding: 20px;
-        border-radius: 12px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-    table th, table td {
-        padding: 8px;
-        text-align: left;
-        border-bottom: 1px solid #ddd;
-    }
-    table th {
-        background-color: #f1f1f1;
-    }
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f7f7f7;
+    margin: 0; padding: 0;
+}
+header {
+    background-color: #ffffff;
+    padding: 20px 40px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+header h1 {
+    margin: 0;
+    color: #6c5ce7;
+    font-size: 30px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+.kpi-container {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px 40px;
+    flex-wrap: wrap;
+}
+.kpi {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+    text-align: center;
+    flex: 1;
+    margin: 10px;
+    min-width: 150px;
+    transition: transform 0.2s;
+}
+.kpi:hover {
+    transform: translateY(-5px);
+}
+.kpi h2 { margin: 0; font-size: 24px; color: #333; }
+.kpi p { font-size: 14px; color: #555; }
+.dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; padding: 20px 40px; }
+.card { background-color: #ffffff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+table th, table td { padding: 8px; text-align: left; border-bottom: 1px solid #ddd; }
+table th { background-color: #f1f1f1; }
+select { padding: 6px; margin-bottom: 10px; border-radius: 6px; border: 1px solid #ccc; }
+button {
+    margin: 10px 40px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: none;
+    background-color: #6c5ce7;
+    color: white;
+    cursor: pointer;
+}
+.notes { padding: 10px 40px; font-size: 12px; color: #555; line-height: 1.4; }
 </style>
 </head>
 <body>
 
 <header>
-    <h1>Global Sales Dashboard</h1>
+    <h1>Simulador de Ventas</h1>
 </header>
 
 <section class="kpi-container">
     <div class="kpi">
-        <h2 id="totalSales">0</h2>
-        <p>Ventas Totales</p>
+        <h2 id="totalSales">$34,700</h2>
+        <p>Ventas Totales *</p>
     </div>
     <div class="kpi">
-        <h2 id="conversionRate">0%</h2>
-        <p>Tasa de Conversión</p>
+        <h2 id="conversionRate">42%</h2>
+        <p>Tasa de Conversión *</p>
     </div>
     <div class="kpi">
-        <h2 id="activeClients">0</h2>
-        <p>Clientes Activos</p>
+        <h2 id="activeClients">128</h2>
+        <p>Clientes Activos *</p>
     </div>
     <div class="kpi">
-        <h2 id="forecastValue">0</h2>
-        <p>Forecast</p>
+        <h2 id="forecastValue">$45,000</h2>
+        <p>Forecast *</p>
+    </div>
+    <div class="kpi">
+        <h2 id="qualifiedLeads">35</h2>
+        <p>Leads Calificados *</p>
     </div>
 </section>
 
+<button id="simulateMonthBtn">Avanzar mes</button>
+
 <section class="dashboard">
+    <div class="card">
+        <h3>Filtros</h3>
+        <select id="regionFilter">
+            <option value="all">Todas las Regiones</option>
+            <option value="Norte">Norte</option>
+            <option value="Centro">Centro</option>
+            <option value="Sur">Sur</option>
+        </select>
+        <select id="stageFilter">
+            <option value="all">Todas las Etapas</option>
+            <option value="Contactado">Contactado</option>
+            <option value="Calificado">Calificado</option>
+            <option value="Propuesta">Propuesta</option>
+            <option value="Cerrado">Cerrado</option>
+        </select>
+    </div>
+
     <div class="card">
         <h3>Pipeline</h3>
         <canvas id="pipelineChart"></canvas>
     </div>
+
     <div class="card">
         <h3>Forecast Ventas</h3>
         <canvas id="forecastChart"></canvas>
     </div>
+
     <div class="card">
         <h3>Segmentación de Clientes</h3>
         <canvas id="segmentationChart"></canvas>
     </div>
+
     <div class="card">
         <h3>Leads Activos</h3>
         <table id="leadsTable">
@@ -129,82 +147,94 @@
     </div>
 </section>
 
+<div class="notes">
+* Ventas Totales: monto total de ventas cerradas este mes <br>
+* Tasa de Conversión: porcentaje de leads que se convirtieron en clientes <br>
+* Clientes Activos: número de clientes con actividad reciente <br>
+* Forecast: proyección de ventas futura basada en pipeline <br>
+* Leads Calificados: número de leads listos para seguimiento
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    // KPIs dinámicos
-    document.getElementById('totalSales').innerText = "$34,700";
-    document.getElementById('conversionRate').innerText = "42%";
-    document.getElementById('activeClients').innerText = "128";
-    document.getElementById('forecastValue').innerText = "$45,000";
+let leadsData = [
+    {name:"Lead A", stage:"Contactado", region:"Sur", value:5000},
+    {name:"Lead B", stage:"Propuesta", region:"Norte", value:8000},
+    {name:"Lead C", stage:"Calificado", region:"Centro", value:4500},
+    {name:"Lead D", stage:"Cerrado", region:"Sur", value:7200},
+];
 
-    // Pipeline Chart
-    const pipelineCtx = document.getElementById('pipelineChart').getContext('2d');
-    const pipelineChart = new Chart(pipelineCtx, {
-        type: 'bar',
-        data: {
-            labels: ['Contactado', 'Calificado', 'Propuesta', 'Cerrado'],
-            datasets: [{
-                label: 'Leads',
-                data: [50, 35, 25, 15],
-                backgroundColor: [
-                    'rgba(108, 92, 231, 0.6)',
-                    'rgba(99, 255, 132, 0.6)',
-                    'rgba(255, 159, 64, 0.6)',
-                    'rgba(255, 99, 132, 0.6)'
-                ],
-                borderColor: [
-                    'rgba(108, 92, 231, 1)',
-                    'rgba(99, 255, 132, 1)',
-                    'rgba(255, 159, 64, 1)',
-                    'rgba(255, 99, 132, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: { responsive: true }
+function updateKPIs(filteredLeads) {
+    const total = filteredLeads.reduce((sum,l)=>sum+l.value,0);
+    document.getElementById('totalSales').innerText = `$${total}`;
+    document.getElementById('qualifiedLeads').innerText = filteredLeads.filter(l=>l.stage!=="Contactado").length;
+    document.getElementById('activeClients').innerText = filteredLeads.length; 
+    const conversion = Math.round(filteredLeads.filter(l=>l.stage==="Cerrado").length/filteredLeads.length*100)||0;
+    document.getElementById('conversionRate').innerText = `${conversion}%`;
+    document.getElementById('forecastValue').innerText = `$${Math.round(total*1.2)}`;
+}
+
+// Charts
+const pipelineCtx = document.getElementById('pipelineChart').getContext('2d');
+let pipelineChart = new Chart(pipelineCtx, {
+    type:'bar',
+    data:{labels:['Contactado','Calificado','Propuesta','Cerrado'], datasets:[{label:'Leads', data:[50,35,25,15], backgroundColor:['rgba(108,92,231,0.6)','rgba(99,255,132,0.6)','rgba(255,159,64,0.6)','rgba(255,99,132,0.6)']}]} ,
+    options:{responsive:true}
+});
+
+const forecastCtx = document.getElementById('forecastChart').getContext('2d');
+let forecastChart = new Chart(forecastCtx,{
+    type:'line',
+    data:{labels:['Enero','Febrero','Marzo','Abril','Mayo','Junio'],datasets:[{label:'Forecast',data:[7000,8000,7500,9000,8500,10000],backgroundColor:'rgba(108,92,231,0.2)',borderColor:'rgba(108,92,231,1)',fill:true,tension:0.4}]},
+    options:{responsive:true}
+});
+
+const segCtx = document.getElementById('segmentationChart').getContext('2d');
+let segmentationChart = new Chart(segCtx,{
+    type:'pie',
+    data:{labels:['Norte','Centro','Sur'],datasets:[{label:'Clientes por Región',data:[45,35,50],backgroundColor:['rgba(255,159,64,0.6)','rgba(108,92,231,0.6)','rgba(99,255,132,0.6)']}]},
+    options:{responsive:true}
+});
+
+// Leads table
+function updateLeadsTable(filteredLeads){
+    const tbody = document.getElementById('leadsTable').getElementsByTagName('tbody')[0];
+    tbody.innerHTML = '';
+    filteredLeads.forEach(l=>{
+        tbody.innerHTML += `<tr><td>${l.name}</td><td>${l.stage}</td><td>${l.region}</td><td>$${l.value}</td></tr>`;
+    });
+}
+
+// Filters
+function applyFilters(){
+    const region = document.getElementById('regionFilter').value;
+    const stage = document.getElementById('stageFilter').value;
+    let filtered = leadsData;
+    if(region!=='all') filtered = filtered.filter(l=>l.region===region);
+    if(stage!=='all') filtered = filtered.filter(l=>l.stage===stage);
+    updateKPIs(filtered);
+    updateLeadsTable(filtered);
+}
+document.getElementById('regionFilter').addEventListener('change',applyFilters);
+document.getElementById('stageFilter').addEventListener('change',applyFilters);
+
+// Simulador “Avanzar mes”
+document.getElementById('simulateMonthBtn').addEventListener('click', function(){
+    leadsData.forEach(l=>{
+        l.value = Math.round(l.value * (0.9 + Math.random()*0.2));
+        const stages = ['Contactado','Calificado','Propuesta','Cerrado'];
+        l.stage = stages[Math.floor(Math.random()*stages.length)];
     });
 
-    // Forecast Chart
-    const forecastCtx = document.getElementById('forecastChart').getContext('2d');
-    const forecastChart = new Chart(forecastCtx, {
-        type: 'line',
-        data: {
-            labels: ['Enero','Febrero','Marzo','Abril','Mayo','Junio'],
-            datasets: [{
-                label: 'Forecast',
-                data: [7000, 8000, 7500, 9000, 8500, 10000],
-                backgroundColor: 'rgba(108, 92, 231, 0.2)',
-                borderColor: 'rgba(108, 92, 231, 1)',
-                fill: true,
-                tension: 0.4
-            }]
-        },
-        options: { responsive: true }
-    });
+    const counts = {Contactado:0,Calificado:0,Propuesta:0,Cerrado:0};
+    leadsData.forEach(l=>counts[l.stage]++);
+    pipelineChart.data.datasets[0].data = [counts.Contactado, counts.Calificado, counts.Propuesta, counts.Cerrado];
+    pipelineChart.update();
+    applyFilters();
+});
 
-    // Segmentación Chart
-    const segCtx = document.getElementById('segmentationChart').getContext('2d');
-    const segmentationChart = new Chart(segCtx, {
-        type: 'pie',
-        data: {
-            labels: ['Norte', 'Centro', 'Sur'],
-            datasets: [{
-                label: 'Clientes por Región',
-                data: [45, 35, 50],
-                backgroundColor: [
-                    'rgba(255, 159, 64, 0.6)',
-                    'rgba(108, 92, 231, 0.6)',
-                    'rgba(99, 255, 132, 0.6)'
-                ],
-                borderColor: [
-                    'rgba(255, 159, 64, 1)',
-                    'rgba(108, 92, 231, 1)',
-                    'rgba(99, 255, 132, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: { responsive: true }
-    });
+// Inicializar todo
+applyFilters();
 </script>
 
 </body>
