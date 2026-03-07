@@ -7,7 +7,7 @@
 <style>
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f7f7f7;
+    background-color: #f5f5f7;
     margin: 0; padding: 0;
 }
 header {
@@ -18,7 +18,7 @@ header {
 header h1 {
     margin: 0;
     color: #6c5ce7;
-    font-size: 30px;
+    font-size: 32px;
     font-weight: bold;
     letter-spacing: 1px;
 }
@@ -39,9 +39,7 @@ header h1 {
     min-width: 150px;
     transition: transform 0.2s;
 }
-.kpi:hover {
-    transform: translateY(-5px);
-}
+.kpi:hover { transform: translateY(-5px); }
 .kpi h2 { margin: 0; font-size: 24px; color: #333; }
 .kpi p { font-size: 14px; color: #555; }
 .dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; padding: 20px 40px; }
@@ -58,6 +56,7 @@ button {
     background-color: #6c5ce7;
     color: white;
     cursor: pointer;
+    font-weight: bold;
 }
 .notes { padding: 10px 40px; font-size: 12px; color: #555; line-height: 1.4; }
 </style>
@@ -137,12 +136,7 @@ button {
                     <th>Valor Estimado</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr><td>Lead A</td><td>Contactado</td><td>Sur</td><td>$5,000</td></tr>
-                <tr><td>Lead B</td><td>Propuesta</td><td>Norte</td><td>$8,000</td></tr>
-                <tr><td>Lead C</td><td>Calificado</td><td>Centro</td><td>$4,500</td></tr>
-                <tr><td>Lead D</td><td>Cerrado</td><td>Sur</td><td>$7,200</td></tr>
-            </tbody>
+            <tbody></tbody>
         </table>
     </div>
 </section>
@@ -155,7 +149,6 @@ button {
 * Leads Calificados: número de leads listos para seguimiento
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 let leadsData = [
     {name:"Lead A", stage:"Contactado", region:"Sur", value:5000},
@@ -164,6 +157,7 @@ let leadsData = [
     {name:"Lead D", stage:"Cerrado", region:"Sur", value:7200},
 ];
 
+// KPIs
 function updateKPIs(filteredLeads) {
     const total = filteredLeads.reduce((sum,l)=>sum+l.value,0);
     document.getElementById('totalSales').innerText = `$${total}`;
@@ -178,25 +172,27 @@ function updateKPIs(filteredLeads) {
 const pipelineCtx = document.getElementById('pipelineChart').getContext('2d');
 let pipelineChart = new Chart(pipelineCtx, {
     type:'bar',
-    data:{labels:['Contactado','Calificado','Propuesta','Cerrado'], datasets:[{label:'Leads', data:[50,35,25,15], backgroundColor:['rgba(108,92,231,0.6)','rgba(99,255,132,0.6)','rgba(255,159,64,0.6)','rgba(255,99,132,0.6)']}]} ,
+    data:{labels:['Contactado','Calificado','Propuesta','Cerrado'],
+          datasets:[{label:'Leads', data:[50,35,25,15], backgroundColor:['#6c5ce7','#00b894','#fd79a8','#ffeaa7']}]},
     options:{responsive:true}
 });
 
 const forecastCtx = document.getElementById('forecastChart').getContext('2d');
 let forecastChart = new Chart(forecastCtx,{
     type:'line',
-    data:{labels:['Enero','Febrero','Marzo','Abril','Mayo','Junio'],datasets:[{label:'Forecast',data:[7000,8000,7500,9000,8500,10000],backgroundColor:'rgba(108,92,231,0.2)',borderColor:'rgba(108,92,231,1)',fill:true,tension:0.4}]},
+    data:{labels:['Enero','Febrero','Marzo','Abril','Mayo','Junio'],
+          datasets:[{label:'Forecast',data:[7000,8000,7500,9000,8500,10000],backgroundColor:'rgba(108,92,231,0.2)',borderColor:'#6c5ce7',fill:true,tension:0.4}]},
     options:{responsive:true}
 });
 
 const segCtx = document.getElementById('segmentationChart').getContext('2d');
 let segmentationChart = new Chart(segCtx,{
     type:'pie',
-    data:{labels:['Norte','Centro','Sur'],datasets:[{label:'Clientes por Región',data:[45,35,50],backgroundColor:['rgba(255,159,64,0.6)','rgba(108,92,231,0.6)','rgba(99,255,132,0.6)']}]},
+    data:{labels:['Norte','Centro','Sur'],datasets:[{label:'Clientes por Región',data:[45,35,50],backgroundColor:['#00b894','#6c5ce7','#fd79a8']}]},
     options:{responsive:true}
 });
 
-// Leads table
+// Tabla leads
 function updateLeadsTable(filteredLeads){
     const tbody = document.getElementById('leadsTable').getElementsByTagName('tbody')[0];
     tbody.innerHTML = '';
@@ -205,7 +201,7 @@ function updateLeadsTable(filteredLeads){
     });
 }
 
-// Filters
+// Filtros
 function applyFilters(){
     const region = document.getElementById('regionFilter').value;
     const stage = document.getElementById('stageFilter').value;
@@ -218,14 +214,13 @@ function applyFilters(){
 document.getElementById('regionFilter').addEventListener('change',applyFilters);
 document.getElementById('stageFilter').addEventListener('change',applyFilters);
 
-// Simulador “Avanzar mes”
+// Botón Avanzar mes
 document.getElementById('simulateMonthBtn').addEventListener('click', function(){
     leadsData.forEach(l=>{
         l.value = Math.round(l.value * (0.9 + Math.random()*0.2));
         const stages = ['Contactado','Calificado','Propuesta','Cerrado'];
         l.stage = stages[Math.floor(Math.random()*stages.length)];
     });
-
     const counts = {Contactado:0,Calificado:0,Propuesta:0,Cerrado:0};
     leadsData.forEach(l=>counts[l.stage]++);
     pipelineChart.data.datasets[0].data = [counts.Contactado, counts.Calificado, counts.Propuesta, counts.Cerrado];
@@ -233,30 +228,23 @@ document.getElementById('simulateMonthBtn').addEventListener('click', function()
     applyFilters();
 });
 
-// Inicializar todo
+// Live update automático cada 5 segundos
+setInterval(() => {
+    leadsData.forEach(l=>{
+        l.value = Math.round(l.value * (0.95 + Math.random()*0.1));
+        const stages = ['Contactado','Calificado','Propuesta','Cerrado'];
+        l.stage = stages[Math.floor(Math.random()*stages.length)];
+    });
+    const counts = {Contactado:0,Calificado:0,Propuesta:0,Cerrado:0};
+    leadsData.forEach(l=>counts[l.stage]++);
+    pipelineChart.data.datasets[0].data = [counts.Contactado, counts.Calificado, counts.Propuesta, counts.Cerrado];
+    pipelineChart.update();
+    applyFilters();
+}, 5000);
+
+// Inicializar
 applyFilters();
 </script>
 
 </body>
 </html>
-<script>
-// Live update automático cada 5 segundos
-setInterval(() => {
-    // Simular cambios aleatorios
-    leadsData.forEach(l=>{
-        l.value = Math.round(l.value * (0.95 + Math.random()*0.1)); // +-5% random
-        const stages = ['Contactado','Calificado','Propuesta','Cerrado'];
-        l.stage = stages[Math.floor(Math.random()*stages.length)];
-    });
-
-    // Actualizar pipeline
-    const counts = {Contactado:0,Calificado:0,Propuesta:0,Cerrado:0};
-    leadsData.forEach(l=>counts[l.stage]++);
-    pipelineChart.data.datasets[0].data = [counts.Contactado, counts.Calificado, counts.Propuesta, counts.Cerrado];
-    pipelineChart.update();
-
-    // Actualizar KPIs y tabla según filtros activos
-    applyFilters();
-
-}, 5000); // cada 5000ms = 5 segundos
-</script>
