@@ -1,50 +1,44 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Demo KPI´s Sales Strategy</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    body {
-      margin:0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color:#1a1a1a;
-      color:#eee;
-    }
-    h1,h2,h3 { text-align:center; margin:10px 0; }
-    .kpi-container { display:flex; justify-content:space-around; flex-wrap:wrap; margin:20px; }
-    .kpi-box { background:#2a2a2a; padding:15px; border-radius:12px; width:220px; margin:10px; text-align:center; }
-    .chart-container { width:90%; max-width:600px; height:400px; margin:20px auto; background:#2a2a2a; padding:20px; border-radius:12px; }
-    .month-selector { display:flex; justify-content:center; margin:15px 0; gap:10px; }
-    .month-selector button { padding:8px 12px; background:#5e2a7e; color:white; border:none; border-radius:6px; cursor:pointer; }
-    .month-selector button.active { background:#bfa0ff; color:#1a1a1a; font-weight:bold; }
-    table { width:90%; margin:20px auto; border-collapse: collapse; background:#2a2a2a; border-radius:12px; overflow:hidden; }
-    th,td { padding:10px; text-align:center; border-bottom:1px solid #444; }
-    th { background:#3a3a3a; }
-    .map-container { width:90%; margin:20px auto; padding:20px; background:#2a2a2a; border-radius:12px; }
-    .user-dashboard { width:90%; max-width:700px; margin:20px auto; padding:20px; background:#2a2a2a; border-radius:12px; }
-    input[type="number"] { width:80px; margin:5px; padding:5px; border-radius:6px; border:none; text-align:center; }
-    .kpi-explanation { width:90%; max-width:700px; margin:20px auto; padding:20px; background:#2a2a2a; border-radius:12px; }
-  </style>
+<meta charset="UTF-8">
+<title>Demo KPI´s Sales Strategy</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  body {
+    margin:0;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background:#1a1a1a;
+    color:#eee;
+  }
+  h1,h2,h3{text-align:center;margin:10px 0;}
+  .main-container{display:flex;width:95%;margin:20px auto; gap:20px;}
+  .kpi-column{display:flex;flex-direction:column; gap:15px; width:220px;}
+  .kpi-box{background:#2a2a2a;padding:15px;border-radius:12px;text-align:center;}
+  .charts-column{flex:1; display:flex; gap:20px; flex-wrap:wrap; justify-content:center;}
+  .chart-container{background:#2a2a2a;padding:15px;border-radius:12px;width:280px; height:280px; text-align:center;}
+  .chart-title{text-align:center;font-weight:bold;margin-top:5px;}
+  .map-container{background:#2a2a2a;padding:15px;border-radius:12px;width:300px;}
+  .user-dashboard{width:95%; max-width:800px;margin:20px auto;padding:20px;background:#2a2a2a;border-radius:12px;}
+  .user-dashboard input[type="number"]{width:80px;margin:5px;padding:5px;border-radius:6px;border:none;text-align:center;}
+  .kpi-explanation{width:95%;max-width:800px;margin:20px auto;padding:20px;background:#2a2a2a;border-radius:12px;}
+</style>
 </head>
 <body>
 
-  <!-- Título -->
-  <h1>Demo KPI´s Sales Strategy</h1>
-  <h2>Top KPIs de Ventas</h2>
+<h1>Demo KPI´s Sales Strategy</h1>
+<h2>Top KPIs de Ventas</h2>
 
-  <!-- Imagen portada -->
-  <div style="position:relative; text-align:center; margin:20px 0;">
-    <img src="https://raw.githubusercontent.com/Comprafacil1/global-sales-strategy-lab/main/vlue%20cost.PNG" 
-         style="max-width:700px; width:100%; border-radius:12px; filter:blur(1px) brightness(70%);">
-    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
-                color:white; font-size:28px; font-weight:bold; text-shadow:2px 2px 8px rgba(0,0,0,0.7);">
-      ⚖️ Valor vs Costo — Dashboard Premium
-    </div>
-  </div>
+<!-- Portada -->
+<div style="text-align:center; margin:20px;">
+  <img src="https://raw.githubusercontent.com/Comprafacil1/global-sales-strategy-lab/main/vlue%20cost.PNG" style="max-width:700px;width:100%;border-radius:12px;">
+  <div class="chart-title">⚖️ Valor vs Costo — Dashboard Premium</div>
+</div>
 
-  <!-- KPIs -->
-  <div class="kpi-container">
+<!-- Main container: KPIs a la izquierda, mapas y gráficos a la derecha -->
+<div class="main-container">
+  <!-- KPIs verticales -->
+  <div class="kpi-column">
     <div class="kpi-box">
       <h3>💰 Ingresos Totales</h3>
       <p id="kpi-revenue">45,000 USD</p>
@@ -63,137 +57,132 @@
     </div>
   </div>
 
-  <!-- Selector meses -->
-  <div class="month-selector">
-    <button class="active" onclick="changeMonth('Diciembre')">Diciembre</button>
-    <button onclick="changeMonth('Enero')">Enero</button>
-    <button onclick="changeMonth('Febrero')">Febrero</button>
-    <button onclick="changeMonth('Marzo')">Marzo</button>
-  </div>
+  <!-- Columnas de gráficos -->
+  <div class="charts-column">
+    <!-- Mapa de Chile -->
+    <div class="map-container">
+      <h3>Mapa de Ventas por Región</h3>
+      <canvas id="mapChile" height="150"></canvas>
+      <table>
+        <tr><th>Región</th><th>Ventas</th></tr>
+        <tr><td>Norte</td><td id="north-sales">12,000</td></tr>
+        <tr><td>Centro</td><td id="center-sales">20,000</td></tr>
+        <tr><td>Sur</td><td id="south-sales">13,000</td></tr>
+      </table>
+    </div>
 
-  <!-- Gráficos -->
-  <div class="chart-container">
-    <canvas id="salesDonut"></canvas>
-  </div>
-  <div class="chart-container">
-    <canvas id="topServices"></canvas>
-  </div>
+    <!-- Gráfico Dona -->
+    <div class="chart-container">
+      <canvas id="salesDonut"></canvas>
+      <div class="chart-title">Ventas por Servicio</div>
+    </div>
 
-  <!-- Mapa Chile en cajón con tabla de regiones -->
-  <div class="map-container">
-    <h3>Mapa de Ventas por Región</h3>
-    <canvas id="mapChile" height="150"></canvas>
-    <table>
-      <tr><th>Región</th><th>Ventas</th></tr>
-      <tr><td>Norte</td><td id="north-sales">12,000</td></tr>
-      <tr><td>Centro</td><td id="center-sales">20,000</td></tr>
-      <tr><td>Sur</td><td id="south-sales">13,000</td></tr>
-    </table>
+    <!-- Gráfico Barras -->
+    <div class="chart-container">
+      <canvas id="topServices"></canvas>
+      <div class="chart-title">Top Servicios</div>
+    </div>
   </div>
+</div>
 
-  <!-- Cajón para usuario crear su dashboard -->
-  <div class="user-dashboard">
-    <h3>🖊️ Crea tu propio Dashboard</h3>
-    <p>Introduce tus datos y observa cómo los KPIs y gráficos se actualizan automáticamente:</p>
-    <label>Ingresos: <input type="number" id="input-revenue" value="45000"></label>
-    <label>Forecast: <input type="number" id="input-forecast" value="60000"></label>
-    <label>Leads: <input type="number" id="input-leads" value="120"></label>
-    <label>Conversión (%): <input type="number" id="input-conversion" value="30"></label>
-    <button onclick="updateUserDashboard()">Actualizar Dashboard</button>
-  </div>
+<!-- Selector de meses -->
+<div class="month-selector" style="display:flex;justify-content:center;gap:10px;">
+  <button class="active" onclick="changeMonth('Diciembre')">Diciembre</button>
+  <button onclick="changeMonth('Enero')">Enero</button>
+  <button onclick="changeMonth('Febrero')">Febrero</button>
+  <button onclick="changeMonth('Marzo')">Marzo</button>
+</div>
 
-  <!-- Explicación de KPIs -->
-  <div class="kpi-explanation">
-    <h3>💡 Explicación de KPIs</h3>
-    <p>💰 <b>Ingresos Totales:</b> Todo el dinero que entra de ventas, ¡como la billetera de tu empresa! 💎</p>
-    <p>📈 <b>Forecast:</b> Pronóstico de ventas futuras, para que siempre estés preparado y chic 😎</p>
-    <p>🛒 <b>Leads Generados:</b> Personas interesadas en tus servicios, ¡potenciales clientes premium! 🏆</p>
-    <p>⚡ <b>Tasa de Conversión:</b> Porcentaje de leads que se convierten en clientes, mide tu efectividad y estrategia 💼</p>
-  </div>
+<!-- Cajón usuario -->
+<div class="user-dashboard">
+  <h3>🖊️ Crea tu propio Dashboard</h3>
+  <p>Ingresa tus datos y observa cómo se actualizan los KPIs y gráficos:</p>
+  <label>Ingresos: <input type="number" id="input-revenue" value="45000"></label>
+  <label>Forecast: <input type="number" id="input-forecast" value="60000"></label>
+  <label>Leads: <input type="number" id="input-leads" value="120"></label>
+  <label>Conversión (%): <input type="number" id="input-conversion" value="30"></label>
+  <button onclick="updateUserDashboard()">Actualizar Dashboard</button>
+</div>
+
+<!-- Explicación KPIs -->
+<div class="kpi-explanation">
+  <h3>💡 Explicación de KPIs</h3>
+  <p>💰 <b>Ingresos Totales:</b> Dinero recibido por ventas en todos los servicios y regiones. Fácil de entender como la billetera de tu empresa.</p>
+  <p>📈 <b>Forecast:</b> Pronóstico de ventas, anticipa el futuro y ayuda a planificar estratégicamente.</p>
+  <p>🛒 <b>Leads Generados:</b> Potenciales clientes contactados, mide tu capacidad de captación.</p>
+  <p>⚡ <b>Tasa de Conversión:</b> % de leads que se convirtieron en clientes, evalúa tu eficiencia y estrategia.</p>
+</div>
 
 <script>
-  const salesData = {
-    "Diciembre": {Revenue:40000, Forecast:50000, Leads:110, Conversion:28,
-                  categories:["Servicio A","Servicio B","Servicio C"], catValues:[50,30,20],
-                  topServices:["A","B","C"], topValues:[20,15,10]},
-    "Enero": {Revenue:42000, Forecast:52000, Leads:115, Conversion:29,
-              categories:["Servicio A","Servicio B","Servicio C"], catValues:[45,35,20],
-              topServices:["A","B","C"], topValues:[22,18,12]},
-    "Febrero": {Revenue:43000, Forecast:53000, Leads:118, Conversion:29.5,
-                categories:["Servicio A","Servicio B","Servicio C"], catValues:[40,35,25],
-                topServices:["A","B","C"], topValues:[25,20,15]},
-    "Marzo": {Revenue:45000, Forecast:60000, Leads:120, Conversion:30,
-              categories:["Servicio A","Servicio B","Servicio C"], catValues:[35,40,25],
-              topServices:["A","B","C"], topValues:[28,22,20]}
-  };
+const salesData = {
+  "Diciembre": {Revenue:40000, Forecast:50000, Leads:110, Conversion:28,
+                categories:["Servicio A","Servicio B","Servicio C"], catValues:[50,30,20],
+                topServices:["A","B","C"], topValues:[20,15,10]},
+  "Enero": {Revenue:42000, Forecast:52000, Leads:115, Conversion:29,
+            categories:["Servicio A","Servicio B","Servicio C"], catValues:[45,35,20],
+            topServices:["A","B","C"], topValues:[22,18,12]},
+  "Febrero": {Revenue:43000, Forecast:53000, Leads:118, Conversion:29.5,
+              categories:["Servicio A","Servicio B","Servicio C"], catValues:[40,35,25],
+              topServices:["A","B","C"], topValues:[25,20,15]},
+  "Marzo": {Revenue:45000, Forecast:60000, Leads:120, Conversion:30,
+            categories:["Servicio A","Servicio B","Servicio C"], catValues:[35,40,25],
+            topServices:["A","B","C"], topValues:[28,22,20]}
+};
 
-  function updateKPIs(month){
-    document.getElementById("kpi-revenue").innerText = salesData[month].Revenue + " USD";
-    document.getElementById("kpi-forecast").innerText = salesData[month].Forecast + " USD";
-    document.getElementById("kpi-leads").innerText = salesData[month].Leads;
-    document.getElementById("kpi-conversion").innerText = salesData[month].Conversion + "%";
-  }
+function updateKPIs(month){
+  document.getElementById("kpi-revenue").innerText = salesData[month].Revenue + " USD";
+  document.getElementById("kpi-forecast").innerText = salesData[month].Forecast + " USD";
+  document.getElementById("kpi-leads").innerText = salesData[month].Leads;
+  document.getElementById("kpi-conversion").innerText = salesData[month].Conversion + "%";
+}
 
-  function changeMonth(month){
-    updateKPIs(month);
-    updateCharts(month);
-    document.querySelectorAll(".month-selector button").forEach(b=>b.classList.remove("active"));
-    event.target.classList.add("active");
-  }
+function changeMonth(month){
+  updateKPIs(month);
+  updateCharts(month);
+  document.querySelectorAll(".month-selector button").forEach(b=>b.classList.remove("active"));
+  event.target.classList.add("active");
+}
 
-  // Graficos
-  const ctxDonut = document.getElementById('salesDonut').getContext('2d');
-  let salesDonut = new Chart(ctxDonut, {
-    type:'doughnut',
-    data:{
-      labels:salesData["Diciembre"].categories,
-      datasets:[{ data:salesData["Diciembre"].catValues, backgroundColor:['#bfa0ff','#8c52ff','#5e2a7e'] }]
-    },
-    options:{
-      responsive:true,
-      plugins:{
-        legend:{display:true, position:'bottom', labels:{usePointStyle:true, pointStyle:'rect', padding:15, color:'#eee', font:{size:14}}}
-      }
-    }
-  });
+// Graficos
+const ctxDonut = document.getElementById('salesDonut').getContext('2d');
+let salesDonut = new Chart(ctxDonut, {
+  type:'doughnut',
+  data:{labels:salesData["Diciembre"].categories,
+        datasets:[{data:salesData["Diciembre"].catValues, backgroundColor:['#bfa0ff','#8c52ff','#5e2a7e']}]},
+  options:{responsive:true,
+           plugins:{legend:{display:true, position:'bottom', labels:{usePointStyle:true, pointStyle:'rect', padding:15, color:'#eee', font:{size:14}}}}}
+});
 
-  const ctxBar = document.getElementById('topServices').getContext('2d');
-  let topServices = new Chart(ctxBar, {
-    type:'bar',
-    data:{
-      labels:salesData["Diciembre"].topServices,
-      datasets:[{label:'Unidades Vendidas', data:salesData["Diciembre"].topValues, backgroundColor:'#bfa0ff'}]
-    },
-    options:{
-      responsive:true,
-      maintainAspectRatio:false,
-      scales:{ x:{ticks:{color:'#eee', font:{size:14}}}, y:{ticks:{color:'#eee', font:{size:14}}, beginAtZero:true} },
-      plugins:{legend:{display:false}}
-    }
-  });
+const ctxBar = document.getElementById('topServices').getContext('2d');
+let topServices = new Chart(ctxBar,{
+  type:'bar',
+  data:{labels:salesData["Diciembre"].topServices, datasets:[{label:'Unidades Vendidas', data:salesData["Diciembre"].topValues, backgroundColor:'#bfa0ff'}]},
+  options:{responsive:true, maintainAspectRatio:false,
+           scales:{ x:{ticks:{color:'#eee', font:{size:14}}}, y:{ticks:{color:'#eee', font:{size:14}}, beginAtZero:true} },
+           plugins:{legend:{display:false}}}
+});
 
-  function updateCharts(month){
-    salesDonut.data.labels = salesData[month].categories;
-    salesDonut.data.datasets[0].data = salesData[month].catValues;
-    salesDonut.update();
+function updateCharts(month){
+  salesDonut.data.labels = salesData[month].categories;
+  salesDonut.data.datasets[0].data = salesData[month].catValues;
+  salesDonut.update();
 
-    topServices.data.labels = salesData[month].topServices;
-    topServices.data.datasets[0].data = salesData[month].topValues;
-    topServices.update();
+  topServices.data.labels = salesData[month].topServices;
+  topServices.data.datasets[0].data = salesData[month].topValues;
+  topServices.update();
 
-    document.getElementById("north-sales").innerText = Math.round(salesData[month].Revenue*0.27);
-    document.getElementById("center-sales").innerText = Math.round(salesData[month].Revenue*0.44);
-    document.getElementById("south-sales").innerText = Math.round(salesData[month].Revenue*0.29);
-  }
+  document.getElementById("north-sales").innerText = Math.round(salesData[month].Revenue*0.27);
+  document.getElementById("center-sales").innerText = Math.round(salesData[month].Revenue*0.44);
+  document.getElementById("south-sales").innerText = Math.round(salesData[month].Revenue*0.29);
+}
 
-  // Dashboard usuario
-  function updateUserDashboard(){
-    document.getElementById("kpi-revenue").innerText = document.getElementById("input-revenue").value + " USD";
-    document.getElementById("kpi-forecast").innerText = document.getElementById("input-forecast").value + " USD";
-    document.getElementById("kpi-leads").innerText = document.getElementById("input-leads").value;
-    document.getElementById("kpi-conversion").innerText = document.getElementById("input-conversion").value + "%";
-  }
-
+// Dashboard usuario
+function updateUserDashboard(){
+  document.getElementById("kpi-revenue").innerText = document.getElementById("input-revenue").value + " USD";
+  document.getElementById("kpi-forecast").innerText = document.getElementById("input-forecast").value + " USD";
+  document.getElementById("kpi-leads").innerText = document.getElementById("input-leads").value;
+  document.getElementById("kpi-conversion").innerText = document.getElementById("input-conversion").value + "%";
+}
 </script>
 </body>
 </html>
