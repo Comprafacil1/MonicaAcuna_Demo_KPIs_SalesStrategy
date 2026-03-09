@@ -79,4 +79,214 @@
             cursor: pointer;
             transition: all 0.3s;
         }
-        button:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(186,104,200,0.6);
+        button:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(186,104,200,0.6); }
+        .kpi-explanation { 
+            columns: 2; 
+            column-gap: 40px; 
+            font-size: 1.1rem; 
+            line-height: 1.6;
+            margin-top: 80px;
+            padding: 40px;
+        }
+        .kpi-item { 
+            break-inside: avoid; 
+            margin-bottom: 30px; 
+            background: rgba(255,255,255,0.05); 
+            padding: 25px; 
+            border-radius: 15px;
+            border-left: 5px solid #BA68C8;
+        }
+        .kpi-title { color: #BA68C8; font-weight: 700; font-size: 1.3rem; margin-bottom: 10px; }
+        @media (max-width: 768px) { 
+            .dashboard-grid { grid-template-columns: 1fr; }
+            .title { font-size: 2.5rem; }
+            .kpi-explanation { columns: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER CON IMAGEN VALUE vs COST -->
+        <div class="header">
+            <img src="vlue cost.PNG" alt="Value vs Cost - Balance Premium">
+            <p class="subtitle">Balance perfecto entre VALOR entregado y COSTO optimizado = Ventas ABC1 Elite</p>
+            <h1 class="title">🎯 DASHBOARD PREMIUM ABC1</h1>
+            <p style="font-size: 1.3rem; margin-top: 20px;">Interactúa con <strong>TUS números reales</strong> - Prueba tu pipeline en 60 segundos</p>
+        </div>
+
+        <!-- PANEL DE CONTROL -->
+        <div class="control-panel">
+            <input type="number" id="leadsInput" value="120" placeholder="Total Leads">
+            <input type="number" id="winRate" value="28" placeholder="Win Rate %">
+            <input type="number" id="avgDeal" value="8500" placeholder="Valor Promedio Deal $">
+            <input type="number" id="cycleDays" value="42" placeholder="Ciclo Venta (días)">
+            <select id="region">
+                <option value="Centro">Centro (Santiago)</option>
+                <option value="Norte">Norte (Antofagasta)</option>
+                <option value="Sur">Sur (Concepción)</option>
+            </select>
+            <button onclick="updateDashboards()">🔥 ACTUALIZAR MI PIPELINE</button>
+            <button onclick="exportMyData()" style="background: linear-gradient(45deg, #FF5722, #FF8A65);">📊 EXPORTAR MI DASHBOARD</button>
+        </div>
+
+        <!-- DASHBOARDS INTERACTIVOS -->
+        <div class="dashboard-grid">
+            <div class="card">
+                <h3>📈 FUNNEL PIPELINE ABC1</h3>
+                <div id="funnelChart" style="height: 400px;"></div>
+            </div>
+            <div class="card">
+                <h3>🎯 FORECAST 90 DÍAS</h3>
+                <div id="forecastChart" style="height: 400px;"></div>
+            </div>
+            <div class="card">
+                <h3>🏆 SEGMENTACIÓN REGIONAL</h3>
+                <div id="regionalChart" style="height: 400px;"></div>
+            </div>
+            <div class="card">
+                <h3>⚡ ALERTAS CRÍTICAS</h3>
+                <div id="alertsPanel" style="height: 400px; padding: 20px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- EXPLICACIÓN PROFESIONAL DE CADA KPI -->
+    <div class="kpi-explanation">
+        <div class="kpi-item">
+            <div class="kpi-title">📊 Leads Generados</div>
+            <strong>Para qué sirve:</strong> Mide volumen de oportunidades entrantes calificadas ABC1.<br>
+            <strong>Datos:</strong> Formularios GitHub Discussions + LinkedIn + Referidos.<br>
+            <strong>Objetivo análisis:</strong> >100/mes = pipeline saludable; <50 = urgencia generación.
+        </div>
+        <div class="kpi-item">
+            <div class="kpi-title">🎯 Tasa Conversión Leads→Oportunidad</div>
+            <strong>Para qué sirve:</strong> Eficiencia del proceso de calificación inicial.<br>
+            <strong>Datos:</strong> Movimiento manual GitHub Issues (Lead→Oportunidad).<br>
+            <strong>Objetivo análisis:</strong> >30% = proceso elite; <15% = revisar pitch inicial.
+        </div>
+        <div class="kpi-item">
+            <div class="kpi-title">💰 Pipeline Value Total</div>
+            <strong>Para qué sirve:</strong> Valor monetario total en proceso de venta.<br>
+            <strong>Datos:</strong> Suma "Valor estimado" campo custom GitHub Issues.<br>
+            <strong>Objetivo análisis:</strong> >$50K constante = seguridad ingresos próximos 90 días.
+        </div>
+        <div class="kpi-item">
+            <div class="kpi-title">🔮 Forecast Ventas</div>
+            <strong>Para qué sirve:</strong> Proyección ingresos 30-90 días basada datos reales.<br>
+            <strong>Datos:</strong> Fórmula: Pipeline × Win Rate × Factor Temporización (0.8).<br>
+            <strong>Objetivo análisis:</strong> Define prioridades semanales y capacidad forecast.
+        </div>
+        <div class="kpi-item">
+            <div class="kpi-title">🏆 Win Rate</div>
+            <strong>Para qué sirve:</strong> Porcentaje cierres exitosos vs oportunidades.<br>
+            <strong>Datos:</strong> Issues marcados "Cerrado Ganado" / Total Oportunidades.<br>
+            <strong>Objetivo análisis:</strong> >25% = vendedor elite; <15% = mejorar propuesta valor.
+        </div>
+        <div class="kpi-item">
+            <div class="kpi-title">⏱️ Ciclo de Venta</div>
+            <strong>Para qué sirve:</strong> Días promedio desde lead hasta cierre.<br>
+            <strong>Datos:</strong> Diferencia fechas "Lead Creado" vs "Cerrado" Issues.<br>
+            <strong>Objetivo análisis:</strong> <45 días = proceso eficiente; >60 días = cuellos botella.
+        </div>
+        <div class="kpi-item">
+            <div class="kpi-title">🌍 Segmentación Regional ABC1</div>
+            <strong>Para qué sirve:</strong> Identifica zonas más rentables para foco estratégico.<br>
+            <strong>Datos:</strong> Campo "Región" + "Valor Deal" GitHub Issues.<br>
+            <strong>Objetivo análisis:</strong> Priorizar 80/20: 20% zonas generan 80% revenue.
+        </div>
+        <div class="kpi-item">
+            <div class="kpi-title">🚨 Alertas Críticas Automáticas</div>
+            <strong>Para qué sirve:</strong> Previene pérdida oportunidades por inacción.<br>
+            <strong>Datos:</strong> GitHub Actions cron jobs vs reglas business.<br>
+            <strong>Objetivo análisis:</strong> Actuar en <2h = salvar deals perdidos por timing.
+        </div>
+    </div>
+
+    <script>
+        // DATOS REALISTAS LOGÍSTICA/SERVICIOS (NUMEROS INVENTADOS PERO REALISTAS)
+        let data = {
+            leads: 120, winRate: 0.28, avgDeal: 8500, cycleDays: 42,
+            funnel: [120, 85, 45, 25, 18], // Leads→Contacto→Propuesta→Negociación→Cerrado
+            regions: {Centro: 42000, Norte: 28500, Sur: 19800},
+            alerts: []
+        };
+
+        function updateDashboards() {
+            data.leads = parseInt(document.getElementById('leadsInput').value) || 120;
+            data.winRate = parseFloat(document.getElementById('winRate').value)/100 || 0.28;
+            data.avgDeal = parseInt(document.getElementById('avgDeal').value) || 8500;
+            data.cycleDays = parseInt(document.getElementById('cycleDays').value) || 42;
+            
+            // Actualizar funnel realista
+            data.funnel = [data.leads, data.leads*0.71, data.leads*0.375, data.leads*0.208, data.leads*0.15];
+            
+            drawFunnel();
+            drawForecast();
+            drawRegions();
+            checkAlerts();
+        }
+
+        function drawFunnel() {
+            const trace = {
+                type: 'funnel',
+                y: ['Leads', 'Contacto', 'Propuesta', 'Negociación', '¡BOOM Cerrado!'],
+                x: data.funnel,
+                marker: { color: ['#E1BEE7', '#BA68C8', '#9C27B0', '#6A1B9A', '#4A148C'] },
+                textinfo: 'value+percent initial'
+            };
+            Plotly.newPlot('funnelChart', [trace], {
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                font: { color: '#E1BEE7', size: 14 }
+            });
+        }
+
+        function drawForecast() {
+            const months = ['Marzo', 'Abril', 'Mayo', 'Junio'];
+            const forecast = [21500, 34200, 42800, 51200];
+            const trace = {
+                x: months, y: forecast,
+                type: 'scatter', mode: 'lines+markers',
+                line: { color: '#BA68C8', width: 4 },
+                marker: { size: 12, color: '#4A148C' }
+            };
+            Plotly.newPlot('forecastChart', [trace], {
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                title: { text: `Forecast: $${(data.leads*data.winRate*data.avgDeal).toLocaleString()} → 90 días`, font: {size: 16, color: '#BA68C8'} }
+            });
+        }
+
+        function drawRegions() {
+            const regions = Object.entries(data.regions).map(([name, value]) => ({x: [name], y: [value], type: 'bar', orientation: 'h', marker: {color: '#BA68C8'}}));
+            Plotly.newPlot('regionalChart', regions, {
+                barmode: 'stack',
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                title: { text: 'Revenue por Región (Servicios Logística)', font: {size: 16, color: '#BA68C8'} }
+            });
+        }
+
+        function checkAlerts() {
+            const alertsDiv = document.getElementById('alertsPanel');
+            data.alerts = [];
+            if (data.winRate < 0.20) data.alerts.push('🚨 Win Rate CRÍTICO <20%');
+            if (data.cycleDays > 60) data.alerts.push('⏰ Ciclo Venta LENTO >60 días');
+            if (data.leads < 80) data.alerts.push('📉 Leads BAJOS <80/mes');
+            
+            alertsDiv.innerHTML = data.alerts.length ? 
+                data.alerts.map(a => `<div style="background:#FF5722;color:white;padding:20px;border-radius:15px;margin:10px 0;font-weight:700;">${a}</div>`).join('') :
+                '<div style="color:#BA68C8;font-size:1.4rem;padding:40px;text-align:center;">✅ TODO OPTIMO - Pipeline Elite Activo</div>';
+        }
+
+        function exportMyData() {
+            const dataStr = `Mi Pipeline Premium:\nLeads: ${data.leads}\nWin Rate: ${Math.round(data.winRate*100)}%\nForecast 90 días: $${Math.round(data.leads*data.winRate*data.avgDeal).toLocaleString()}\nCiclo: ${data.cycleDays} días`;
+            navigator.clipboard.writeText(dataStr);
+            alert('¡Datos copiados! Pégalos en LinkedIn o envíamelos directo.\n\n' + dataStr);
+        }
+
+        // Inicializar
+        updateDashboards();
+    </script>
+</body>
+</html>
