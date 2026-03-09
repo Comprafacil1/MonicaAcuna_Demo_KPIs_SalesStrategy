@@ -99,4 +99,213 @@
             border-radius: 30px;
             margin-bottom: 50px;
         }
-        .kpi-item
+        .kpi-item { 
+            break-inside: avoid; 
+            margin-bottom: 40px; 
+            background: rgba(50,50,50,0.6); 
+            padding: 30px; 
+            border-radius: 20px;
+            border-left: 6px solid #b8b8ff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .kpi-title { color: #b8b8ff; font-weight: 800; font-size: 1.4rem; margin-bottom: 15px; }
+        @media (max-width: 768px) { 
+            .dashboard-grid { grid-template-columns: 1fr; }
+            .main-title { font-size: 2.8rem; }
+            .kpi-explanation { columns: 1; }
+            .control-panel { flex-direction: column; align-items: stretch; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER CON TÍTULO ARRIBA -->
+        <div class="header">
+            <h1 class="main-title">Dashboard KPI Ventas / Hunter</h1>
+            <img src="vlue cost.PNG" alt="Value vs Cost Balance">
+            <p class="chic-subtitle">
+                Domina cada métrica. Optimiza cada lead. Cierra cada deal. 
+                <br><strong>Tu pipeline perfecto comienza aquí.</strong>
+            </p>
+        </div>
+
+        <!-- PANEL DE CONTROL -->
+        <div class="control-panel">
+            <input type="number" id="leadsInput" value="120" placeholder="Total Leads Mensual">
+            <input type="number" id="winRate" value="28" placeholder="Win Rate %">
+            <input type="number" id="avgDeal" value="8500" placeholder="Valor Promedio Deal $">
+            <input type="number" id="cycleDays" value="42" placeholder="Ciclo Venta (días)">
+            <select id="region">
+                <option value="Centro">Región Centro</option>
+                <option value="Norte">Región Norte</option>
+                <option value="Sur">Región Sur</option>
+            </select>
+            <button onclick="updateDashboards()">🔥 ACTUALIZAR</button>
+            <button onclick="exportMyData()" style="background: linear-gradient(45deg, #ff6b6b, #ff8e8e);">📊 EXPORTAR</button>
+        </div>
+
+        <!-- DASHBOARDS INTERACTIVOS -->
+        <div class="dashboard-grid">
+            <div class="card">
+                <h3>📈 FUNNEL PIPELINE</h3>
+                <div id="funnelChart" style="height: 400px;"></div>
+            </div>
+            <div class="card">
+                <h3>🎯 FORECAST 90 DÍAS</h3>
+                <div id="forecastChart" style="height: 400px;"></div>
+            </div>
+            <div class="card">
+                <h3>🏆 REVENUE REGIONAL</h3>
+                <div id="regionalChart" style="height: 400px;"></div>
+            </div>
+            <div class="card">
+                <h3>⚡ ALERTAS CRÍTICAS</h3>
+                <div id="alertsPanel" style="height: 400px; padding: 20px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- EXPLICACIÓN PROFESIONAL DE CADA KPI -->
+    <div class="kpi-explanation">
+        <div class="kpi-item">
+            <div class="kpi-title">📊 Leads Generados</div>
+            <strong>Para qué sirve:</strong> Volumen de oportunidades entrantes calificables.<br>
+            <strong>Fuente datos:</strong> Formularios web + LinkedIn + Referidos.<br>
+            <strong>Objetivo análisis:</strong> >100/mes mantiene pipeline saludable.
+        </div>
+        <div class="kpi-item">
+            <div class="kpi-title">🎯 Tasa Conversión Leads→Oportunidad</div>
+            <strong>Para qué sirve:</strong> Eficiencia proceso calificación inicial.<br>
+            <strong>Fuente datos:</strong> Movimiento Leads→Oportunidades en CRM.<br>
+            <strong>Objetivo análisis:</strong> >30% indica proceso de ventas elite.
+        </div>
+        <div class="kpi-item">
+            <div class="kpi-title">💰 Pipeline Value Total</div>
+            <strong>Para qué sirve:</strong> Valor monetario total en proceso venta.<br>
+            <strong>Fuente datos:</strong> Suma valores estimados de oportunidades activas.<br>
+            <strong>Objetivo análisis:</strong> >$50K constante = ingresos próximos 90 días.
+        </div>
+        <div class="kpi-item">
+            <div class="kpi-title">🔮 Forecast Ventas</div>
+            <strong>Para qué sirve:</strong> Proyección ingresos próximos 30-90 días.<br>
+            <strong>Fuente datos:</strong> Pipeline × Win Rate × Factor Temporización.<br>
+            <strong>Objetivo análisis:</strong> Prioriza acciones semanales críticas.
+        </div>
+        <div class="kpi-item">
+            <div class="kpi-title">🏆 Win Rate</div>
+            <strong>Para qué sirve:</strong> % cierres exitosos vs oportunidades totales.<br>
+            <strong>Fuente datos:</strong> Oportunidades Ganadas / Total Oportunidades.<br>
+            <strong>Objetivo análisis:</strong> >25% = performance vendedor profesional.
+        </div>
+        <div class="kpi-item">
+            <div class="kpi-title">⏱️ Ciclo de Venta</div>
+            <strong>Para qué sirve:</strong> Días promedio lead hasta cierre.<br>
+            <strong>Fuente datos:</strong> Diferencia fechas creación-cierre oportunidades.<br>
+            <strong>Objetivo análisis:</strong> <45 días = proceso eficiente optimizado.
+        </div>
+        <div class="kpi-item">
+            <div class="kpi-title">🌍 Revenue Regional</div>
+            <strong>Para qué sirve:</strong> Identifica zonas más rentables.<br>
+            <strong>Fuente datos:</strong> Revenue agrupado por región geográfica.<br>
+            <strong>Objetivo análisis:</strong> Aplicar regla 80/20 para foco estratégico.
+        </div>
+        <div class="kpi-item">
+            <div class="kpi-title">🚨 Alertas Automáticas</div>
+            <strong>Para qué sirve:</strong> Previene pérdida oportunidades por inacción.<br>
+            <strong>Fuente datos:</strong> Reglas business vs métricas actuales.<br>
+            <strong>Objetivo análisis:</strong> Respuesta <2h salva deals en riesgo.
+        </div>
+    </div>
+
+    <script>
+        // DATOS REALISTAS LOGÍSTICA/SERVICIOS
+        let data = {
+            leads: 120, winRate: 0.28, avgDeal: 8500, cycleDays: 42,
+            funnel: [120, 85, 45, 25, 18],
+            regions: {Centro: 42000, Norte: 28500, Sur: 19800},
+            alerts: []
+        };
+
+        function updateDashboards() {
+            data.leads = parseInt(document.getElementById('leadsInput').value) || 120;
+            data.winRate = parseFloat(document.getElementById('winRate').value)/100 || 0.28;
+            data.avgDeal = parseInt(document.getElementById('avgDeal').value) || 8500;
+            data.cycleDays = parseInt(document.getElementById('cycleDays').value) || 42;
+            
+            data.funnel = [data.leads, data.leads*0.71, data.leads*0.375, data.leads*0.208, data.leads*0.15];
+            
+            drawFunnel();
+            drawForecast();
+            drawRegions();
+            checkAlerts();
+        }
+
+        function drawFunnel() {
+            const trace = {
+                type: 'funnel',
+                y: ['Leads', 'Contacto', 'Propuesta', 'Negociación', 'Cerrado ✓'],
+                x: data.funnel,
+                marker: { color: ['#e0e0e0', '#b8b8ff', '#9C27B0', '#7B1FA2', '#4A148C'] },
+                textinfo: 'value+percent initial'
+            };
+            Plotly.newPlot('funnelChart', [trace], {
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                font: { color: '#e0e0e0', size: 14 }
+            });
+        }
+
+        function drawForecast() {
+            const months = ['Marzo', 'Abril', 'Mayo', 'Junio'];
+            const forecast = [21500, 34200, 42800, 51200];
+            const trace = {
+                x: months, y: forecast,
+                type: 'scatter', mode: 'lines+markers',
+                line: { color: '#b8b8ff', width: 5 },
+                marker: { size: 14, color: '#d4b8ff' }
+            };
+            Plotly.newPlot('forecastChart', [trace], {
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                title: { text: `Forecast: $${(data.leads*data.winRate*data.avgDeal).toLocaleString()} → 90 días`, font: {size: 16, color: '#b8b8ff'} }
+            });
+        }
+
+        function drawRegions() {
+            const regions = Object.entries(data.regions).map(([name, value]) => ({
+                x: [name], y: [value], type: 'bar', orientation: 'h', 
+                marker: {color: '#b8b8ff'},
+                text: [`$${value.toLocaleString()}`],
+                textposition: 'inside'
+            }));
+            Plotly.newPlot('regionalChart', regions, {
+                barmode: 'stack',
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                title: { text: 'Revenue Regional (Servicios)', font: {size: 16, color: '#b8b8ff'} }
+            });
+        }
+
+        function checkAlerts() {
+            const alertsDiv = document.getElementById('alertsPanel');
+            data.alerts = [];
+            if (data.winRate < 0.20) data.alerts.push('🚨 Win Rate CRÍTICO <20%');
+            if (data.cycleDays > 60) data.alerts.push('⏰ Ciclo Venta LENTO >60 días');
+            if (data.leads < 80) data.alerts.push('📉 Leads BAJOS <80/mes');
+            
+            alertsDiv.innerHTML = data.alerts.length ? 
+                data.alerts.map(a => `<div style="background:#ff6b6b;color:#1a1a1a;padding:25px;border-radius:20px;margin:15px 0;font-weight:800;font-size:1.2rem;">${a}</div>`).join('') :
+                '<div style="color:#b8b8ff;font-size:1.6rem;padding:60px;text-align:center;font-weight:700;">✅ SISTEMA ÓPTIMO<br>Pipeline Hunter Activo</div>';
+        }
+
+        function exportMyData() {
+            const dataStr = `Mi Pipeline Hunter:\n\n📊 Leads: ${data.leads}\n🎯 Win Rate: ${Math.round(data.winRate*100)}%\n💰 Forecast 90 días: $${Math.round(data.leads*data.winRate*data.avgDeal).toLocaleString()}\n⏱️ Ciclo: ${data.cycleDays} días`;
+            navigator.clipboard.writeText(dataStr);
+            alert('¡Dashboard exportado! 📋\n\nCopia los datos y contáctame:\n\n' + dataStr);
+        }
+
+        // Inicializar
+        updateDashboards();
+    </script>
+</body>
+</html>
