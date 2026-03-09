@@ -1,69 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>HUNTER KPI</title>
+    <title>🏆 HUNTER LEGEND - Top 1 Logística</title>
     <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
     <style>
         body { 
             margin: 0; 
-            background: #000; 
-            color: #0ff; 
+            background: linear-gradient(135deg, #000, #111, #000); 
+            color: #fff; 
             font-family: Arial; 
             text-align: center; 
             padding: 20px;
+            overflow-x: hidden;
+        }
+        .neon-glow { 
+            text-shadow: 0 0 20px #ffd700, 0 0 40px #ffd700; 
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
         #game { margin: 20px auto; max-width: 1200px; }
-        input { padding: 15px; margin: 10px; background: #111; color: #0ff; border: 2px solid #0ff; }
-        button { padding: 15px 30px; background: #f00; color: white; border: none; cursor: pointer; }
-        .dash { height: 300px; margin: 20px 0; border: 2px solid #0ff; }
-        h1 { color: #f0f; font-size: 3em; }
-    </style>
-</head>
-<body>
-    <h1>🏹 HUNTER KPI - JUEGA AHORA</h1>
-    <img src="vlue cost.PNG" style="max-width: 90%; border-radius: 15px; margin: 20px 0;">
-    
-    <div id="game">
-        <input id="leads" value="147" placeholder="Leads">
-        <input id="winrate" value="32" placeholder="Win Rate %">
-        <input id="ticket" value="12800" placeholder="Ticket $">
-        <button onclick="runGame()">🔥 CALCULAR</button>
-        <button onclick="saveGame()">💾 EXPORTAR</button>
-    </div>
-
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 20px; max-width: 1400px; margin: 40px auto;">
-        <div class="dash" id="funnel"></div>
-        <div class="dash" id="forecast"></div>
-        <div class="dash" id="geo"></div>
-        <div class="dash" id="alerts" style="padding: 20px; background: #111;"></div>
-    </div>
-
-    <script>
-        let data = {leads:147, winrate:0.32, ticket:12800};
-        
-        function runGame() {
-            data.leads = +document.getElementById('leads').value || 147;
-            data.winrate = (+document.getElementById('winrate').value || 32)/100;
-            data.ticket = +document.getElementById('ticket').value || 12800;
-            
-            Plotly.newPlot('funnel', [{type:'funnel', y:['Leads','Qualify','Deal','Close'], x:[data.leads,data.leads*0.7,data.leads*0.4,data.leads*data.winrate], marker:{color:['#666','#0ff','#f0f','#f00']}}]);
-            
-            let forecast = [data.leads*data.winrate*data.ticket*0.8, data.leads*data.winrate*data.ticket*1.1];
-            Plotly.newPlot('forecast', [{x:['30D','90D'], y:forecast, type:'bar', marker:{color:'#f0f'}, text:forecast.map(v=>'$'+Math.round(v/1000)+'K'), textposition:'outside'}]);
-            
-            Plotly.newPlot('geo', [{type:'bar', orientation:'h', x:['Centro'], y:[85600], marker:{color:'#0f0'}, text:['$85K'], textposition:'inside'}]);
-            
-            let alerts = data.winrate<0.25 ? '<div style="color:#f00;font-size:24px;">🚨 WINRATE CRÍTICO</div>' : '<div style="color:#0f0;font-size:24px;">✅ PIPELINE PERFECTO</div>';
-            document.getElementById('alerts').innerHTML = alerts;
+        input, select { 
+            padding: 18px; 
+            margin: 10px; 
+            background: #111; 
+            color: #0ff; 
+            border: 3px solid #ffd700; 
+            border-radius: 15px;
+            font-size: 18px;
+            font-weight: bold;
         }
-        
-        function saveGame() {
-            let txt = `HUNTER KPI\nLeads: ${data.leads}\nWinrate: ${Math.round(data.winrate*100)}%\nForecast: $${Math.round(data.leads*data.winrate*data.ticket)}\n\n¡Contáctame para tu dashboard real!`;
-            navigator.clipboard.writeText(txt);
-            alert('¡COPIADO! Pega en LinkedIn:\n\n'+txt);
+        button { 
+            padding: 20px 40px; 
+            background: linear-gradient(45deg, #ffd700, #ffed4a); 
+            color: #000; 
+            border: none; 
+            border-radius: 15px;
+            cursor: pointer; 
+            font-weight: bold;
+            font-size: 18px;
+            margin: 10px;
+            text-transform: uppercase;
         }
-        
-        runGame();
-    </script>
-</body>
-</html>
+        .rank-display {
+            font-size: 5em; 
+            color: #ffd700; 
+            margin:
