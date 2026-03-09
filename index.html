@@ -1,69 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>🥇 HUNTER SALES - 4 Fases Éxito</title>
+    <title>HUNTER SALES</title>
     <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
-    <style>
-        *{margin:0;padding:0;box-sizing:border-box}
-        body{background:#000;color:#fff;font-family:Arial;text-align:center;padding:20px;overflow-x:hidden}
-        .container{max-width:1600px;margin:0 auto}
-        h1{font-size:3em;color:#ffd700;text-shadow:0 0 30px #ffd700;margin:20px 0}
-        img{max-width:90%;border-radius:20px;border:4px solid #ffd700;margin:20px 0;box-shadow:0 30px 80px #000}
-        #controls{background:rgba(17,17,17,0.95);padding:30px;border-radius:20px;border:3px solid #ffd700;margin:20px 0}
-        label{display:block;margin:10px 0 5px 0;color:#fff;font-weight:bold;font-size:16px}
-        input{padding:18px;margin:8px 0;background:#222;color:#fff;border:3px solid #ffd700;border-radius:12px;font-size:18px;font-weight:bold;width:260px;text-align:center}
-        input::placeholder{color:#aaa}
-        button{padding:18px 40px;background:linear-gradient(45deg,#ffd700,#ffed4a);color:#000;border:none;border-radius:12px;font-weight:bold;cursor:pointer;margin:15px 10px;font-size:18px;text-transform:uppercase}
-        button:hover{transform:scale(1.08);box-shadow:0 15px 40px #ffd70060}
-        .rank{font-size:4.5em;color:#ffd700;margin:50px 0;font-weight:900;text-shadow:0 0 50px #ffd700;display:none}
-        .cta-main{background:linear-gradient(45deg,#ff6b6b,#ffd700);color:#000;padding:25px;border-radius:20px;margin:30px 20px;font-size:1.4em;font-weight:bold;box-shadow:0 20px 60px #ff6b6b40}
-        .cta-main h3{margin:0 0 15px 0;font-size:1.6em}
-        .dash-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:25px;margin:40px 0}
-        .dash{position:relative;height:420px;border:4px solid #ffd700;border-radius:25px;background:rgba(20,20,20,0.98)!important;overflow:hidden;box-shadow:0 20px 60px rgba(255,215,0,0.3)}
-        .dash-title{position:absolute;top:20px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.95);color:#fff;padding:12px 25px;border-radius:20px;font-weight:bold;font-size:16px;z-index:10;border:2px solid #ffd700}
-        .phase-header{background:linear-gradient(90deg,#ff6b6b,#ffd700,#4ecdc4);color:#000;padding:25px;border-radius:20px;margin:50px 20px;font-size:1.6em;font-weight:bold;text-shadow:0 2px 4px rgba(0,0,0,0.3)}
-        @media(max-width:768px){.dash-grid{grid-template-columns:1fr;gap:20px}}
-    </style>
 </head>
-<body>
-    <div class="container">
-        <h1>🥇 HUNTER SALES - 4 Fases Éxito</h1>
-        <img src="vlue cost.PNG" alt="Value vs Cost">
+<body style='background:black;color:white;font-family:Arial;text-align:center;padding:20px'>
+    <h1 style='color:gold;font-size:3em'>🥇 HUNTER SALES KPIs</h1>
+    
+    <div style='background:#111;padding:30px;border-radius:20px;max-width:800px;margin:20px auto;border:3px solid gold'>
+        <div><label style='color:white;display:block'>Leads:</label><input id='l' value='147' style='padding:15px;width:200px'></div>
+        <div><label style='color:white;display:block'>Win Rate %:</label><input id='w' value='32' style='padding:15px;width:200px'></div>
+        <button onclick='plot()' style='padding:15px 30px;background:gold;color:black;font-weight:bold'>CALCULAR</button>
+    </div>
+    
+    <h2 id='rank' style='color:gold;font-size:4em;display:none'>RANK: <span id='r'>0</span>/100</h2>
+    
+    <div id='charts' style='display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;max-width:1400px;margin:0 auto'></div>
+
+    <script>
+    function plot(){
+        let leads=+document.getElementById('l').value||147;
+        let winrate=(+document.getElementById('w').value||32)/100;
+        let rank=Math.round(leads/200*30+winrate*100/40*60);
         
-        <!-- CTA PRINCIPAL -->
-        <div class="cta-main">
-            <h3>⚡ ¡INGRESA TUS NÚMEROS REALES AHORA!</h3>
-            <p><strong>En 60 segundos sabrás tu RANK HUNTER vs TOP 1% Mundial</strong></p>
-        </div>
-
-        <!-- CONTROLES CON LABELS CLAROS -->
-        <div id="controls">
-            <div>
-                <label>👥 Leads Mensuales (total oportunidades)</label>
-                <input id="leads" value="147" type="number" placeholder="Ej: 147">
-            </div>
-            <div>
-                <label>📞 % Acogida Leads (que responden tu primer contacto)</label>
-                <input id="acogida" value="65" type="number" placeholder="Ej: 65">
-            </div>
-            <div>
-                <label>🎯 Win Rate % (deals que cierras)</label>
-                <input id="winrate" value="32" type="number" placeholder="Ej: 32">
-            </div>
-            <div>
-                <label>💰 LTV Cliente (valor TOTAL en 3 años)</label>
-                <input id="ltv" value="450000" type="number" placeholder="Ej: 450000">
-            </div>
-            <button onclick="runGame()">🔥 CALCULAR MI RANK HUNTER</button>
-            <button onclick="saveGame()">🏆 COPIAR MI RANK</button>
-        </div>
-
-        <!-- RANK FINAL -->
-        <div id="rank" class="rank" style="display:none">
-            ¡TU RANK HUNTER! <span id="score">--</span>/100 🥇
-        </div>
-
-        <!-- FASE 1: ATRAER -->
-        <div class="phase-header">🎯 FASE 1: ATRAER CLIENTES</div>
-        <div class="dash-grid">
-            <div
+        document.getElementById('r').innerHTML=rank;
+        document.getElementById('rank').style.display='block';
+        
+        let html='';
+        html+=`<div style='height:300px'><div id='c1' style='width:100%;height:100%'></div></div>`;
+        html+=`<div style='height:300px'><div id='c2' style='width:100%;height:100%'></div></div>`;
+        html+=`<div style='height:300px'><div id='c3' style='width:100%;height:100%'></div></div>`;
+        html+=`<div style='height:300px'><div id='c4' style='width:100%;height:100%'></div></div>`;
+        document.getElementById('charts').innerHTML=html;
+        
+        Plotly.newPlot('c1', [{values:[winrate*100,100-winrate*100],type:'pie',hole:0.6}], {paper_bgcolor:'#111',plot_bgcolor:'#111',font:{color:'white'}});
+        Plotly.newPlot('c2', [{values:[leads*winrate,leads*(1-winrate)],type:'pie',hole:0.6}], {paper_bgcolor:'#111',plot_bgcolor:'#111'});
+        Plotly.newPlot('c3', [{values:[75,25],type:'pie',hole:0.6}], {paper_bgcolor:'#111',plot_bgcolor:'#111'});
+        Plotly.newPlot('c4', [{values:[rank,100-rank],type:'pie',hole:0.6}], {paper_bgcolor:'#111',plot_bgcolor:'#111'});
+    }
+    plot();
+    </script>
+</body>
+</html>
