@@ -89,3 +89,121 @@
                 <div><h3>4️⃣ WIN RATE</h3><p style="color:#fff"><strong>SIRVE:</strong> % oportunidades que cierras</p><p style="color:#fff"><strong>HUNTER:</strong> 32%+ | <strong>NOVATO:</strong> <20%</p></div>
             </div>
             <div class="kpi-detail">
+                <div><h3>5️⃣ OBJECIONES RESUELTAS</h3><p style="color:#fff"><strong>SIRVE:</strong> % objeciones que conviertes en "SÍ"</p><p style="color:#fff"><strong>BUENO:</strong> >75% | <strong>CRÍTICO:</strong> <50%</p></div>
+                <div><h3>6️⃣ NPS POST-VENTA</h3><p style="color:#fff"><strong>SIRVE:</strong> Satisfacción cliente después entrega</p><p style="color:#fff"><strong>BUENO:</strong> >75 | <strong>PELIGRO:</strong> <50</p></div>
+                <div><h3>7️⃣ OTIF</h3><p style="color:#fff"><strong>SIRVE:</strong> Entregas perfectas (tiempo+completo)</p><p style="color:#fff"><strong>BUENO:</strong> 98%+ | <strong>CRÍTICO:</strong> <95%</p></div>
+                <div><h3>8️⃣ RETENCIÓN+UPSELL</h3><p style="color:#fff"><strong>SIRVE:</strong> % clientes que repiten + compran más</p><p style="color:#fff"><strong>BUENO:</strong> 85%+ | <strong>EMERGENCIA:</strong> <70%</p></div>
+            </div>
+        </div>
+
+        <div class="why-section">
+            <h3>🤔 GERENTE: ¿POR QUÉ ESTOS 8 KPIs?</h3>
+            <p style="color:#fff;font-size:1.1em;line-height:1.6">
+                **Cubren TODO el ciclo cliente:** Atraer→Vender→Satisfacer→Fidelizar.<br><br>
+                **Atraer:** Mides si tu marketing funciona (acogida+calificados).<br>
+                **Vender:** Controlas cada etapa funnel (argumentación+objeciones+cierre).<br>
+                **Satisfacer:** Cliente feliz = OTIF+NPS altos.<br>
+                **Fidelizar:** Retención+upsell = revenue recurrente.<br><br>
+                **Resultado:** En 60 segundos ves dónde está el problema. Fácil, claro, accionable.
+            </p>
+        </div>
+
+        <!-- CTA FINAL -->
+        <div class="cta-final">
+            🚀 <strong>¡TU SIGUIENTE PASO!</strong><br>
+            1️⃣ Copia tu RANK arriba<br>
+            2️⃣ Pégalo en LinkedIn<br>
+            3️⃣ <strong>DM @tucontacto → "Quiero sistema automático"</strong><br><br>
+            <strong>¿Listo para ser HUNTER #1?</strong> 👆
+        </div>
+    </div>
+
+    <script>
+        let data={leads:147,acogida:0.65,winrate:0.32,ltv:450000};
+        const avatars={novato:{leads:50,acogida:0.4,winrate:0.15,ltv:150000},pro:{leads:147,acogida:0.65,winrate:0.32,ltv:450000},legend:{leads:200,acogida:0.82,winrate:0.38,ltv:750000}};
+        
+        function loadAvatar(){
+            const a=document.getElementById('avatar').value;d=avatars[a];
+            document.getElementById('leads').value=d.leads;
+            document.getElementById('acogida').value=Math.round(d.acogida*100);
+            document.getElementById('winrate').value=Math.round(d.winrate*100);
+            document.getElementById('ltv').value=d.ltv;
+            runGame();
+        }
+        
+        function runGame(){
+            data.leads=+document.getElementById('leads').value||147;
+            data.acogida=(+document.getElementById('acogida').value||65)/100;
+            data.winrate=(+document.getElementById('winrate').value||32)/100;
+            data.ltv=+document.getElementById('ltv').value||450000;
+            
+            const rank=Math.min(100,Math.round(data.acogida*100/82*20+data.winrate*100/38*30+data.leads/200*20+Math.random()*20));
+            document.getElementById('score').textContent=rank;document.getElementById('rank').style.display='block';
+            
+            // GRÁFICOS CON TEXTO BLANCO EXPLÍCITO
+            Plotly.newPlot('acogidaChart',[{
+                x:['Acogida','Benchmark'],y:[data.acogida*100,82],type:'bar',
+                marker:{color:['#ff6b6b','#4ecdc4']},
+                text:[data.acogida*100.toFixed(1)+'%','82%'],textposition:'outside',
+                textfont:{color:'#fff',size:14}
+            }],{
+                paper_bgcolor:'rgba(0,0,0,0.95)',plot_bgcolor:'rgba(17,17,17,0.95)',
+                font:{color:'#fff',size:12}
+            });
+            
+            Plotly.newPlot('leadsQual',[{
+                x:['Total','Calificados'],y:[data.leads,data.leads*data.acogida*0.7],
+                type:'bar',marker:{color:'#ffd700'},
+                text:[data.leads,data.leads*data.acogida*0.7],textposition:'outside',
+                textfont:{color:'#fff',size:14}
+            }],{paper_bgcolor:'rgba(0,0,0,0.95)',plot_bgcolor:'rgba(17,17,17,0.95)',font:{color:'#fff'}});
+            
+            Plotly.newPlot('funnel',[{
+                type:'funnel',y:['Leads','Argumentación','Objeción','Cierre'],
+                x:[data.leads,data.leads*data.acogida*0.6,data.leads*data.acogida*0.35,data.leads*data.winrate],
+                marker:{color:['#666','#0ff','#ffd700','#4ecdc4']},
+                textinfo:'value+percent initial',textfont:{color:'#fff',size:14}
+            }],{paper_bgcolor:'rgba(0,0,0,0.95)',plot_bgcolor:'rgba(17,17,17,0.95)',font:{color:'#fff'}});
+            
+            Plotly.newPlot('winrate',[{
+                x:['Tú','Legend'],y:[data.winrate*100,38],type:'bar',
+                marker:{color:['#ff6b6b','#ffd700']},
+                text:[data.winrate*100.toFixed(1)+'%','38%'],textposition:'outside',
+                textfont:{color:'#fff',size:14}
+            }],{paper_bgcolor:'rgba(0,0,0,0.95)',plot_bgcolor:'rgba(17,17,17,0.95)',font:{color:'#fff'}});
+            
+            Plotly.newPlot('objeciones',[{
+                x:['Resueltas','Pendientes'],y:[75,25],type:'pie',
+                marker:{colors:['#4ecdc4','#ff6b6b']},textinfo:'label+percent',
+                textfont:{color:'#fff',size:14}
+            }],{paper_bgcolor:'rgba(0,0,0,0.95)',plot_bgcolor:'rgba(17,17,17,0.95)',font:{color:'#fff'}});
+            
+            Plotly.newPlot('nps',[{
+                x:['NPS'],y:[78],type:'bar',marker:{color:'#ffd700'},
+                text:['78'],textposition:'outside',textfont:{color:'#fff',size:14}
+            }],{paper_bgcolor:'rgba(0,0,0,0.95)',plot_bgcolor:'rgba(17,17,17,0.95)',font:{color:'#fff'}});
+            
+            Plotly.newPlot('otif',[{
+                x:['OTIF'],y:[98.7],type:'bar',marker:{color:'#4ecdc4'},
+                text:['98.7%'],textposition:'outside',textfont:{color:'#fff',size:14}
+            }],{paper_bgcolor:'rgba(0,0,0,0.95)',plot_bgcolor:'rgba(17,17,17,0.95)',font:{color:'#fff'}});
+            
+            Plotly.newPlot('retencion',[{
+                labels:['Retención','Upsell'],values:[85,15],type:'pie',
+                marker:{colors:['#ffd700','#0ff']},textinfo:'label+percent',
+                textfont:{color:'#fff',size:14}
+            }],{paper_bgcolor:'rgba(0,0,0,0.95)',plot_bgcolor:'rgba(17,17,17,0.95)',font:{color:'#fff'}});
+            
+            document.getElementById('alerts').innerHTML=rank>=90?'<div style="color:#4ecdc4;font-size:2.5em;font-weight:900">🥇 HUNTER ÉLITE</div>':rank>=75?'<div style="color:#ffd700;font-size:2em;font-weight:900">🥈 HUNTER PRO</div>':'<div style="color:#ff6b6b;font-size:2em;font-weight:900">🔥 HUNTER EN FORMACIÓN</div>';
+        }
+        
+        function saveGame(){
+            const rank=document.getElementById('score').textContent;
+            const txt=`🥇 HUNTER SALES RANK: ${rank}/100\n📊 Leads: ${data.leads}\n📞 Acogida: ${Math.round(data.acogida*100)}%\n🎯 Win Rate: ${Math.round(data.winrate*100)}%\n\n#HunterSalesRank${rank}`;
+            navigator.clipboard.writeText(txt);alert('🏆 COPIADO:\n'+txt)
+        }
+        
+        loadAvatar();runGame();
+    </script>
+</body>
+</html>
