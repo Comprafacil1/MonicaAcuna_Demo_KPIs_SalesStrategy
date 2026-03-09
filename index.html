@@ -1,234 +1,232 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
 <meta charset="UTF-8">
-<title>Estrategias y Herramientas Comerciales Analizadas</title>
+<title>DEMO KPI´s Sales Strategy</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 
 <style>
 
 body{
-font-family: Arial;
-background:#f7f7f7;
+font-family:Arial;
+background:#f0f2f5;
 margin:0;
-padding:20px;
+padding:40px;
 }
 
 h1{
 text-align:center;
-color:#444;
+color:#1f2d3d;
+font-size:40px;
+margin-bottom:10px;
 }
 
-.dashboard{
+.subtitle{
+text-align:center;
+font-size:18px;
+color:#5f6b7a;
+margin-bottom:40px;
+}
+
+.container{
+
 display:grid;
-grid-template-columns:1fr 1fr;
-gap:20px;
+grid-template-columns:300px 1fr 1fr;
+gap:25px;
+
 }
 
 .card{
+
 background:white;
-padding:20px;
 border-radius:12px;
-box-shadow:0 4px 12px rgba(0,0,0,0.08);
+padding:25px;
+box-shadow:0 6px 18px rgba(0,0,0,0.08);
+
 }
 
-.title{
-font-size:18px;
-font-weight:bold;
-margin-bottom:10px;
-color:#555;
-}
+.kpi{
 
-.input-section{
-margin-top:20px;
-text-align:center;
-}
-
-input{
 font-size:20px;
-padding:10px;
-margin:10px;
-width:160px;
-border-radius:8px;
-border:1px solid #ccc;
+font-weight:bold;
+margin-bottom:20px;
+
+}
+
+.chart-title{
+
 text-align:center;
-}
-
-button{
-padding:14px 30px;
-font-size:18px;
-border:none;
-background:#4a90e2;
-color:white;
-border-radius:10px;
-cursor:pointer;
-}
-
-button:hover{
-background:#357abd;
-}
-
-.kpi-box{
-background:#fafafa;
-padding:15px;
-border-radius:10px;
 margin-top:10px;
-font-size:14px;
+font-size:16px;
+color:#555;
+
 }
 
-img{
+.image-box img{
+
 width:100%;
 border-radius:10px;
+
 }
 
 .caption{
+
 text-align:center;
-font-size:14px;
+margin-top:10px;
 color:#666;
-margin-top:5px;
+font-size:14px;
+
+}
+
+.inputs{
+
+margin-top:40px;
+text-align:center;
+
+}
+
+input{
+
+font-size:22px;
+padding:14px;
+margin:10px;
+width:180px;
+border-radius:10px;
+border:1px solid #ccc;
+text-align:center;
+
+}
+
+button{
+
+font-size:22px;
+padding:12px 40px;
+border:none;
+border-radius:10px;
+background:#2c7be5;
+color:white;
+cursor:pointer;
+
+}
+
+button:hover{
+
+background:#1a5fd0;
+
 }
 
 </style>
+
 </head>
+
+
 
 <body>
 
-<h1>Estrategias y Herramientas Comerciales Analizadas</h1>
+<h1>DEMO KPI´s Sales Strategy</h1>
 
-<div class="dashboard">
+<div class="subtitle">
 
-<!-- KPI RENTABILIDAD -->
+Simulador visual de indicadores estratégicos de ventas
+
+</div>
+
+
+
+<div class="container">
+
+<!-- KPI COLUMN -->
 
 <div class="card">
 
-<div class="title">KPI Rentabilidad Comercial</div>
+<div class="kpi">📊 Top KPI´s de Ventas</div>
 
-<canvas id="rentabilidad"></canvas>
+<p>💰 Rentabilidad</p>
 
-<div class="kpi-box">
+<p>🎯 Cumplimiento de Meta</p>
 
-<b>Qué mide este KPI</b><br>
-Mide cuánto dinero gana la empresa comparando <b>ventas vs costos</b>.
+<p>📈 Conversión Comercial</p>
 
-<br><br>
+<p>🚀 Crecimiento de Ventas</p>
 
-<b>De dónde salen los datos</b>
-
-<ul>
-<li>Ventas: datos del CRM o ERP</li>
-<li>Costos: logística, marketing y operación</li>
-</ul>
-
-<b>Para qué sirve</b>
-
-<ul>
-<li>Evaluar si una estrategia comercial es rentable</li>
-<li>Identificar dónde reducir costos</li>
-</ul>
-
-</div>
+<p>📉 Control de Costos</p>
 
 </div>
 
 
-<!-- BULLET CHART -->
+
+<!-- DONUT CHART -->
 
 <div class="card">
 
-<div class="title">Bullet Chart Objetivo Comercial</div>
+<canvas id="donut"></canvas>
 
-<canvas id="bulletChart"></canvas>
+<div class="chart-title">
 
-<div class="kpi-box">
-
-<b>Qué mide</b>
-
-El Bullet Chart compara:
-
-<ul>
-<li>Meta de ventas</li>
-<li>Resultado actual</li>
-<li>Rango esperado</li>
-</ul>
-
-<b>Para qué sirve</b>
-
-Permite a gerentes saber rápidamente si el equipo está:
-
-<ul>
-<li>Lejos de la meta</li>
-<li>En progreso</li>
-<li>Superando objetivos</li>
-</ul>
+Valor vs Costo
 
 </div>
 
 </div>
 
 
-<!-- ESQUEMA JERARQUICO -->
+
+<!-- BAR CHART -->
 
 <div class="card">
 
-<div class="title">Esquema Jerárquico Comercial</div>
+<canvas id="barras"></canvas>
 
-<svg id="tree" width="500" height="300"></svg>
+<div class="chart-title">
 
-<div class="kpi-box">
-
-<b>Qué representa</b>
-
-La estructura de generación de ventas:
-
-<ul>
-<li>Marketing</li>
-<li>Ventas</li>
-<li>Clientes</li>
-</ul>
-
-<b>Para qué sirve</b>
-
-Entender qué área impacta más en los resultados.
+Ventas por Zona Comercial
 
 </div>
 
 </div>
 
 
-<!-- IMAGEN KPI -->
 
-<div class="card">
+<!-- IMAGE -->
 
-<img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71">
+<div class="card image-box">
+
+<img src="value cost.PNG">
 
 <div class="caption">
-Valor vs Costo: Indicador clave para evaluar eficiencia comercial
-</div>
+
+Valor vs Costo — Evaluación estratégica de pricing
 
 </div>
 
 </div>
+
+</div>
+
 
 
 <!-- INPUTS -->
 
-<div class="card input-section">
+<div class="inputs">
 
-<h2>Simulador Comercial</h2>
+<h2>Ingresa tus datos comerciales</h2>
 
-<p>Ingresa tus datos para actualizar las gráficas</p>
+<input id="valor" type="number" value="120" placeholder="Ventas">
 
-<input id="ventas" type="number" value="120">
+<input id="costo" type="number" value="60" placeholder="Costos">
 
-<input id="costos" type="number" value="60">
+<input id="norte" type="number" value="30" placeholder="Zona Norte">
 
-<input id="meta" type="number" value="150">
+<input id="centro" type="number" value="50" placeholder="Zona Centro">
 
-<br>
+<input id="sur" type="number" value="40" placeholder="Zona Sur">
 
-<button onclick="actualizar()">Actualizar Gráficas</button>
+<br><br>
+
+<button onclick="actualizar()">Actualizar Gráficos</button>
 
 </div>
 
@@ -236,98 +234,125 @@ Valor vs Costo: Indicador clave para evaluar eficiencia comercial
 
 <script>
 
-let ventas=120
-let costos=60
-let meta=150
+let valor=120
+let costo=60
 
-let rentabilidadChart = new Chart(
-document.getElementById('rentabilidad'),
+let norte=30
+let centro=50
+let sur=40
+
+
+
+const donutChart=new Chart(
+
+document.getElementById("donut"),
+
 {
-type:'bar',
+
+type:"doughnut",
+
 data:{
-labels:['Ventas','Costos'],
+
+labels:["Valor","Costo"],
+
 datasets:[{
-data:[ventas,costos]
+
+data:[valor,costo]
+
 }]
+
+},
+
+options:{
+
+plugins:{
+
+legend:{
+
+position:"bottom"
+
 }
-})
+
+}
+
+}
+
+}
+
+)
 
 
-let bulletChart = new Chart(
-document.getElementById('bulletChart'),
+
+const barChart=new Chart(
+
+document.getElementById("barras"),
+
 {
-type:'bar',
+
+type:"bar",
+
 data:{
-labels:['Resultado','Meta'],
+
+labels:["Zona Norte","Zona Centro","Zona Sur"],
+
 datasets:[{
-data:[ventas,meta]
+
+label:"Ventas",
+
+data:[norte,centro,sur]
+
 }]
+
+},
+
+options:{
+
+plugins:{
+
+legend:{
+
+display:false
+
 }
-})
+
+}
+
+}
+
+}
+
+)
+
 
 
 function actualizar(){
 
-ventas=parseInt(document.getElementById("ventas").value)
-costos=parseInt(document.getElementById("costos").value)
-meta=parseInt(document.getElementById("meta").value)
+valor=parseInt(document.getElementById("valor").value)
 
-rentabilidadChart.data.datasets[0].data=[ventas,costos]
-rentabilidadChart.update()
+costo=parseInt(document.getElementById("costo").value)
 
-bulletChart.data.datasets[0].data=[ventas,meta]
-bulletChart.update()
+norte=parseInt(document.getElementById("norte").value)
+
+centro=parseInt(document.getElementById("centro").value)
+
+sur=parseInt(document.getElementById("sur").value)
+
+
+
+donutChart.data.datasets[0].data=[valor,costo]
+
+donutChart.update()
+
+
+
+barChart.data.datasets[0].data=[norte,centro,sur]
+
+barChart.update()
 
 }
-
-
-
-const data = {
-name:"Empresa",
-children:[
-{name:"Marketing"},
-{name:"Ventas"},
-{name:"Clientes"}
-]
-};
-
-const svg = d3.select("#tree")
-const width = 500
-const height = 300
-
-const root = d3.hierarchy(data)
-const treeLayout = d3.tree().size([width-50,height-50])
-treeLayout(root)
-
-svg.selectAll('line')
-.data(root.links())
-.enter()
-.append('line')
-.attr('x1',d=>d.source.x)
-.attr('y1',d=>d.source.y)
-.attr('x2',d=>d.target.x)
-.attr('y2',d=>d.target.y)
-.attr('stroke','#999')
-
-svg.selectAll('circle')
-.data(root.descendants())
-.enter()
-.append('circle')
-.attr('cx',d=>d.x)
-.attr('cy',d=>d.y)
-.attr('r',8)
-.attr('fill','#4a90e2')
-
-svg.selectAll('text')
-.data(root.descendants())
-.enter()
-.append('text')
-.attr('x',d=>d.x)
-.attr('y',d=>d.y-10)
-.attr('text-anchor','middle')
-.text(d=>d.data.name)
 
 </script>
 
 </body>
+
 </html>
