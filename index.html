@@ -1,44 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>HUNTER SALES</title>
+    <title>🥇 HUNTER SALES - 4 Fases Éxito</title>
     <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
-</head>
-<body style='background:black;color:white;font-family:Arial;text-align:center;padding:20px'>
-    <h1 style='color:gold;font-size:3em'>🥇 HUNTER SALES KPIs</h1>
-    
-    <div style='background:#111;padding:30px;border-radius:20px;max-width:800px;margin:20px auto;border:3px solid gold'>
-        <div><label style='color:white;display:block'>Leads:</label><input id='l' value='147' style='padding:15px;width:200px'></div>
-        <div><label style='color:white;display:block'>Win Rate %:</label><input id='w' value='32' style='padding:15px;width:200px'></div>
-        <button onclick='plot()' style='padding:15px 30px;background:gold;color:black;font-weight:bold'>CALCULAR</button>
-    </div>
-    
-    <h2 id='rank' style='color:gold;font-size:4em;display:none'>RANK: <span id='r'>0</span>/100</h2>
-    
-    <div id='charts' style='display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;max-width:1400px;margin:0 auto'></div>
-
-    <script>
-    function plot(){
-        let leads=+document.getElementById('l').value||147;
-        let winrate=(+document.getElementById('w').value||32)/100;
-        let rank=Math.round(leads/200*30+winrate*100/40*60);
-        
-        document.getElementById('r').innerHTML=rank;
-        document.getElementById('rank').style.display='block';
-        
-        let html='';
-        html+=`<div style='height:300px'><div id='c1' style='width:100%;height:100%'></div></div>`;
-        html+=`<div style='height:300px'><div id='c2' style='width:100%;height:100%'></div></div>`;
-        html+=`<div style='height:300px'><div id='c3' style='width:100%;height:100%'></div></div>`;
-        html+=`<div style='height:300px'><div id='c4' style='width:100%;height:100%'></div></div>`;
-        document.getElementById('charts').innerHTML=html;
-        
-        Plotly.newPlot('c1', [{values:[winrate*100,100-winrate*100],type:'pie',hole:0.6}], {paper_bgcolor:'#111',plot_bgcolor:'#111',font:{color:'white'}});
-        Plotly.newPlot('c2', [{values:[leads*winrate,leads*(1-winrate)],type:'pie',hole:0.6}], {paper_bgcolor:'#111',plot_bgcolor:'#111'});
-        Plotly.newPlot('c3', [{values:[75,25],type:'pie',hole:0.6}], {paper_bgcolor:'#111',plot_bgcolor:'#111'});
-        Plotly.newPlot('c4', [{values:[rank,100-rank],type:'pie',hole:0.6}], {paper_bgcolor:'#111',plot_bgcolor:'#111'});
-    }
-    plot();
-    </script>
-</body>
-</html>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{background:#000;color:#fff;font-family:Arial;text-align:center;padding:20px;overflow-x:hidden}
+        .container{max-width:1600px;margin:0 auto}
+        h1{font-size:3em;color:#ffd700;text-shadow:0 0 30px #ffd700;margin:20px 0}
+        img{max-width:90%;border-radius:20px;border:4px solid #ffd700;margin:20px 0;box-shadow:0 30px 80px #000}
+        #controls{background:rgba(17,17,17,0.95);padding:30px;border-radius:20px;border:3px solid #ffd700;margin:20px 0}
+        label{display:block;margin:10px 0 5px 0;color:#fff;font-weight:bold;font-size:16px}
+        input{padding:18px;margin:8px 0;background:#222;color:#fff;border:3px solid #ffd700;border-radius:12px;font-size:18px;font-weight:bold;width:280px;text-align:center}
+        input::placeholder{color:#aaa}
+        button{padding:18px 40px;background:linear-gradient(45deg,#ffd700,#ffed4a);color:#000;border:none;border-radius:12px;font-weight:bold;cursor:pointer;margin:15px 10px;font-size:18px;text-transform:uppercase}
+        button:hover{transform:scale(1.08);box-shadow:0 15px 40px #ffd70060}
+        .rank{font-size:4.5em;color:#ffd700;margin:50px 0;font-weight:900;text-shadow:0 0 50px #ffd700;display:none}
+        .cta-main{background:linear-gradient(45deg,#ff6b6b,#ffd700);color:#000;padding:25px;border-radius:20px;margin:30px 20px;font-size:1.4em;font-weight:bold;box-shadow:0 20px 60px #ff6b6b40}
+        .cta-main h3{margin:0 0 15px 0;font-size:1.6em}
+        .dash-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:25px;margin:40px 0}
+        .dash{position:relative;height:420px;border:4px
