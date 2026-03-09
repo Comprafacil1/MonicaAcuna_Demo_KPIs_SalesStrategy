@@ -19,4 +19,325 @@
         .cta-main{background:linear-gradient(45deg,#ff6b6b,#ffd700);color:#000;padding:25px;border-radius:20px;margin:30px 20px;font-size:1.4em;font-weight:bold;box-shadow:0 20px 60px #ff6b6b40}
         .cta-main h3{margin:0 0 15px 0;font-size:1.6em}
         .dash-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:25px;margin:40px 0}
-        .dash{position:relative;height:420px;border:4px
+        .dash{position:relative;height:420px;border:4px solid #ffd700;border-radius:25px;background:rgba(20,20,20,0.98)!important;overflow:hidden;box-shadow:0 20px 60px rgba(255,215,0,0.3)}
+        .dash-title{position:absolute;top:20px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.95);color:#fff;padding:12px 25px;border-radius:20px;font-weight:bold;font-size:16px;z-index:10;border:2px solid #ffd700}
+        .phase-header{background:linear-gradient(90deg,#ff6b6b,#ffd700,#4ecdc4);color:#000;padding:25px;border-radius:20px;margin:50px 20px;font-size:1.6em;font-weight:bold;text-shadow:0 2px 4px rgba(0,0,0,0.3)}
+        .kpi-explain{max-width:1600px;margin:60px auto;padding:40px;background:rgba(0,0,0,0.8);border-radius:25px;text-align:left}
+        .kpi-explain h2{color:#ffd700;font-size:2em;margin-bottom:30px}
+        .kpi-detail{display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:25px}
+        .kpi-explain h3{color:#ffd700;font-size:1.6em;margin:30px 0 15px 0}
+        .why-section{background:rgba(255,215,0,0.1);border-left:5px solid #ffd700;padding:30px;margin:40px 0;border-radius:10px}
+        .cta-final{background:linear-gradient(45deg,#ff6b6b,#ffd700);color:#000;padding:40px;border-radius:25px;margin:40px 20px;font-size:1.6em;font-weight:bold;box-shadow:0 20px 60px #ff6b6b40}
+        @media(max-width:768px){.dash-grid{grid-template-columns:1fr;gap:20px}}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🥇 HUNTER SALES - 4 Fases Éxito</h1>
+        <img src="vlue cost.PNG" alt="Value vs Cost">
+        
+        <!-- CTA PRINCIPAL -->
+        <div class="cta-main">
+            <h3>⚡ ¡INGRESA TUS NÚMEROS REALES AHORA!</h3>
+            <p><strong>En 60 segundos sabrás tu RANK HUNTER vs TOP 1% Mundial</strong></p>
+        </div>
+
+        <!-- CONTROLES -->
+        <div id="controls">
+            <div>
+                <label>👥 Leads Mensuales (total oportunidades)</label>
+                <input id="leads" value="147" type="number" placeholder="Ej: 147">
+            </div>
+            <div>
+                <label>📞 % Acogida Leads (que responden tu primer contacto)</label>
+                <input id="acogida" value="65" type="number" placeholder="Ej: 65%">
+            </div>
+            <div>
+                <label>🎯 Win Rate % (deals que cierras)</label>
+                <input id="winrate" value="32" type="number" placeholder="Ej: 32%">
+            </div>
+            <div>
+                <label>💰 LTV Cliente (valor TOTAL en 3 años)</label>
+                <input id="ltv" value="450000" type="number" placeholder="Ej: $450K">
+            </div>
+            <button onclick="runGame()">🔥 CALCULAR MI RANK HUNTER</button>
+            <button onclick="saveGame()">🏆 COPIAR MI RANK</button>
+        </div>
+
+        <!-- RANK FINAL -->
+        <div id="rank" class="rank" style="display:none">
+            ¡TU RANK HUNTER! <span id="score">--</span>/100 🥇
+        </div>
+
+        <!-- FASE 1: ATRAER -->
+        <div class="phase-header">🎯 FASE 1: ATRAER CLIENTES</div>
+        <div class="dash-grid">
+            <div class="dash">
+                <div class="dash-title">1. Tasa Acogida</div>
+                <div id="acogidaChart" style="width:100%;height:100%"></div>
+            </div>
+            <div class="dash">
+                <div class="dash-title">2. Leads Calificados</div>
+                <div id="leadsQual" style="width:100%;height:100%"></div>
+            </div>
+        </div>
+
+        <!-- FASE 2: VENDER -->
+        <div class="phase-header">💰 FASE 2: PROCESO VENTA</div>
+        <div class="dash-grid">
+            <div class="dash">
+                <div class="dash-title">3. Funnel Completo</div>
+                <div id="funnel" style="width:100%;height:100%"></div>
+            </div>
+            <div class="dash">
+                <div class="dash-title">4. Win Rate</div>
+                <div id="winrate" style="width:100%;height:100%"></div>
+            </div>
+            <div class="dash">
+                <div class="dash-title">5. Objeciones Resueltas</div>
+                <div id="objeciones" style="width:100%;height:100%"></div>
+            </div>
+        </div>
+
+        <!-- FASE 3-4: SATISFACER + FIDELIZAR -->
+        <div class="phase-header">❤️ FASE 3-4: SATISFACER + FIDELIZAR</div>
+        <div class="dash-grid">
+            <div class="dash">
+                <div class="dash-title">6. NPS Post-Venta</div>
+                <div id="nps" style="width:100%;height:100%"></div>
+            </div>
+            <div class="dash">
+                <div class="dash-title">7. OTIF Entregas</div>
+                <div id="otif" style="width:100%;height:100%"></div>
+            </div>
+            <div class="dash">
+                <div class="dash-title">8. Retención + Upsell</div>
+                <div id="retencion" style="width:100%;height:100%"></div>
+            </div>
+        </div>
+
+        <!-- EXPLICACIÓN KPIs -->
+        <div class="kpi-explain">
+            <h2>📊 CADA KPI EXPLICADO</h2>
+            <div class="kpi-detail">
+                <div>
+                    <h3>1️⃣ TASA ACGOGIDA</h3>
+                    <p style="color:#fff"><strong>SIRVE:</strong> % leads que responden primer contacto</p>
+                    <p style="color:#fff"><strong>BUENO:</strong> >65% | <strong>CRÍTICO:</strong> <40%</p>
+                </div>
+                <div>
+                    <h3>2️⃣ LEADS CALIFICADOS</h3>
+                    <p style="color:#fff"><strong>SIRVE:</strong> Leads con necesidad real detectada</p>
+                    <p style="color:#fff"><strong>BUENO:</strong> 70% de total leads</p>
+                </div>
+                <div>
+                    <h3>3️⃣ FUNNEL VENTA</h3>
+                    <p style="color:#fff"><strong>SIRVE:</strong> % avance cada etapa venta</p>
+                    <p style="color:#fff"><strong>BUENO:</strong> 70→40→25→15%</p>
+                </div>
+                <div>
+                    <h3>4️⃣ WIN RATE</h3>
+                    <p style="color:#fff"><strong>SIRVE:</strong> % oportunidades que cierras</p>
+                    <p style="color:#fff"><strong>HUNTER:</strong> 32%+ | <strong>NOVATO:</strong> <20%</p>
+                </div>
+            </div>
+            <div class="kpi-detail">
+                <div>
+                    <h3>5️⃣ OBJECIONES RESUELTAS</h3>
+                    <p style="color:#fff"><strong>SIRVE:</strong> % objeciones convertidas en "SÍ"</p>
+                    <p style="color:#fff"><strong>BUENO:</strong> >75%</p>
+                </div>
+                <div>
+                    <h3>6️⃣ NPS POST-VENTA</h3>
+                    <p style="color:#fff"><strong>SIRVE:</strong> Satisfacción inmediata cliente</p>
+                    <p style="color:#fff"><strong>BUENO:</strong> >75</p>
+                </div>
+                <div>
+                    <h3>7️⃣ OTIF</h3>
+                    <p style="color:#fff"><strong>SIRVE:</strong> Entregas perfectas (tiempo+completo)</p>
+                    <p style="color:#fff"><strong>BUENO:</strong> 98%+</p>
+                </div>
+                <div>
+                    <h3>8️⃣ RETENCIÓN+UPSELL</h3>
+                    <p style="color:#fff"><strong>SIRVE:</strong> % clientes que repiten+compran más</p>
+                    <p style="color:#fff"><strong>BUENO:</strong> 85%+</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- POR QUÉ ESTOS KPIs -->
+        <div class="why-section">
+            <h3 style="color:#ffd700">🤔 GERENTE: ¿POR QUÉ ESTOS 8 KPIs?</h3>
+            <p style="color:#fff;font-size:1.1em;line-height:1.6">
+                **Cubren TODO el ciclo cliente:** Atraer→Vender→Satisfacer→Fidelizar.<br><br>
+                **Atraer:** Acogida+Calificados = marketing funciona<br>
+                **Vender:** Funnel+Win Rate+Objeciones = control total<br>
+                **Satisfacer:** NPS+OTIF = clientes felices<br>
+                **Fidelizar:** Retención = revenue recurrente<br><br>
+                **Resultado:** 60 segundos para ver EL problema exacto.
+            </p>
+        </div>
+
+        <!-- CTA FINAL -->
+        <div class="cta-final">
+            🚀 <strong>¡TU SIGUIENTE PASO!</strong><br><br>
+            1️⃣ Copia tu RANK arriba<br>
+            2️⃣ Pégalo en LinkedIn<br>
+            3️⃣ <strong>DM → "Quiero sistema Hunter automático"</strong><br><br>
+            <strong>🥇 ¿Listo para ser #1 Mundial?</strong>
+        </div>
+    </div>
+
+    <script>
+        let data = {leads:147, acogida:0.65, winrate:0.32, ltv:450000};
+
+        function runGame(){
+            // VALIDAR INPUTS
+            data.leads = Math.max(1, +document.getElementById('leads').value || 147);
+            data.acogida = Math.max(0, Math.min(1, (+document.getElementById('acogida').value || 65)/100));
+            data.winrate = Math.max(0, Math.min(1, (+document.getElementById('winrate').value || 32)/100));
+            data.ltv = Math.max(1000, +document.getElementById('ltv').value || 450000);
+            
+            // RANK ALGORITMO
+            const rank = Math.min(100, Math.round(
+                data.acogida*100/82*25 + 
+                data.winrate*100/38*35 + 
+                data.leads/200*25 + 
+                Math.random()*15
+            ));
+            
+            document.getElementById('score').textContent = rank;
+            document.getElementById('rank').style.display = 'block';
+
+            // 8 GRÁFICOS GARANTIZADOS
+            Plotly.newPlot('acogidaChart', [{
+                values: [data.acogida*100, 100-data.acogida*100],
+                labels: [`${data.acogida*100.toFixed(1)}%`, 'Por mejorar'],
+                type: 'pie', hole: 0.6,
+                marker: {colors: ['#4ecdc4', '#333333']},
+                textinfo: 'label+percent',
+                textfont: {color: '#FFFFFF', size: 16, family: 'Arial Black'}
+            }], {
+                showlegend: false,
+                paper_bgcolor: 'rgba(0,0,0,0.95)',
+                plot_bgcolor: 'rgba(20,20,20,0.95)',
+                font: {color: '#FFFFFF', size: 14}
+            });
+
+            Plotly.newPlot('leadsQual', [{
+                x: ['Total', 'Calificados'],
+                y: [data.leads, data.leads*data.acogida*0.7],
+                type: 'bar',
+                marker: {color: ['#666666', '#ffd700']},
+                text: [data.leads, (data.leads*data.acogida*0.7).toFixed(0)],
+                textposition: 'outside',
+                textfont: {color: '#FFFFFF', size: 16}
+            }], {
+                paper_bgcolor: 'rgba(0,0,0,0.95)',
+                plot_bgcolor: 'rgba(20,20,20,0.95)',
+                font: {color: '#FFFFFF'}
+            });
+
+            Plotly.newPlot('funnel', [{
+                type: 'funnel',
+                y: ['Leads', 'Argumentación', 'Objeciones', '¡CIERRE!'],
+                x: [data.leads, data.leads*data.acogida*0.6, data.leads*data.acogida*0.35, data.leads*data.winrate],
+                marker: {color: ['#666666', '#00ffff', '#ffd700', '#4ecdc4']},
+                textinfo: 'value+percent initial',
+                textfont: {color: '#FFFFFF', size: 14}
+            }], {
+                paper_bgcolor: 'rgba(0,0,0,0.95)',
+                plot_bgcolor: 'rgba(20,20,20,0.95)',
+                font: {color: '#FFFFFF'}
+            });
+
+            Plotly.newPlot('winrate', [{
+                values: [data.winrate*100, 100-data.winrate*100],
+                labels: [`${data.winrate*100.toFixed(1)}%`, 'Por cerrar'],
+                type: 'pie', hole: 0.7,
+                marker: {colors: ['#ffd700', '#ff6b6b']},
+                textfont: {color: '#FFFFFF', size: 20, family: 'Arial Black'}
+            }], {
+                showlegend: false,
+                paper_bgcolor: 'rgba(0,0,0,0.95)',
+                plot_bgcolor: 'rgba(20,20,20,0.95)',
+                font: {color: '#FFFFFF'}
+            });
+
+            Plotly.newPlot('objeciones', [{
+                values: [75, 25],
+                labels: ['✅ Resueltas', '⚠️ Pendientes'],
+                type: 'pie', hole: 0.6,
+                marker: {colors: ['#4ecdc4', '#ff6b6b']},
+                textinfo: 'label+percent',
+                textfont: {color: '#FFFFFF', size: 14}
+            }], {
+                paper_bgcolor: 'rgba(0,0,0,0.95)',
+                plot_bgcolor: 'rgba(20,20,20,0.95)',
+                font: {color: '#FFFFFF'}
+            });
+
+            Plotly.newPlot('nps', [{
+                values: [78, 22],
+                labels: ['NPS 78', 'Por mejorar'],
+                type: 'pie', hole: 0.7,
+                marker: {colors: ['#ffd700', '#666666']},
+                textfont: {color: '#FFFFFF', size: 18}
+            }], {
+                showlegend: false,
+                paper_bgcolor: 'rgba(0,0,0,0.95)',
+                plot_bgcolor: 'rgba(20,20,20,0.95)',
+                font: {color: '#FFFFFF'}
+            });
+
+            Plotly.newPlot('otif', [{
+                values: [98.7, 1.3],
+                labels: ['✅ 98.7%', '❌ Fallas'],
+                type: 'pie', hole: 0.6,
+                marker: {colors: ['#4ecdc4', '#ff6b6b']},
+                textfont: {color: '#FFFFFF', size: 16}
+            }], {
+                paper_bgcolor: 'rgba(0,0,0,0.95)',
+                plot_bgcolor: 'rgba(20,20,20,0.95)',
+                font: {color: '#FFFFFF'}
+            });
+
+            Plotly.newPlot('retencion', [{
+                type: 'scatterpolar',
+                r: [85, 92, 78, 88],
+                theta: ['Retención', 'Upsell', 'NPS', 'OTIF'],
+                fill: 'toself',
+                line: {color: '#ffd700', width: 4},
+                marker: {color: '#ffd700'}
+            }], {
+                polar: {radialaxis: {visible: true, range: [0, 100]}},
+                showlegend: false,
+                paper_bgcolor: 'rgba(0,0,0,0.95)',
+                plot_bgcolor: 'rgba(20,20,20,0.95)',
+                font: {color: '#FFFFFF'}
+            });
+        }
+
+        function saveGame(){
+            const rank = document.getElementById('score').textContent || '--';
+            const txt = `🥇 HUNTER SALES RANK: ${rank}/100 🏆
+
+📊 Leads Mensuales: ${data.leads}
+📞 Tasa Acogida: ${Math.round(data.acogida*100)}%
+🎯 Win Rate: ${Math.round(data.winrate*100)}%
+💎 LTV Cliente: $${(data.ltv/1000).toLocaleString()}K
+
+#HunterSalesRank${rank} #Ventas #KPIs`;
+
+            navigator.clipboard.writeText(txt).then(() => {
+                alert('✅ ¡RANK COPIADO!\n\nPégalo en LinkedIn:\n\n' + txt);
+            });
+        }
+
+        // INICIO AUTOMÁTICO
+        window.onload = function() {
+            setTimeout(runGame, 1000);
+        };
+    </script>
+</body>
+</html>
