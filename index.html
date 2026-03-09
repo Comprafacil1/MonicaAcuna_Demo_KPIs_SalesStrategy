@@ -1,280 +1,148 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>🥇 HUNTER LEGEND - Logística Mundial</title>
+    <title>🥇 HUNTER LEGEND</title>
     <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
     <style>
-        body { 
-            margin: 0; 
-            background: linear-gradient(135deg, #000, #111, #000); 
-            color: #fff; 
-            font-family: Arial, sans-serif; 
-            text-align: center; 
-            padding: 20px;
-            overflow-x: hidden;
-        }
-        .neon-glow { 
-            text-shadow: 0 0 20px #ffd700, 0 0 40px #ffd700; 
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-        #game { 
-            margin: 20px auto; 
-            max-width: 1200px; 
-            background: rgba(0,0,0,0.8); 
-            padding: 30px; 
-            border-radius: 20px; 
-            border: 3px solid #ffd700;
-        }
-        input, select { 
-            padding: 18px; 
-            margin: 10px; 
-            background: #111; 
-            color: #0ff; 
-            border: 3px solid #ffd700; 
-            border-radius: 15px;
-            font-size: 18px;
-            font-weight: bold;
-            width: 200px;
-        }
-        button { 
-            padding: 20px 40px; 
-            background: linear-gradient(45deg, #ffd700, #ffed4a); 
-            color: #000; 
-            border: none; 
-            border-radius: 15px;
-            cursor: pointer; 
-            font-weight: bold;
-            font-size: 18px;
-            margin: 10px;
-            text-transform: uppercase;
-        }
-        .rank-display {
-            font-size: 6em; 
-            color: #ffd700; 
-            margin: 40px 0;
-            font-weight: 900;
-            text-shadow: 0 0 40px #ffd700;
-        }
-        .dash-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-            gap: 25px;
-            max-width: 1800px;
-            margin: 40px auto;
-        }
-        .dash { 
-            height: 420px !important; 
-            border: 3px solid #ffd700; 
-            border-radius: 20px;
-            background: rgba(17,17,17,0.95) !important;
-            box-shadow: 0 20px 60px rgba(255,215,0,0.3);
-            position: relative;
-        }
-        .dash-title {
-            position: absolute;
-            top: 15px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0,0,0,0.8);
-            padding: 10px 25px;
-            border-radius: 20px;
-            color: #ffd700;
-            font-weight: bold;
-            font-size: 1.3em;
-            z-index: 10;
-            border: 2px solid #ffd700;
-        }
-        h1 { 
-            color: #ffd700; 
-            font-size: 4.5em; 
-            margin-bottom: 10px;
-            text-shadow: 0 0 40px #ffd700;
-        }
-        h2 { 
-            color: #ff6b6b; 
-            font-size: 2.2em;
-            margin: 50px 0 30px 0;
-            text-shadow: 0 0 25px #ff6b6b;
-        }
-        .kpi-explain {
-            max-width: 1600px;
-            margin: 60px auto;
-            padding: 0 20px;
-            text-align: left;
-            background: rgba(0,0,0,0.7);
-            border-radius: 25px;
-            padding: 40px;
-        }
-        .kpi-explain h3 {
-            color: #ffd700;
-            font-size: 1.6em;
-            margin: 30px 0 15px 0;
-            text-shadow: 0 0 15px #ffd700;
-        }
-        .kpi-detail {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 30px;
-            margin: 20px 0;
-        }
-        @media (max-width: 768px) {
-            .rank-display { font-size: 4em; }
-            h1 { font-size: 3em; }
-            input, select { width: 100%; max-width: 280px; }
-            .dash-grid { grid-template-columns: 1fr; }
-        }
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{background:#000;color:#fff;font-family:Arial;text-align:center;padding:20px}
+        .container{max-width:1600px;margin:0 auto}
+        h1{font-size:4em;color:#ffd700;text-shadow:0 0 30px #ffd700;margin:20px 0}
+        img{max-width:90%;border-radius:20px;border:4px solid #ffd700;margin:20px 0;box-shadow:0 30px 80px #000}
+        #controls{background:rgba(17,17,17,0.9);padding:30px;border-radius:20px;border:3px solid #ffd700;margin:20px 0}
+        input,select{padding:15px;margin:10px;background:#111;color:#0ff;border:2px solid #ffd700;border-radius:10px;font-size:16px}
+        button{padding:15px 30px;background:#ffd700;color:#000;border:none;border-radius:10px;font-weight:bold;cursor:pointer;margin:10px;font-size:16px}
+        button:hover{transform:scale(1.05);box-shadow:0 10px 30px #ffd70040}
+        .dash-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:25px;margin:40px 0}
+        .dash{position:relative;height:400px;border:3px solid #ffd700;border-radius:20px;background:rgba(17,17,17,0.95)!important;overflow:hidden}
+        .dash-title{position:absolute;top:15px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.9);padding:8px 20px;border-radius:15px;color:#ffd700;font-weight:bold;font-size:14px;z-index:10;border:2px solid #ffd700}
+        .rank{font-size:5em;color:#ffd700;margin:40px 0;font-weight:900;text-shadow:0 0 40px #ffd700;display:none}
+        .kpi-explain{max-width:1600px;margin:60px auto;padding:40px;background:rgba(0,0,0,0.8);border-radius:25px;text-align:left}
+        .kpi-explain h3{color:#ffd700;font-size:1.6em;margin:30px 0 15px 0}
+        .kpi-detail{display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:25px}
+        @media(max-width:768px){.dash-grid{grid-template-columns:1fr}}
     </style>
 </head>
 <body>
-    <h1 class="neon-glow">🥇 HUNTER LEGEND</h1>
-    
-    <img src="vlue cost.PNG" style="max-width: 90%; border-radius: 25px; margin: 25px 0; box-shadow: 0 40px 100px rgba(0,0,0,1); border: 5px solid #ffd700;">
-    
-    <!-- CONTROLES -->
-    <div id="game">
-        <h3 style="color: #ffd700; margin-bottom: 25px;">👤 ELIGE TU NIVEL HUNTER</h3>
-        <select id="avatar"
-<!DOCTYPE html>
-<html>
-<head>
-    <title>🥇 HUNTER LEGEND - Logística Mundial</title>
-    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
-    <style>
-        body { 
-            margin: 0; 
-            background: linear-gradient(135deg, #000, #111, #000); 
-            color: #fff; 
-            font-family: Arial, sans-serif; 
-            text-align: center; 
-            padding: 20px;
-            overflow-x: hidden;
+    <div class="container">
+        <h1>🥇 HUNTER LEGEND</h1>
+        <img src="vlue cost.PNG" alt="Value vs Cost">
+        
+        <div id="controls">
+            <h3 style="color:#ffd700;margin-bottom:20px">👤 ELIGE TU NIVEL</h3>
+            <select id="avatar" onchange="loadAvatar()">
+                <option value="novato">🥉 NOVATO</option>
+                <option value="pro" selected>🥈 PRO</option>
+                <option value="legend">🥇 LEGEND</option>
+            </select>
+            <input id="leads" value="147" placeholder="Leads">
+            <input id="winrate" value="32" placeholder="Win Rate %">
+            <input id="ltv" value="450000" placeholder="LTV $">
+            <button onclick="runGame()">🔥 CALCULAR 8 KPIs</button>
+            <button onclick="saveGame()">🏆 SHARE RANK</button>
+        </div>
+
+        <div id="rank" class="rank" style="display:none">RANK: <span id="score">--</span>/100</div>
+
+        <div class="dash-grid">
+            <div class="dash"><div class="dash-title">1. Funnel Pipeline</div><div id="funnel" style="height:100%"></div></div>
+            <div class="dash"><div class="dash-title">2. Win Rate</div><div id="winrate" style="height:100%"></div></div>
+            <div class="dash"><div class="dash-title">3. LTV Cliente</div><div id="ltvchart" style="height:100%"></div></div>
+            <div class="dash"><div class="dash-title">4. CAC %</div><div id="cac" style="height:100%"></div></div>
+            <div class="dash"><div class="dash-title">5. OTIF</div><div id="otif" style="height:100%"></div></div>
+            <div class="dash"><div class="dash-title">6. Forecast</div><div id="forecast" style="height:100%"></div></div>
+            <div class="dash"><div class="dash-title">7. Geo Revenue</div><div id="geo" style="height:100%"></div></div>
+            <div class="dash"><div class="dash-title">8. Alertas</div><div id="alerts" style="height:100%;padding:30px;display:flex;align-items:center;justify-content:center;font-size:1.5em"></div></div>
+        </div>
+
+        <div class="kpi-explain">
+            <h2>📊 POR QUÉ CADA KPI ES CRÍTICO</h2>
+            <div class="kpi-detail">
+                <div>
+                    <h3>1️⃣ LEADS</h3>
+                    <p><strong>SIRVE PARA:</strong> Oportunidades entrantes/mes</p>
+                    <p><strong>FUENTE:</strong> LinkedIn+Forms+WhatsApp</p>
+                    <p><strong>IMPORTA:</strong> 20% RANK - Sin leads = 0 ventas</p>
+                </div>
+                <div>
+                    <h3>2️⃣ WIN RATE</h3>
+                    <p><strong>SIRVE PARA:</strong> % oportunidades cerradas</p>
+                    <p><strong>FUENTE:</strong> CRM Closed Won</p>
+                    <p><strong>IMPORTA:</strong> 25% RANK - Tu efectividad real</p>
+                </div>
+                <div>
+                    <h3>3️⃣ LTV</h3>
+                    <p><strong>SIRVE PARA:</strong> Valor TOTAL cliente 3 años</p>
+                    <p><strong>FUENTE:</strong> Contratos × duración</p>
+                    <p><strong>IMPORTA:</strong> 30% RANK - Logística = MILLONES</p>
+                </div>
+                <div>
+                    <h3>4️⃣ CAC</h3>
+                    <p><strong>SIRVE PARA:</strong> Costo ganar cliente</p>
+                    <p><strong>FUENTE:</strong> Gastos / LTV generado</p>
+                    <p><strong>IMPORTA:</strong> 15% RANK - Rentabilidad real</p>
+                </div>
+            </div>
+            <div class="kpi-detail">
+                <div>
+                    <h3>5️⃣ OTIF</h3>
+                    <p><strong>SIRVE PARA:</strong> Entregas perfectas</p>
+                    <p><strong>FUENTE:</strong> TMS + feedback clientes</p>
+                    <p><strong>IMPORTA:</strong> 10% RANK - Retención x10 años</p>
+                </div>
+                <div>
+                    <h3>6️⃣ FORECAST</h3>
+                    <p><strong>SIRVE PARA:</strong> Revenue 90 días</p>
+                    <p><strong>FUENTE:</strong> Pipeline × Win Rate</p>
+                    <p><strong>IMPORTA:</strong> 20% RANK - Tu jefe mira ESTO</p>
+                </div>
+                <div>
+                    <h3>7️⃣ GEO 80/20</h3>
+                    <p><strong>SIRVE PARA:</strong> 20% clientes = 80% revenue</p>
+                    <p><strong>FUENTE:</strong> Revenue por región</p>
+                    <p><strong>IMPORTA:</strong> 15% RANK - Foco estratégico</p>
+                </div>
+                <div>
+                    <h3>8️⃣ ALERTAS</h3>
+                    <p><strong>SIRVE PARA:</strong> Deals en riesgo</p>
+                    <p><strong>FUENTE:</strong> Automatización realtime</p>
+                    <p><strong>IMPORTA:</strong> 25% RANK - Salva $100K deals</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let data={leads:147,winrate:0.32,ltv:450000};
+        const avatars={novato:{leads:50,winrate:0.15,ltv:150000},pro:{leads:147,winrate:0.32,ltv:450000},legend:{leads:200,winrate:0.38,ltv:750000}};
+        
+        function loadAvatar(){const a=document.getElementById('avatar').value;d=avatars[a];document.getElementById('leads').value=d.leads;document.getElementById('winrate').value=Math.round(d.winrate*100);document.getElementById('ltv').value=d.ltv}
+        
+        function runGame(){
+            data.leads=+document.getElementById('leads').value||147;
+            data.winrate=(+document.getElementById('winrate').value||32)/100;
+            data.ltv=+document.getElementById('ltv').value||450000;
+            const rank=Math.min(100,Math.round(data.winrate*100/38*25+data.leads/200*20+data.ltv/750000*30+Math.random()*15));
+            document.getElementById('score').textContent=rank;document.getElementById('rank').style.display='block';
+            
+            Plotly.newPlot('funnel',[{type:'funnel',y:['Leads','Qualify','Proposal','Closed!'],x:[data.leads,data.leads*.7,data.leads*.4,data.leads*data.winrate],marker:{color:['#666','#0ff','#ffd700','#4ecdc4']},textinfo:'value+percent initial'}],{paper_bgcolor:'rgba(0,0,0,0.95)',plot_bgcolor:'rgba(17,17,17,0.95)'});
+            Plotly.newPlot('winrate',[{x:['Tú','Legend'],y:[data.winrate*100,38],type:'bar',marker:{color:['#ff6b6b','#ffd700']},text:[data.winrate*100+'%','38%'],textposition:'outside'}],{paper_bgcolor:'rgba(0,0,0,0.95)',plot_bgcolor:'rgba(17,17,17,0.95)'});
+            Plotly.newPlot('ltvchart',[{x:['Tu LTV','Legend'],y:[data.ltv/1000,750],type:'bar',marker:{color:['#ff6b6b','#ffd700']},text:[`$${Math.round(data.ltv/1000)}K`,'$750K'],textposition:'outside'}],{paper_bgcolor:'rgba(0,0,0,0.95)',plot_bgcolor:'rgba(17,17,17,0.95)'});
+            Plotly.newPlot('cac',[{y:['CAC Legend'],x:[12],type:'bar',orientation:'h',marker:{color:'#4ecdc4'},text:['12%']}],{paper_bgcolor:'rgba(0,0,0,0.95)',plot_bgcolor:'rgba(17,17,17,0.95)'});
+            Plotly.newPlot('otif',[{x:['OTIF'],y:[98.7],type:'bar',marker:{color:'#4ecdc4'},text:['98.7%']}],{paper_bgcolor:'rgba(0,0,0,0.95)',plot_bgcolor:'rgba(17,17,17,0.95)'});
+            Plotly.newPlot('forecast',[{x:['30D','60D','90D'],y:[450000,850000,1200000],type:'bar',marker:{color:'#ffd700'},text:['$450K','$850K','$1.2M'],textposition:'outside'}],{paper_bgcolor:'rgba(0,0,0,0.95)',plot_bgcolor:'rgba(17,17,17,0.95)'});
+            Plotly.newPlot('geo',[{type:'pie',labels:['Centro 62%','Norte 24%','Sur 14%'],values:[620000,240000,140000],marker:{colors:['#ffd700','#ff6b6b','#4ecdc4']}}],{paper_bgcolor:'rgba(0,0,0,0.95)',plot_bgcolor:'rgba(17,17,17,0.95)'});
+            
+            document.getElementById('alerts').innerHTML=rank>=90?'<div style="color:#4ecdc4;font-size:2.5em;font-weight:900">🥇 TOP 1% MUNDIAL</div>':rank>=75?'<div style="color:#ffd700;font-size:2em;font-weight:900">🥈 PRO HUNTER</div>':'<div style="color:#ff6b6b;font-size:2em;font-weight:900">🔥 MEJORA WINRATE</div>'
         }
-        .neon-glow { 
-            text-shadow: 0 0 20px #ffd700, 0 0 40px #ffd700; 
-            animation: pulse 2s infinite;
+        
+        function saveGame(){
+            const rank=document.getElementById('score').textContent;
+            const txt=`🥇 HUNTER RANK: ${rank}/100\n📊 Leads: ${data.leads}\n🎯 Win Rate: ${Math.round(data.winrate*100)}%\n💎 LTV: $${Math.round(data.ltv/1000)}K\n\n#HunterRank${rank}`;
+            navigator.clipboard.writeText(txt);alert('🏆 COPIADO:\n'+txt)
         }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-        #game { 
-            margin: 20px auto; 
-            max-width: 1200px; 
-            background: rgba(0,0,0,0.8); 
-            padding: 30px; 
-            border-radius: 20px; 
-            border: 3px solid #ffd700;
-        }
-        input, select { 
-            padding: 18px; 
-            margin: 10px; 
-            background: #111; 
-            color: #0ff; 
-            border: 3px solid #ffd700; 
-            border-radius: 15px;
-            font-size: 18px;
-            font-weight: bold;
-            width: 200px;
-        }
-        button { 
-            padding: 20px 40px; 
-            background: linear-gradient(45deg, #ffd700, #ffed4a); 
-            color: #000; 
-            border: none; 
-            border-radius: 15px;
-            cursor: pointer; 
-            font-weight: bold;
-            font-size: 18px;
-            margin: 10px;
-            text-transform: uppercase;
-        }
-        .rank-display {
-            font-size: 6em; 
-            color: #ffd700; 
-            margin: 40px 0;
-            font-weight: 900;
-            text-shadow: 0 0 40px #ffd700;
-        }
-        .dash-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-            gap: 25px;
-            max-width: 1800px;
-            margin: 40px auto;
-        }
-        .dash { 
-            height: 420px !important; 
-            border: 3px solid #ffd700; 
-            border-radius: 20px;
-            background: rgba(17,17,17,0.95) !important;
-            box-shadow: 0 20px 60px rgba(255,215,0,0.3);
-            position: relative;
-        }
-        .dash-title {
-            position: absolute;
-            top: 15px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0,0,0,0.8);
-            padding: 10px 25px;
-            border-radius: 20px;
-            color: #ffd700;
-            font-weight: bold;
-            font-size: 1.3em;
-            z-index: 10;
-            border: 2px solid #ffd700;
-        }
-        h1 { 
-            color: #ffd700; 
-            font-size: 4.5em; 
-            margin-bottom: 10px;
-            text-shadow: 0 0 40px #ffd700;
-        }
-        h2 { 
-            color: #ff6b6b; 
-            font-size: 2.2em;
-            margin: 50px 0 30px 0;
-            text-shadow: 0 0 25px #ff6b6b;
-        }
-        .kpi-explain {
-            max-width: 1600px;
-            margin: 60px auto;
-            padding: 0 20px;
-            text-align: left;
-            background: rgba(0,0,0,0.7);
-            border-radius: 25px;
-            padding: 40px;
-        }
-        .kpi-explain h3 {
-            color: #ffd700;
-            font-size: 1.6em;
-            margin: 30px 0 15px 0;
-            text-shadow: 0 0 15px #ffd700;
-        }
-        .kpi-detail {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 30px;
-            margin: 20px 0;
-        }
-        @media (max-width: 768px) {
-            .rank-display { font-size: 4em; }
-            h1 { font-size: 3em; }
-            input, select { width: 100%; max-width: 280px; }
-            .dash-grid { grid-template-columns: 1fr; }
-        }
-    </style>
-</head>
-<body>
-    <h1 class="neon-glow">🥇 HUNTER LEGEND</h1>
-    
-    <img src="vlue cost.PNG" style="max-width: 90%; border-radius: 25px; margin: 25px 0; box-shadow: 0 40px 100px rgba(0,0,0,1); border: 5px solid #ffd700;">
-    
-    <!-- CONTROLES -->
-    <div id="game">
-        <h3 style="color: #ffd700; margin-bottom: 25px;">👤 ELIGE TU NIVEL HUNTER</h3>
-        <select id="avatar"
+        
+        loadAvatar();runGame()
+    </script>
+</body>
+</html>
