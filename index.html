@@ -1,358 +1,82 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
-<meta charset="UTF-8">
-<title>DEMO KPI´s Sales Strategy</title>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<style>
-
-body{
-font-family:Arial;
-background:#f0f2f5;
-margin:0;
-padding:40px;
-}
-
-h1{
-text-align:center;
-color:#1f2d3d;
-font-size:40px;
-margin-bottom:10px;
-}
-
-.subtitle{
-text-align:center;
-font-size:18px;
-color:#5f6b7a;
-margin-bottom:40px;
-}
-
-.container{
-
-display:grid;
-grid-template-columns:300px 1fr 1fr;
-gap:25px;
-
-}
-
-.card{
-
-background:white;
-border-radius:12px;
-padding:25px;
-box-shadow:0 6px 18px rgba(0,0,0,0.08);
-
-}
-
-.kpi{
-
-font-size:20px;
-font-weight:bold;
-margin-bottom:20px;
-
-}
-
-.chart-title{
-
-text-align:center;
-margin-top:10px;
-font-size:16px;
-color:#555;
-
-}
-
-.image-box img{
-
-width:100%;
-border-radius:10px;
-
-}
-
-.caption{
-
-text-align:center;
-margin-top:10px;
-color:#666;
-font-size:14px;
-
-}
-
-.inputs{
-
-margin-top:40px;
-text-align:center;
-
-}
-
-input{
-
-font-size:22px;
-padding:14px;
-margin:10px;
-width:180px;
-border-radius:10px;
-border:1px solid #ccc;
-text-align:center;
-
-}
-
-button{
-
-font-size:22px;
-padding:12px 40px;
-border:none;
-border-radius:10px;
-background:#2c7be5;
-color:white;
-cursor:pointer;
-
-}
-
-button:hover{
-
-background:#1a5fd0;
-
-}
-
-</style>
-
-</head>
-
-
-
-<body>
-
-<h1>DEMO KPI´s Sales Strategy</h1>
-
-<div class="subtitle">
-
-Simulador visual de indicadores estratégicos de ventas
-
-</div>
-
-
-
-<div class="container">
-
-<!-- KPI COLUMN -->
-
-<div class="card">
-
-<div class="kpi">📊 Top KPI´s de Ventas</div>
-
-<p>💰 Rentabilidad</p>
-
-<p>🎯 Cumplimiento de Meta</p>
-
-<p>📈 Conversión Comercial</p>
-
-<p>🚀 Crecimiento de Ventas</p>
-
-<p>📉 Control de Costos</p>
-
-</div>
-
-
-
-<!-- DONUT CHART -->
-
-<div class="card">
-
-<canvas id="donut"></canvas>
-
-<div class="chart-title">
-
-Valor vs Costo
-
-</div>
-
-</div>
-
-
-
-<!-- BAR CHART -->
-
-<div class="card">
-
-<canvas id="barras"></canvas>
-
-<div class="chart-title">
-
-Ventas por Zona Comercial
-
-</div>
-
-</div>
-
-
-
-<!-- IMAGE -->
-
-<div class="card image-box">
-
-<img src="value cost.PNG">
-
-<div class="caption">
-
-Valor vs Costo — Evaluación estratégica de pricing
-
-</div>
-
-</div>
-
-</div>
-
-
-
-<!-- INPUTS -->
-
-<div class="inputs">
-
-<h2>Ingresa tus datos comerciales</h2>
-
-<input id="valor" type="number" value="120" placeholder="Ventas">
-
-<input id="costo" type="number" value="60" placeholder="Costos">
-
-<input id="norte" type="number" value="30" placeholder="Zona Norte">
-
-<input id="centro" type="number" value="50" placeholder="Zona Centro">
-
-<input id="sur" type="number" value="40" placeholder="Zona Sur">
-
-<br><br>
-
-<button onclick="actualizar()">Actualizar Gráficos</button>
-
-</div>
-
-
-
-<script>
-
-let valor=120
-let costo=60
-
-let norte=30
-let centro=50
-let sur=40
-
-
-
-const donutChart=new Chart(
-
-document.getElementById("donut"),
-
-{
-
-type:"doughnut",
-
-data:{
-
-labels:["Valor","Costo"],
-
-datasets:[{
-
-data:[valor,costo]
-
-}]
-
-},
-
-options:{
-
-plugins:{
-
-legend:{
-
-position:"bottom"
-
-}
-
-}
-
-}
-
-}
-
-)
-
-
-
-const barChart=new Chart(
-
-document.getElementById("barras"),
-
-{
-
-type:"bar",
-
-data:{
-
-labels:["Zona Norte","Zona Centro","Zona Sur"],
-
-datasets:[{
-
-label:"Ventas",
-
-data:[norte,centro,sur]
-
-}]
-
-},
-
-options:{
-
-plugins:{
-
-legend:{
-
-display:false
-
-}
-
-}
-
-}
-
-}
-
-)
-
-
-
-function actualizar(){
-
-valor=parseInt(document.getElementById("valor").value)
-
-costo=parseInt(document.getElementById("costo").value)
-
-norte=parseInt(document.getElementById("norte").value)
-
-centro=parseInt(document.getElementById("centro").value)
-
-sur=parseInt(document.getElementById("sur").value)
-
-
-
-donutChart.data.datasets[0].data=[valor,costo]
-
-donutChart.update()
-
-
-
-barChart.data.datasets[0].data=[norte,centro,sur]
-
-barChart.update()
-
-}
-
-</script>
-
-</body>
-
-</html>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 DASHBOARD PREMIUM ABC1 - Interactúa con TU Pipeline Elite</title>
+    <script src='https://cdn.plot.ly/plotly-2.35.2.min.js'></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #6A1B9A 0%, #4A148C 50%, #BA68C8 100%);
+            color: #E1BEE7;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; padding: 40px 20px; }
+        .header img { 
+            max-width: 800px; 
+            width: 100%; 
+            height: auto; 
+            border-radius: 20px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+        }
+        .subtitle { 
+            font-size: 1.4rem; 
+            font-weight: 300; 
+            color: #E1BEE7; 
+            max-width: 600px; 
+            margin: 0 auto;
+        }
+        .title { 
+            font-size: 3.5rem; 
+            font-weight: 800; 
+            background: linear-gradient(45deg, #BA68C8, #FFF); 
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 30px 0;
+            text-shadow: 0 0 30px rgba(186, 104, 200, 0.5);
+        }
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 30px; margin: 50px 0; }
+        .card { 
+            background: rgba(255,255,255,0.1); 
+            backdrop-filter: blur(20px); 
+            border-radius: 25px; 
+            padding: 30px; 
+            border: 1px solid rgba(186,104,200,0.3);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 35px 70px rgba(0,0,0,0.3); }
+        .card h3 { color: #BA68C8; font-size: 1.6rem; margin-bottom: 20px; }
+        .control-panel { 
+            background: rgba(74,20,140,0.8); 
+            padding: 25px; 
+            border-radius: 20px; 
+            margin-bottom: 30px;
+            display: flex; 
+            gap: 15px; 
+            flex-wrap: wrap;
+        }
+        input, select { 
+            padding: 12px 20px; 
+            border: none; 
+            border-radius: 25px; 
+            background: rgba(255,255,255,0.9); 
+            color: #4A148C; 
+            font-weight: 600;
+        }
+        button { 
+            padding: 15px 30px; 
+            background: linear-gradient(45deg, #BA68C8, #6A1B9A); 
+            color: white; 
+            border: none; 
+            border-radius: 25px; 
+            font-weight: 700; 
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        button:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(186,104,200,0.6);
