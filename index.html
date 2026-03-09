@@ -2,207 +2,332 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Demo KPI´s Sales Strategy</title>
+<title>Estrategias y Herramientas Comerciales Analizadas</title>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-chart-geo@3"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+
 <style>
-body {margin:0;font-family:'Segoe UI', Tahoma, Geneva, Verdana,sans-serif;background:#1a1a1a;color:#eee;}
-h1,h2,h3{text-align:center;margin:10px 0;}
-.main-container{display:flex;width:95%;margin:20px auto; gap:20px; flex-wrap:wrap;}
-.kpi-column{display:flex;flex-direction:column; gap:15px; width:220px;}
-.kpi-box{background:#2a2a2a;padding:15px;border-radius:12px;text-align:center; transition: transform 0.3s;}
-.kpi-box:hover{transform: scale(1.03);}
-.charts-column{flex:1; display:flex; gap:20px; flex-wrap:wrap; justify-content:center;}
-.chart-container{background:#2a2a2a;padding:15px;border-radius:12px;width:280px; height:280px; text-align:center;}
-.chart-title{text-align:center;font-weight:bold;margin-top:5px;}
-.map-container{background:#2a2a2a;padding:15px;border-radius:12px;width:350px; height:380px; margin-bottom:20px;}
-.user-dashboard{width:95%; max-width:900px;margin:20px auto;padding:20px;background:#2a2a2a;border-radius:12px;}
-.user-dashboard input[type="number"]{width:80px;margin:5px;padding:5px;border-radius:6px;border:none;text-align:center;}
-.kpi-explanation{width:95%;max-width:900px;margin:20px auto;padding:20px;background:#2a2a2a;border-radius:12px;}
-.month-selector{display:flex;justify-content:center;gap:10px;margin-top:20px;}
-.month-selector button{padding:8px 15px;border:none;border-radius:8px;background:#8c52ff;color:#fff;cursor:pointer;transition:0.3s;}
-.month-selector button.active{background:#bfa0ff;color:#1a1a1a;font-weight:bold;}
-img{max-width:100%;border-radius:12px;}
+
+body{
+font-family: Arial;
+background:#f7f7f7;
+margin:0;
+padding:20px;
+}
+
+h1{
+text-align:center;
+color:#444;
+}
+
+.dashboard{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:12px;
+box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+
+.title{
+font-size:18px;
+font-weight:bold;
+margin-bottom:10px;
+color:#555;
+}
+
+.input-section{
+margin-top:20px;
+text-align:center;
+}
+
+input{
+font-size:20px;
+padding:10px;
+margin:10px;
+width:160px;
+border-radius:8px;
+border:1px solid #ccc;
+text-align:center;
+}
+
+button{
+padding:14px 30px;
+font-size:18px;
+border:none;
+background:#4a90e2;
+color:white;
+border-radius:10px;
+cursor:pointer;
+}
+
+button:hover{
+background:#357abd;
+}
+
+.kpi-box{
+background:#fafafa;
+padding:15px;
+border-radius:10px;
+margin-top:10px;
+font-size:14px;
+}
+
+img{
+width:100%;
+border-radius:10px;
+}
+
+.caption{
+text-align:center;
+font-size:14px;
+color:#666;
+margin-top:5px;
+}
+
 </style>
 </head>
+
 <body>
 
-<h1>Demo KPI´s Sales Strategy</h1>
-<h2>Top KPIs de Ventas</h2>
+<h1>Estrategias y Herramientas Comerciales Analizadas</h1>
 
-<div style="text-align:center; margin:20px;">
-  <img src="vlue cost.PNG" style="max-width:700px;width:100%;">
-  <div class="chart-title">⚖️ Valor vs Costo — Ejemplo Premium</div>
+<div class="dashboard">
+
+<!-- KPI RENTABILIDAD -->
+
+<div class="card">
+
+<div class="title">KPI Rentabilidad Comercial</div>
+
+<canvas id="rentabilidad"></canvas>
+
+<div class="kpi-box">
+
+<b>Qué mide este KPI</b><br>
+Mide cuánto dinero gana la empresa comparando <b>ventas vs costos</b>.
+
+<br><br>
+
+<b>De dónde salen los datos</b>
+
+<ul>
+<li>Ventas: datos del CRM o ERP</li>
+<li>Costos: logística, marketing y operación</li>
+</ul>
+
+<b>Para qué sirve</b>
+
+<ul>
+<li>Evaluar si una estrategia comercial es rentable</li>
+<li>Identificar dónde reducir costos</li>
+</ul>
+
 </div>
 
-<div class="main-container">
-  <div class="kpi-column">
-    <div class="kpi-box"><h3>💰 Ingresos Totales</h3><p id="kpi-revenue">45,000 USD</p></div>
-    <div class="kpi-box"><h3>📈 Forecast</h3><p id="kpi-forecast">60,000 USD</p></div>
-    <div class="kpi-box"><h3>🛒 Leads Generados</h3><p id="kpi-leads">120</p></div>
-    <div class="kpi-box"><h3>⚡ Tasa de Conversión</h3><p id="kpi-conversion">30%</p></div>
-  </div>
-
-  <div class="charts-column">
-    <!-- Mapa Chile con círculos -->
-    <div class="map-container">
-      <canvas id="mapChileGeo"></canvas>
-      <div class="chart-title">Ventas por Región: Norte, Centro, Sur</div>
-      <table style="width:100%;text-align:center;color:#eee;margin-top:10px;">
-        <tr><th>Región</th><th>Ventas</th></tr>
-        <tr><td>Norte</td><td id="north-sales">12,000</td></tr>
-        <tr><td>Centro</td><td id="center-sales">20,000</td></tr>
-        <tr><td>Sur</td><td id="south-sales">13,000</td></tr>
-      </table>
-    </div>
-
-    <div class="chart-container">
-      <canvas id="salesDonut"></canvas>
-      <div class="chart-title">Ventas por Servicio</div>
-    </div>
-
-    <div class="chart-container">
-      <canvas id="topServices"></canvas>
-      <div class="chart-title">Top Servicios</div>
-    </div>
-  </div>
 </div>
 
-<div class="month-selector">
-  <button class="active" onclick="changeMonth('Diciembre')">Diciembre</button>
-  <button onclick="changeMonth('Enero')">Enero</button>
-  <button onclick="changeMonth('Febrero')">Febrero</button>
-  <button onclick="changeMonth('Marzo')">Marzo</button>
+
+<!-- BULLET CHART -->
+
+<div class="card">
+
+<div class="title">Bullet Chart Objetivo Comercial</div>
+
+<canvas id="bulletChart"></canvas>
+
+<div class="kpi-box">
+
+<b>Qué mide</b>
+
+El Bullet Chart compara:
+
+<ul>
+<li>Meta de ventas</li>
+<li>Resultado actual</li>
+<li>Rango esperado</li>
+</ul>
+
+<b>Para qué sirve</b>
+
+Permite a gerentes saber rápidamente si el equipo está:
+
+<ul>
+<li>Lejos de la meta</li>
+<li>En progreso</li>
+<li>Superando objetivos</li>
+</ul>
+
 </div>
 
-<div class="user-dashboard">
-  <h3>🖊️ Crea tu propio Dashboard</h3>
-  <p>Ingresa tus datos y observa cómo se actualizan los KPIs y gráficos:</p>
-  <label>Ingresos: <input type="number" id="input-revenue" value="45000"></label>
-  <label>Forecast: <input type="number" id="input-forecast" value="60000"></label>
-  <label>Leads: <input type="number" id="input-leads" value="120"></label>
-  <label>Conversión (%): <input type="number" id="input-conversion" value="30"></label>
-  <button onclick="updateUserDashboard()">Actualizar Dashboard</button>
 </div>
 
-<div class="kpi-explanation">
-  <h3>💡 Explicación de KPIs</h3>
-  <p>💰 <b>Ingresos Totales:</b> Dinero recibido por ventas en todos los servicios y regiones.</p>
-  <p>📈 <b>Forecast:</b> Pronóstico de ventas, anticipa el futuro y ayuda a planificar estratégicamente.</p>
-  <p>🛒 <b>Leads Generados:</b> Potenciales clientes contactados, mide tu capacidad de captación.</p>
-  <p>⚡ <b>Tasa de Conversión:</b> % de leads que se convirtieron en clientes, evalúa tu eficiencia y estrategia.</p>
+
+<!-- ESQUEMA JERARQUICO -->
+
+<div class="card">
+
+<div class="title">Esquema Jerárquico Comercial</div>
+
+<svg id="tree" width="500" height="300"></svg>
+
+<div class="kpi-box">
+
+<b>Qué representa</b>
+
+La estructura de generación de ventas:
+
+<ul>
+<li>Marketing</li>
+<li>Ventas</li>
+<li>Clientes</li>
+</ul>
+
+<b>Para qué sirve</b>
+
+Entender qué área impacta más en los resultados.
+
 </div>
+
+</div>
+
+
+<!-- IMAGEN KPI -->
+
+<div class="card">
+
+<img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71">
+
+<div class="caption">
+Valor vs Costo: Indicador clave para evaluar eficiencia comercial
+</div>
+
+</div>
+
+</div>
+
+
+<!-- INPUTS -->
+
+<div class="card input-section">
+
+<h2>Simulador Comercial</h2>
+
+<p>Ingresa tus datos para actualizar las gráficas</p>
+
+<input id="ventas" type="number" value="120">
+
+<input id="costos" type="number" value="60">
+
+<input id="meta" type="number" value="150">
+
+<br>
+
+<button onclick="actualizar()">Actualizar Gráficas</button>
+
+</div>
+
+
 
 <script>
-// Datos por mes
-const salesData = {
-  "Diciembre": {Revenue:40000, Forecast:50000, Leads:110, Conversion:28, categories:["Servicio A","Servicio B","Servicio C"], catValues:[50,30,20], topServices:["A","B","C"], topValues:[20,15,10]},
-  "Enero": {Revenue:42000, Forecast:52000, Leads:115, Conversion:29, categories:["Servicio A","Servicio B","Servicio C"], catValues:[45,35,20], topServices:["A","B","C"], topValues:[22,18,12]},
-  "Febrero": {Revenue:43000, Forecast:53000, Leads:118, Conversion:29.5, categories:["Servicio A","Servicio B","Servicio C"], catValues:[40,35,25], topServices:["A","B","C"], topValues:[25,20,15]},
-  "Marzo": {Revenue:45000, Forecast:60000, Leads:120, Conversion:30, categories:["Servicio A","Servicio B","Servicio C"], catValues:[35,40,25], topServices:["A","B","C"], topValues:[28,22,20]}
+
+let ventas=120
+let costos=60
+let meta=150
+
+let rentabilidadChart = new Chart(
+document.getElementById('rentabilidad'),
+{
+type:'bar',
+data:{
+labels:['Ventas','Costos'],
+datasets:[{
+data:[ventas,costos]
+}]
+}
+})
+
+
+let bulletChart = new Chart(
+document.getElementById('bulletChart'),
+{
+type:'bar',
+data:{
+labels:['Resultado','Meta'],
+datasets:[{
+data:[ventas,meta]
+}]
+}
+})
+
+
+function actualizar(){
+
+ventas=parseInt(document.getElementById("ventas").value)
+costos=parseInt(document.getElementById("costos").value)
+meta=parseInt(document.getElementById("meta").value)
+
+rentabilidadChart.data.datasets[0].data=[ventas,costos]
+rentabilidadChart.update()
+
+bulletChart.data.datasets[0].data=[ventas,meta]
+bulletChart.update()
+
+}
+
+
+
+const data = {
+name:"Empresa",
+children:[
+{name:"Marketing"},
+{name:"Ventas"},
+{name:"Clientes"}
+]
 };
 
-function updateKPIs(month){
-  document.getElementById("kpi-revenue").innerText = salesData[month].Revenue + " USD";
-  document.getElementById("kpi-forecast").innerText = salesData[month].Forecast + " USD";
-  document.getElementById("kpi-leads").innerText = salesData[month].Leads;
-  document.getElementById("kpi-conversion").innerText = salesData[month].Conversion + "%";
-}
+const svg = d3.select("#tree")
+const width = 500
+const height = 300
 
-function changeMonth(month){
-  updateKPIs(month);
-  updateCharts(month);
-  updateChileMap(month);
-  document.querySelectorAll(".month-selector button").forEach(b=>b.classList.remove("active"));
-  event.target.classList.add("active");
-}
+const root = d3.hierarchy(data)
+const treeLayout = d3.tree().size([width-50,height-50])
+treeLayout(root)
 
-// Gráfico Dona
-const ctxDonut = document.getElementById('salesDonut').getContext('2d');
-let salesDonut = new Chart(ctxDonut, {
-  type:'doughnut',
-  data:{labels:salesData["Diciembre"].categories, datasets:[{data:salesData["Diciembre"].catValues, backgroundColor:['#bfa0ff','#8c52ff','#5e2a7e']}]},
-  options:{responsive:true, animation:{animateRotate:true, duration:1500}, plugins:{legend:{display:true, position:'bottom', labels:{usePointStyle:true, pointStyle:'rect', padding:15, color:'#eee', font:{size:14}}}}}
-});
+svg.selectAll('line')
+.data(root.links())
+.enter()
+.append('line')
+.attr('x1',d=>d.source.x)
+.attr('y1',d=>d.source.y)
+.attr('x2',d=>d.target.x)
+.attr('y2',d=>d.target.y)
+.attr('stroke','#999')
 
-// Gráfico Barras Top Servicios
-const ctxBar = document.getElementById('topServices').getContext('2d');
-let topServices = new Chart(ctxBar,{
-  type:'bar',
-  data:{labels:salesData["Diciembre"].topServices, datasets:[{label:'Unidades Vendidas', data:salesData["Diciembre"].topValues, backgroundColor:'#bfa0ff'}]},
-  options:{responsive:true, maintainAspectRatio:false, animation:{duration:1500}, scales:{x:{ticks:{color:'#eee', font:{size:14}}}, y:{ticks:{color:'#eee', font:{size:14}}, beginAtZero:true}}, plugins:{legend:{display:false}}}
-});
+svg.selectAll('circle')
+.data(root.descendants())
+.enter()
+.append('circle')
+.attr('cx',d=>d.x)
+.attr('cy',d=>d.y)
+.attr('r',8)
+.attr('fill','#4a90e2')
 
-// Mapa Chile con círculos
-const regionsSales = [
-  {name: "Norte", coords: [-70.5, -20], value: 12000, color:'#bfa0ff'},
-  {name: "Centro", coords: [-70.7, -33], value: 20000, color:'#8c52ff'},
-  {name: "Sur", coords: [-72.5, -40], value: 13000, color:'#5e2a7e'}
-];
+svg.selectAll('text')
+.data(root.descendants())
+.enter()
+.append('text')
+.attr('x',d=>d.x)
+.attr('y',d=>d.y-10)
+.attr('text-anchor','middle')
+.text(d=>d.data.name)
 
-fetch('https://raw.githubusercontent.com/raphaelmardozzi/chile-geojson/main/chile-regiones.json')
-.then(resp => resp.json())
-.then(chileData => {
-  const ctxGeo = document.getElementById('mapChileGeo').getContext('2d');
-  const mapChart = new Chart(ctxGeo, {
-    type: 'choropleth',
-    data: {
-      labels: chileData.features.map(f => f.properties.NOMBRE_REG),
-      datasets: [{
-        label: 'Chile',
-        outline: chileData,
-        data: chileData.features.map(f => ({feature: f, value: 1})),
-        backgroundColor: '#2a2a2a'
-      }]
-    },
-    options: {showOutline:true, scales:{xy:{projection:'mercator', display:false}}, plugins:{legend:{display:false}, tooltip:{enabled:false}}},
-    plugins: [{
-      id: 'circles',
-      afterDraw: chart => {
-        const ctx = chart.ctx;
-        regionsSales.forEach(r => {
-          const pixel = chart.scales.xy.project({x: r.coords[0], y: r.coords[1]});
-          const maxRadius = 30;
-          const radius = Math.min(maxRadius, r.value/1000);
-          ctx.beginPath();
-          ctx.arc(pixel.x, pixel.y, radius, 0, 2*Math.PI);
-          ctx.fillStyle = r.color;
-          ctx.globalAlpha = 0.7;
-          ctx.fill();
-          ctx.globalAlpha = 1;
-        });
-      }
-    }]
-  });
-
-  let animProgress = 0;
-  function animateCircles(){animProgress+=0.05;if(animProgress>1) animProgress=1; mapChart.update(); if(animProgress<1) requestAnimationFrame(animateCircles);}
-  animateCircles();
-});
-
-function updateCharts(month){
-  salesDonut.data.labels = salesData[month].categories;
-  salesDonut.data.datasets[0].data = salesData[month].catValues;
-  salesDonut.update();
-  topServices.data.labels = salesData[month].topServices;
-  topServices.data.datasets[0].data = salesData[month].topValues;
-  topServices.update();
-}
-
-function updateChileMap(month){
-  const revenue = salesData[month].Revenue;
-  document.getElementById("north-sales").innerText = Math.round(revenue*0.27);
-  document.getElementById("center-sales").innerText = Math.round(revenue*0.44);
-  document.getElementById("south-sales").innerText = Math.round(revenue*0.29);
-}
-
-// Dashboard usuario
-function updateUserDashboard(){
-  document.getElementById("kpi-revenue").innerText = document.getElementById("input-revenue").value + " USD";
-  document.getElementById("kpi-forecast").innerText = document.getElementById("input-forecast").value + " USD";
-  document.getElementById("kpi-leads").innerText = document.getElementById("input-leads").value;
-  document.getElementById("kpi-conversion").innerText = document.getElementById("input-conversion").value + "%";
-}
 </script>
+
 </body>
 </html>
