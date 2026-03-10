@@ -1,36 +1,78 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>🥇 HUNTER SALES - 4 Fases Éxito</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🥇 HUNTER SALES - 4 Fases Éxito | RANK Mundial</title>
+    <!-- PLOTLY CDN - ESENCIAL PARA GRÁFICOS -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
-        body{background:linear-gradient(135deg,#000,#111);color:#fff;font-family:Arial,sans-serif;text-align:center;padding:20px}
-        .container{max-width:1600px;margin:0 auto}
-        h1{font-size:3em;color:#ffd700;text-shadow:0 0 30px #ffd700;margin:20px 0;animation:glow 2s ease-in-out infinite}
-        @keyframes glow{0%,100%{text-shadow:0 0 20px #ffd700}50%{text-shadow:0 0 40px #ffd700,0 0 60px #ffd700}}
-        img{max-width:90%;border-radius:20px;border:4px solid #ffd700;margin:20px 0;box-shadow:0 30px 80px #000}
-        #controls{background:rgba(17,17,17,0.98);padding:40px;border-radius:25px;border:4px solid #ffd700;margin:30px 0;box-shadow:0 20px 60px rgba(255,215,0,0.3)}
-        label{display:block;margin:15px 0 8px 0;color:#fff;font-weight:bold;font-size:18px}
-        input{padding:20px;margin:10px 0;background:#222;color:#fff;border:4px solid #ffd700;border-radius:15px;font-size:20px;font-weight:bold;width:320px;text-align:center;transition:all 0.3s}
-        input:focus{border-color:#ffed4a;box-shadow:0 0 20px #ffd700}
-        button{padding:20px 50px;background:linear-gradient(45deg,#ffd700,#ffed4a);color:#000;border:none;border-radius:15px;font-weight:bold;font-size:20px;cursor:pointer;margin:20px 15px;text-transform:uppercase;letter-spacing:2px;transition:all 0.3s}
-        button:hover{transform:scale(1.05);box-shadow:0 15px 50px rgba(255,215,0,0.6)}
-        .rank{font-size:5em;color:#ffd700;margin:60px 0;font-weight:900;text-shadow:0 0 50px #ffd700;display:none;animation:pulse 1.5s infinite}
-        @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
-        .cta-main{background:linear-gradient(45deg,#ff6b6b,#ffd700);color:#000;padding:30px;border-radius:25px;margin:40px 20px;font-size:1.5em;font-weight:bold;box-shadow:0 25px 70px rgba(255,107,107,0.4)}
-        .dash-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:30px;margin:50px 0}
-        .dash{position:relative;height:450px;border:5px solid #ffd700;border-radius:30px;background:linear-gradient(135deg,rgba(20,20,20,0.98),rgba(40,40,40,0.98));overflow:hidden;box-shadow:0 30px 100px rgba(255,215,0,0.4);transition:transform 0.3s}
-        .dash:hover{transform:translateY(-10px)}
-        .dash-title{position:absolute;top:25px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.95);color:#fff;padding:15px 30px;border-radius:25px;font-weight:bold;font-size:18px;z-index:10;border:3px solid #ffd700;text-shadow:0 2px 10px #000}
-        .phase-header{background:linear-gradient(90deg,#ff6b6b,#ffd700,#4ecdc4);color:#000;padding:30px;border-radius:25px;margin:60px 20px;font-size:1.8em;font-weight:900;text-shadow:0 2px 10px rgba(0,0,0,0.5);box-shadow:0 20px 60px rgba(0,0,0,0.5)}
-        .kpi-explain{max-width:1600px;margin:80px auto;padding:50px;background:rgba(0,0,0,0.9);border-radius:30px;border:3px solid #ffd700;text-align:left;box-shadow:0 30px 100px rgba(0,0,0,0.8)}
-        .kpi-explain h2{color:#ffd700;font-size:2.5em;margin-bottom:40px;text-shadow:0 0 20px #ffd700}
-        .kpi-detail{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:30px}
-        .kpi-explain h3{color:#ffd700;font-size:2em;margin:40px 0 20px 0;text-shadow:0 0 15px #ffd700}
-        .why-section{background:linear-gradient(135deg,rgba(255,215,0,0.15),rgba(255,215,0,0.05));border-left:6px solid #ffd700;padding:40px;margin:60px 0;border-radius:20px;box-shadow:0 20px 60px rgba(255,215,0,0.2)}
-        .cta-final{background:linear-gradient(45deg,#ff6b6b,#ffd700);color:#000;padding:50px;border-radius:30px;margin:60px 20px;font-size:1.8em;font-weight:900;box-shadow:0 30px 100px rgba(255,107,107,0.5)}
-        .chart-placeholder{position:absolute;top:90px;left:20px;right:20px;height:calc(100% - 110px);background:linear-gradient(45deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02));border-radius:20px;border:2px solid rgba(255,215,0,0.3);backdrop-filter:blur(10px)}
-        .chart-number{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:5em;font-weight:900;color:#ffd700;text-shadow:0 0 40px #ffd700;animation:shine 2s infinite}
-        .chart-label{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);font-size:1.4em;color:#fff;font-weight:bold;text-shadow:0 2px 10px #000}
-        .chart-bar{position:absolute;bottom:60px;left:50%;transform:translateX(-50%);width:60%;height:20px;background:rgba(255,215,0,0.2);border-radius:10px;overflow:hidden}
-        .chart-fill{position:absolute;bottom:0;left:0;height:100%;background:linear-gradient(90deg,#4ecdc4,#ff
+        body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-gradient(135deg,#0a0a0a 0%,#1a1a2e 50%,#16213e 100%);color:#fff;min-height:100vh;overflow-x:hidden}
+        .container{max-width:1800px;margin:0 auto;padding:20px}
+        h1{text-align:center;font-size:3.2em;margin:30px 0;color:#ffd700;text-shadow:0 0 30px #ffd70080;font-weight:900;letter-spacing:2px}
+        img{display:block;max-width:100%;height:auto;margin:20px auto;border-radius:20px;box-shadow:0 20px 60px rgba(255,215,0,0.4)}
+        .cta-main{background:linear-gradient(45deg,#ff6b6b,#ffd700);color:#000;padding:25px;border-radius:20px;margin:30px 20px;font-size:1.4em;font-weight:bold;box-shadow:0 20px 60px #ff6b6b40;text-align:center}
+        .cta-main h3{margin:0 0 15px 0;font-size:1.6em}
+        #controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;max-width:1400px;margin:40px auto;padding:30px;background:rgba(0,0,0,0.8);border-radius:25px;border:2px solid #ffd700}
+        #controls label{display:block;margin-bottom:8px;font-weight:bold;color:#ffd700;font-size:1.1em}
+        #controls input{padding:15px;border:2px solid #ffd700;border-radius:12px;background:rgba(255,255,255,0.1);color:#fff;font-size:16px;text-align:center;transition:all 0.3s}
+        #controls input:focus{outline:none;border-color:#ff6b6b;box-shadow:0 0 20px #ff6b6b40;background:rgba(255,255,255,0.2)}
+        #controls button{padding:18px 30px;font-size:1.3em;font-weight:bold;border:none;border-radius:15px;cursor:pointer;transition:all 0.3s;margin:10px;background:linear-gradient(45deg,#4ecdc4,#ffd700);color:#000;box-shadow:0 10px 30px rgba(255,215,0,0.4)}
+        #controls button:hover{transform:translateY(-3px);box-shadow:0 15px 40px rgba(255,215,0,0.6)}
+        .rank{text-align:center;background:linear-gradient(45deg,#4ecdc4,#ffd700);color:#000;padding:25px;border-radius:20px;margin:30px 20px;font-size:2.2em;font-weight:900;box-shadow:0 20px 60px rgba(78,205,196,0.4)}
+        .dash-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:25px;margin:40px 0}
+        .dash{position:relative;height:420px;border:4px solid #ffd700;border-radius:25px;background:rgba(20,20,20,0.98)!important;overflow:hidden;box-shadow:0 20px 60px rgba(255,215,0,0.3)}
+        .dash-title{position:absolute;top:20px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.95);color:#fff;padding:12px 25px;border-radius:20px;font-weight:bold;font-size:16px;z-index:10;border:2px solid #ffd700}
+        .phase-header{background:linear-gradient(90deg,#ff6b6b,#ffd700,#4ecdc4);color:#000;padding:25px;border-radius:20px;margin:50px 20px;font-size:1.6em;font-weight:bold;text-shadow:0 2px 4px rgba(0,0,0,0.3);text-align:center}
+        .kpi-explain{max-width:1600px;margin:60px auto;padding:40px;background:rgba(0,0,0,0.8);border-radius:25px;text-align:left;border:2px solid #ffd700}
+        .kpi-explain h2{color:#ffd700;font-size:2em;margin-bottom:30px;text-align:center}
+        .kpi-detail{display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:25px}
+        .kpi-explain h3{color:#ffd700;font-size:1.6em;margin:30px 0 15px 0}
+        .why-section{background:rgba(255,215,0,0.1);border-left:5px solid #ffd700;padding:30px;margin:40px 0;border-radius:10px}
+        .cta-final{background:linear-gradient(45deg,#ff6b6b,#ffd700);color:#000;padding:40px;border-radius:25px;margin:40px 20px;font-size:1.6em;font-weight:bold;box-shadow:0 20px 60px #ff6b6b40;text-align:center}
+        @media(max-width:768px){.dash-grid{grid-template-columns:1fr;gap:20px}#controls{grid-template-columns:1fr;padding:20px}}
+        .loading{position:relative}.loading::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:50px;height:50px;border:4px solid #ffd700;border-top:4px solid transparent;border-radius:50%;animation:spin 1s linear infinite}.loading div{display:none}@keyframes spin{0%{transform:translate(-50%,-50%) rotate(0deg)}100%{transform:translate(-50%,-50%) rotate(360deg)}}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🥇 HUNTER SALES - 4 Fases Éxito</h1>
+        <img src="https://via.placeholder.com/800x400/1a1a2e/ffd700?text=Value+vs+Cost+Matrix" alt="Value vs Cost" onerror="this.src='https://via.placeholder.com/800x400/1a1a2e/ffd700?text=Hunter+Sales+Strategy'">
+        
+        <!-- CTA PRINCIPAL -->
+        <div class="cta-main">
+            <h3>⚡ ¡INGRESA TUS NÚMEROS REALES AHORA!</h3>
+            <p><strong>En 60 segundos sabrás tu RANK HUNTER vs TOP 1% Mundial</strong></p>
+        </div>
+        
+        <!-- CONTROLES -->
+        <div id="controls">
+            <div>
+                <label>👥 Leads Mensuales (total oportunidades)</label>
+                <input id="leads" value="147" type="number" placeholder="Ej: 147">
+            </div>
+            <div>
+                <label>📞 % Acogida Leads (que responden tu primer contacto)</label>
+                <input id="acogida" value="65" type="number" placeholder="Ej: 65%">
+            </div>
+            <div>
+                <label>🎯 Win Rate % (deals que cierras)</label>
+                <input id="winrate" value="32" type="number" placeholder="Ej: 32%">
+            </div>
+            <div>
+                <label>💰 LTV Cliente (valor TOTAL en 3 años)</label>
+                <input id="ltv" value="450000" type="number" placeholder="Ej: $450K">
+            </div>
+            <button onclick="runGame()">🔥 CALCULAR MI RANK HUNTER</button>
+            <button onclick="saveGame()" style="background:linear-gradient(45deg,#ff6b6b,#ffd700)">🏆 COPIAR MI RANK</button>
+        </div>
+        
+        <!-- RANK FINAL -->
+        <div id="rank" class="rank" style="display:none">
+            ¡TU RANK HUNTER! <span id="score">--</span>/100 🥇
+        </div>
+        
+        <!-- FASE 1: ATRAER -->
+        <div class="phase-header">🎯 FASE 1: ATRAER CLIENTES</div>
+        <div class="dash-grid">
