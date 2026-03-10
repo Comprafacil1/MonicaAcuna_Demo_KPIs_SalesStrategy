@@ -134,7 +134,7 @@ El dashboard muestra:
 
 # 👩‍💻 Autor
 
-**Mónica Acuña**
+**MónicaAcuna**
 
 Proyecto de demostración de **Sales Strategy & Data Analytics aplicado a ventas SaaS**.
 
