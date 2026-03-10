@@ -70,7 +70,6 @@
         .good{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;box-shadow:0 4px 12px rgba(245,158,11,0.3);}
         .risk{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;box-shadow:0 4px 12px rgba(239,68,68,0.4);}
         
-        /* NUEVO: Botón compartir viral */
         .share-section{
             background:rgba(0,212,255,0.1);border:2px solid #00d4ff;border-radius:25px;
             padding:40px;text-align:center;margin:60px 0;box-shadow:0 20px 40px rgba(0,212,255,0.2);
@@ -88,21 +87,21 @@
         }
         
         .explanations{
-            margin-top:80px;padding:60px;background:rgba(20,20,45,0.98);
+            margin-top:40px;padding:40px;background:rgba(20,20,45,0.98);
             border-radius:30px;border:3px solid #00d4ff;box-shadow:0 30px 80px rgba(0,0,0,0.6);
         }
-        .explanations h3{color:#00d4ff;font-size:2.3em;text-align:center;margin-bottom:60px;text-shadow:0 0 25px rgba(0,212,255,0.5);}
-        .exp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:30px;}
+        .explanations h3{color:#00d4ff;font-size:2.3em;text-align:center;margin-bottom:40px;text-shadow:0 0 25px rgba(0,212,255,0.5);}
+        .exp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:25px;}
         .exp-card{
-            background:rgba(45,45,85,0.9);padding:35px;border-radius:20px;border-left:6px solid #00d4ff;
+            background:rgba(45,45,85,0.9);padding:30px;border-radius:20px;border-left:6px solid #00d4ff;
             transition:transform 0.3s;
         }
         .exp-card:hover{transform:translateX(12px);}
-        .exp-card h4{color:#ffd700;font-size:1.45em;margin:0 0 18px;font-weight:800;}
-        .exp-card p{font-size:1.15em;line-height:1.7;color:#e8e8ff;}
+        .exp-card h4{color:#ffd700;font-size:1.35em;margin:0 0 15px;font-weight:800;}
+        .exp-card p{font-size:1.1em;line-height:1.6;color:#e8e8ff;margin-bottom:15px;}
         .benchmark-bar{
             background:rgba(16,185,129,0.2);padding:12px;border-radius:10px;border-left:4px solid #10b981;
-            margin:15px 0;font-weight:600;font-size:0.95em;
+            margin:10px 0;font-weight:600;font-size:0.95em;
         }
     </style>
 </head>
@@ -186,12 +185,10 @@
         </div>
     </div>
 
-    <!-- 🔥 NUEVO: BOTÓN VIRAL COMPARTIR LINKEDIN -->
     <div class="share-section">
         <h4>📱 ¿Impresionado con tu resultado?</h4>
         <p><strong>Comparte tu performance World Class con tu red</strong><br>VP Ventas y Recruiters Enterprise verán tu expertise</p>
-        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://comprafacil1.github.io/MonicaAcuna_Demo_KPIs_SalesStrategy/" 
-           target="_blank" class="share-btn">
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://comprafacil1.github.io/MonicaAcuna_Demo_KPIs_SalesStrategy/" target="_blank" class="share-btn">
            💼 COMPARTIR MI RESULTADO EN LINKEDIN
         </a>
     </div>
@@ -206,7 +203,6 @@
                     🟢 WORLD CLASS: <strong>+20% mensual</strong> | ⭐ GOOD: 12-18% | 🔴 RISK: <8%
                 </div>
             </div>
-            <!-- Resto de tarjetas explicativas... MANTENGO IGUAL -->
             <div class="exp-card">
                 <h4>02️⃣ CAC</h4>
                 <p><strong>Mide:</strong> Costo total por cliente</p>
@@ -221,13 +217,47 @@
                     🟢 WORLD CLASS: <strong>>5x</strong> | ⭐ GOOD: 3-5x | 🔴 RISK: <2x
                 </div>
             </div>
+            <div class="exp-card">
+                <h4>04️⃣ Conversion Rate</h4>
+                <p><strong>Mide:</strong> % leads que cierran</p>
+                <div class="benchmark-bar">
+                    🟢 WORLD CLASS: <strong>>20%</strong> | ⭐ GOOD: 12-18% | 🔴 RISK: <10%
+                </div>
+            </div>
+            <div class="exp-card">
+                <h4>05️⃣ Win Rate</h4>
+                <p><strong>Mide:</strong> % deals ganados</p>
+                <div class="benchmark-bar">
+                    🟢 WORLD CLASS: <strong>>35%</strong> | ⭐ GOOD: 25-35% | 🔴 RISK: <20%
+                </div>
+            </div>
+            <div class="exp-card">
+                <h4>06️⃣ Pipeline Value</h4>
+                <p><strong>Mide:</strong> Revenue futuro</p>
+                <div class="benchmark-bar">
+                    🟢 WORLD CLASS: <strong>>6x quota</strong> | ⭐ GOOD: 4-6x | 🔴 RISK: <3x
+                </div>
+            </div>
+            <div class="exp-card">
+                <h4>07️⃣ Churn Rate</h4>
+                <p><strong>Mide:</strong> % clientes perdidos</p>
+                <div class="benchmark-bar">
+                    🟢 WORLD CLASS: <strong><3%</strong> | ⭐ GOOD: 3-5% | 🔴 RISK: >8%
+                </div>
+            </div>
+            <div class="exp-card">
+                <h4>08️⃣ Sales Velocity</h4>
+                <p><strong>Mide:</strong> Velocidad revenue</p>
+                <div class="benchmark-bar">
+                    🟢 WORLD CLASS: <strong><60 días ciclo</strong> | ⭐ GOOD: 60-90 días | 🔴 RISK: >120 días
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
 function calculateAll(){
-    // MRR Growth (YA configurado en 41K para tu video = 28%)
     let m1=document.getElementById('mrr1').value*1||41000;
     let m2=document.getElementById('mrr2').value*1||52000;
     let mgr=((m2-m1)/m1*100).toFixed(1);
@@ -237,7 +267,6 @@ function calculateAll(){
     document.getElementById('mrrBench').textContent = '🟢🟡🔴'[mrrBench=='world-class' ? 0 : mrrBench=='good' ? 1 : 2] + 
         (mrrBench=='world-class' ? ' WORLD CLASS' : mrrBench=='good' ? ' GOOD' : ' RISK');
     
-    // Resto del JS igual...
     let mk=document.getElementById('mk').value*1||18000;
     let sl=document.getElementById('sales').value*1||32000;
     let cu=document.getElementById('cust').value*1||42;
@@ -252,13 +281,4 @@ function calculateAll(){
     let cv=document.getElementById('cacv').value*1||11810;
     let rt=(lt/cv).toFixed(1);
     let ratioBench = lt/cv>5 ? 'world-class' : (lt/cv>3 ? 'good' : 'risk');
-    document.getElementById('ratio').innerHTML=rt + 'x';
-    document.getElementById('ratioBench').className='benchmark-tag ' + ratioBench;
-    document.getElementById('ratioBench').textContent = '🟢🟡🔴'[ratioBench=='world-class' ? 0 : ratioBench=='good' ? 1 : 2] + 
-        (ratioBench=='world-class' ? ' WORLD CLASS' : ratioBench=='good' ? ' GOOD' : ' RISK');
-    
-    let sq=document.getElementById('sql').value*1||650;
-    let cn=document.getElementById('conv').value*1||78;
-    let convRate=((cn/sq)*100).toFixed(1);
-    let convBench = convRate>20 ? 'world-class' : (convRate>12 ? 'good' : 'risk');
-    document.getElementById('
+    document.getElementById('ratio').inner
