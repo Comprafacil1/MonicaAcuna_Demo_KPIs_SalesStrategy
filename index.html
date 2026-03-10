@@ -1,148 +1,225 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hunter Sales KPIs - SaaS Game</title>
+    <title>Hunter Sales KPIs - Mónica Acuña</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        * { box-sizing: border-box; }
-        body { 
-            font-family: Arial, sans-serif; 
-            margin: 0; padding: 20px; 
-            background: #1a1a2e; 
-            color: #ffffff; 
-        }
-        .container { max-width: 1400px; margin: auto; }
-        h1 { text-align: center; color: #00d4ff; font-size: 3em; text-shadow: 0 0 20px #00d4ff; }
-        h2 { text-align: center; color: #a0a0ff; font-size: 1.5em; margin: 20px 0 40px; }
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{background:#1a1a2e;color:white;font-family:Arial,sans-serif;padding:20px;}
+        .container{max-width:1400px;margin:auto;}
+        h1{text-align:center;color:#00d4ff;font-size:3em;margin:20px 0;text-shadow:0 0 20px #00d4ff;}
+        h2{text-align:center;color:#aaa;font-size:1.5em;margin:20px 0;}
+        .hero-img{display:block;margin:30px auto;max-width:500px;border:3px solid #00d4ff;border-radius:15px;box-shadow:0 10px 30px rgba(0,212,255,0.3);}
         
-        .cta-game { 
-            text-align: center; 
-            background: rgba(0,212,255,0.1); 
-            padding: 30px; 
-            border-radius: 15px; 
-            border: 2px solid #00d4ff; 
-            margin: 30px 0; 
+        .cta-big{
+            text-align:center;background:linear-gradient(45deg,#003366,#00d4ff);padding:30px;border-radius:20px;
+            margin:30px 0;border:3px solid #00d4ff;box-shadow:0 10px 30px rgba(0,0,0,0.5);
         }
-        .cta-game h3 { color: #ffd700; font-size: 2em; margin: 0; }
+        .cta-big h3{color:gold;font-size:2.2em;margin:0;font-weight:bold;}
+        .cta-big p{font-size:1.2em;color:white;margin:10px 0;}
         
-        .image-center { text-align: center; margin: 30px 0; }
-        .image-center img { max-width: 500px; height: auto; border-radius: 15px; border: 2px solid #00d4ff; box-shadow: 0 10px 30px rgba(0,212,255,0.3); }
+        .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:25px;margin:40px 0;}
+        .kpi-card{background:rgba(30,30,50,0.95);padding:25px;border-radius:15px;border:2px solid #333;transition:all 0.3s;}
+        .kpi-card:hover{transform:translateY(-8px);border-color:#00d4ff;box-shadow:0 20px 40px rgba(0,212,255,0.2);}
+        .kpi-card h3{color:#00d4ff;font-size:1.4em;margin:0 0 20px;font-weight:bold;}
+        label{display:block;color:#ddd;font-weight:bold;margin:12px 0 6px;}
+        input{width:100%;padding:12px;border:2px solid #555;border-radius:8px;background:#333;color:white;font-size:16px;}
+        input:focus{outline:none;border-color:#00d4ff;box-shadow:0 0 15px rgba(0,212,255,0.5);}
+        .chart-box{position:relative;height:280px;margin-top:15px;background:rgba(0,0,0,0.4);border-radius:10px;}
         
-        .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 25px; margin: 40px 0; }
-        .kpi-box { 
-            background: rgba(30,30,50,0.9); 
-            padding: 25px; 
-            border-radius: 15px; 
-            border: 1px solid #444; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        .kpi-box h3 { margin: 0 0 20px; color: #00d4ff; font-size: 1.4em; }
-        .input-group { margin: 15px 0; }
-        .input-group label { display: block; color: #e0e0ff; font-weight: bold; margin-bottom: 5px; }
-        .input-group input { 
-            width: 100%; padding: 12px; border: 1px solid #555; border-radius: 8px; 
-            background: #333; color: #fff; font-size: 1em; 
-        }
-        .input-group input:focus { border-color: #00d4ff; outline: none; box-shadow: 0 0 10px #00d4ff; }
-        .chart-container { position: relative; height: 280px; margin-top: 15px; background: rgba(0,0,0,0.3); border-radius: 10px; }
-        
-        .explanations { margin-top: 60px; display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; }
-        .kpi-explain { background: rgba(20,20,40,0.9); padding: 20px; border-radius: 10px; border-left: 4px solid #00d4ff; }
-        .kpi-explain h4 { color: #ffd700; margin-top: 0; }
+        .explanations{margin-top:60px;padding:40px;background:rgba(20,20,40,0.9);border-radius:20px;}
+        .explanations h3{color:#00d4ff;font-size:2em;text-align:center;margin-bottom:40px;}
+        .exp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px;}
+        .exp-card{background:rgba(40,40,70,0.8);padding:25px;border-radius:12px;border-left:5px solid #00d4ff;}
+        .exp-card h4{color:gold;font-size:1.3em;margin:0 0 15px;}
+        .exp-card p{font-size:1.1em;line-height:1.5;}
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Hunter Sales KPIs</h1>
-        <div class="image-center">
-            <img src="vlue cost.PNG" alt="Valor vs Costo">
-        </div>
+        <img src="vlue cost.PNG" class="hero-img" alt="Valor vs Costo">
         <h2>Valor vs Costo</h2>
         
-        <!-- CTA JUEGO -->
-        <div class="cta-game">
-            <h3>🎮 CAMBIA LOS NÚMEROS → VE LOS GRÁFICOS ACTUALIZARSE</h3>
-            <p>¡Este es tu dashboard SaaS! Modifica cualquier input y observa la magia.</p>
+        <div class="cta-big">
+            <h3>🎯 DESAFÍO: Optimiza estos KPIs como VP Sales</h3>
+            <p><strong>Ingresa tus números reales → Mira cómo cambian los gráficos al instante</strong></p>
+            <p>¡Este dashboard te muestra tu performance real de ventas!</p>
         </div>
 
         <div class="kpi-grid">
-            <div class="kpi-box">
+            <div class="kpi-card">
                 <h3>1. MRR Growth</h3>
-                <div class="input-group">
-                    <label>MRR Anterior ($):</label>
-                    <input type="number" id="mrr1" value="45000">
-                </div>
-                <div class="input-group">
-                    <label>MRR Actual ($):</label>
-                    <input type="number" id="mrr2" value="52000">
-                </div>
-                <div class="chart-container"><canvas id="c1"></canvas></div>
+                <label>MRR Mes Anterior:</label><input type="number" id="mrr1" value="45000">
+                <label>MRR Este Mes:</label><input type="number" id="mrr2" value="52000">
+                <div class="chart-box"><canvas id="g1"></canvas></div>
             </div>
 
-            <div class="kpi-box">
+            <div class="kpi-card">
                 <h3>2. CAC</h3>
-                <div class="input-group">
-                    <label>Gasto Marketing ($):</label>
-                    <input type="number" id="mk" value="18000">
-                </div>
-                <div class="input-group">
-                    <label>Gasto Ventas ($):</label>
-                    <input type="number" id="sales" value="32000">
-                </div>
-                <div class="input-group">
-                    <label>Clientes Nuevos:</label>
-                    <input type="number" id="newcust" value="42">
-                </div>
-                <div class="chart-container"><canvas id="c2"></canvas></div>
+                <label>Gasto Marketing:</label><input type="number" id="mk" value="18000">
+                <label>Gasto Ventas:</label><input type="number" id="sales" value="32000">
+                <label>Clientes Nuevos:</label><input type="number" id="cust" value="42">
+                <div class="chart-box"><canvas id="g2"></canvas></div>
             </div>
 
-            <div class="kpi-box">
+            <div class="kpi-card">
                 <h3>3. LTV/CAC Ratio</h3>
-                <div class="input-group">
-                    <label>LTV ($):</label>
-                    <input type="number" id="ltv" value="48000">
-                </div>
-                <div class="input-group">
-                    <label>CAC ($):</label>
-                    <input type="number" id="cac" value="11810">
-                </div>
-                <div class="chart-container"><canvas id="c3"></canvas></div>
+                <label>Valor Cliente (LTV):</label><input type="number" id="ltv" value="48000">
+                <label>Costo Cliente (CAC):</label><input type="number" id="cacv" value="11810">
+                <div class="chart-box"><canvas id="g3"></canvas></div>
             </div>
 
-            <div class="kpi-box">
+            <div class="kpi-card">
                 <h3>4. Conversion Rate</h3>
-                <div class="input-group">
-                    <label>Leads SQL:</label>
-                    <input type="number" id="sql" value="650">
-                </div>
-                <div class="input-group">
-                    <label>Leads Convertidos:</label>
-                    <input type="number" id="conv" value="78">
-                </div>
-                <div class="chart-container"><canvas id="c4"></canvas></div>
+                <label>Leads SQL:</label><input type="number" id="sql" value="650">
+                <label>Leads Convertidos:</label><input type="number" id="conv" value="78">
+                <div class="chart-box"><canvas id="g4"></canvas></div>
             </div>
 
-            <div class="kpi-box">
+            <div class="kpi-card">
                 <h3>5. Win Rate</h3>
-                <div class="input-group">
-                    <label>Deals Ganados:</label>
-                    <input type="number" id="wins" value="52">
-                </div>
-                <div class="input-group">
-                    <label>Deals Total:</label>
-                    <input type="number" id="totaldeals" value="187">
-                </div>
-                <div class="chart-container"><canvas id="c5"></canvas></div>
+                <label>Deals Ganados:</label><input type="number" id="win" value="52">
+                <label>Deals Totales:</label><input type="number" id="dtotal" value="187">
+                <div class="chart-box"><canvas id="g5"></canvas></div>
             </div>
 
-            <div class="kpi-box">
+            <div class="kpi-card">
                 <h3>6. Pipeline Value</h3>
-                <div class="input-group">
-                    <label>Oportunidades:</label>
-                    <input type="number" id="ops" value="135">
+                <label>Oportunidades:</label><input type="number" id="opps" value="135">
+                <label>Valor Promedio:</label><input type="number" id="avg" value="9200">
+                <div class="chart-box"><canvas id="g6"></canvas></div>
+            </div>
+
+            <div class="kpi-card">
+                <h3>7. Churn Rate</h3>
+                <label>Clientes Inicio Mes:</label><input type="number" id="start" value="820">
+                <label>Clientes Perdidos:</label><input type="number" id="lost" value="18">
+                <div class="chart-box"><canvas id="g7"></canvas></div>
+            </div>
+
+            <div class="kpi-card">
+                <h3>8. Sales Velocity</h3>
+                <label>Opp/Mes:</label><input type="number" id="opm" value="38">
+                <label>Ciclo Ventas (días):</label><input type="number" id="cycle" value="42">
+                <div class="chart-box"><canvas id="g8"></canvas></div>
+            </div>
+        </div>
+
+        <div class="explanations">
+            <h3>📊 ¿Por qué estos 8 KPIs definen el éxito en ventas?</h3>
+            <div class="exp-grid">
+                <div class="exp-card">
+                    <h4>1️⃣ MRR Growth</h4>
+                    <p><strong>Mide:</strong> Crecimiento ingresos recurrentes<br><strong>Meta:</strong> +15% mensual<br><strong>Impacto:</strong> Tu capacidad de escalar revenue</p>
                 </div>
-                <div class="input-group">
-                    <label>Valor Promedio ($):</label>
-                    <input type="number" id="avgval" value="9200">
+                <div class="exp-card">
+                    <h4>2️⃣ CAC</h4>
+                    <p><strong>Mide:</strong> Costo total por cliente<br><strong>Meta:</strong> &lt;$12,000<br><strong>Impacto:</strong> Eficiencia adquisición clientes</p>
+                </div>
+                <div class="exp-card">
+                    <h4>3️⃣ LTV/CAC Ratio</h4>
+                    <p><strong>Mide:</strong> ROI de adquisición<br><strong>Meta:</strong> &gt;3x<br><strong>Impacto:</strong> Rentabilidad del negocio</p>
+                </div>
+                <div class="exp-card">
+                    <h4>4️⃣ Conversion Rate</h4>
+                    <p><strong>Mide:</strong> % leads que cierran<br><strong>Meta:</strong> 12-18%<br><strong>Impacto:</strong> Efectividad del funnel</p>
+                </div>
+                <div class="exp-card">
+                    <h4>5️⃣ Win Rate</h4>
+                    <p><strong>Mide:</strong> % deals ganados<br><strong>Meta:</strong> 25-35%<br><strong>Impacto:</strong> Skill del equipo ventas</p>
+                </div>
+                <div class="exp-card">
+                    <h4>6️⃣ Pipeline Value</h4>
+                    <p><strong>Mide:</strong> Potencial revenue futuro<br><strong>Meta:</strong> 4x quota<br><strong>Impacto:</strong> Visibilidad forecasting</p>
+                </div>
+                <div class="exp-card">
+                    <h4>7️⃣ Churn Rate</h4>
+                    <p><strong>Mide:</strong> % clientes perdidos<br><strong>Meta:</strong> &lt;5% mensual<br><strong>Impacto:</strong> Salud del negocio</p>
+                </div>
+                <div class="exp-card">
+                    <h4>8️⃣ Sales Velocity</h4>
+                    <p><strong>Mide:</strong> Velocidad revenue<br><strong>Meta:</strong> Acelerar siempre<br><strong>Impacto:</strong> Capacidad de scale</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let charts={};
+        function updateAll(){
+            const colors=['#00d4ff','#00ff88','#ffd700','#ff6b9d','#4ecdc4','#45b7d1','#f9ca24','#ff9f43'];
+            
+            //1 MRR
+            if(charts.g1)charts.g1.destroy();
+            charts.g1=new Chart(document.getElementById('g1'),{
+                type:'bar',data:{
+                    labels:['Anterior','Actual'],
+                    datasets:[{data:[document.getElementById('mrr1').value*1||0,document.getElementById('mrr2').value*1||0],backgroundColor:colors.slice(0,2)}]
+                },options:{responsive:true,scales:{x:{ticks:{color:'white'}},y:{ticks:{color:'white'}}}}
+            });
+            
+            //2 CAC
+            let cac=((document.getElementById('mk').value*1||0)+(document.getElementById('sales').value*1||0))/(document.getElementById('cust').value*1||1);
+            if(charts.g2)charts.g2.destroy();
+            charts.g2=new Chart(document.getElementById('g2'),{
+                type:'doughnut',data:{datasets:[{data:[cac,15000],backgroundColor:[colors[2],'#444']}]},
+                options:{responsive:true}
+            });
+            
+            //3 LTV/CAC
+            let ratio=(document.getElementById('ltv').value*1||0)/(document.getElementById('cacv').value*1||1);
+            if(charts.g3)charts.g3.destroy();
+            charts.g3=new Chart(document.getElementById('g3'),{
+                type:'bar',data:{labels:['Ratio'],datasets:[{data:[ratio],backgroundColor:colors[3]}]},
+                options:{indexAxis:'y',responsive:true,scales:{x:{ticks:{color:'white'}}}}
+            });
+            
+            //4 Conversion
+            let convr=(document.getElementById('conv').value*1||0)/(document.getElementById('sql').value*1||1)*100;
+            if(charts.g4)charts.g4.destroy();
+            charts.g4=new Chart(document.getElementById('g4'),{
+                type:'doughnut',data:{labels:['Convertidos','Pendientes'],datasets:[{data:[convr,100-convr],backgroundColor:[colors[4],'#444']}]},
+                options:{responsive:true}
+            });
+            
+            //5 Win Rate
+            let winr=(document.getElementById('win').value*1||0)/(document.getElementById('dtotal').value*1||1)*100;
+            if(charts.g5)charts.g5.destroy();
+            charts.g5=new Chart(document.getElementById('g5'),{
+                type:'doughnut',data:{labels:['Ganados','Perdidos'],datasets:[{data:[winr,100-winr],backgroundColor:[colors[5],'#444']}]},
+                options:{responsive:true}
+            });
+            
+            //6 Pipeline
+            let pipe=(document.getElementById('opps').value*1||0)*(document.getElementById('avg').value*1||0);
+            if(charts.g6)charts.g6.destroy();
+            charts.g6=new Chart(document.getElementById('g6'),{
+                type:'bar',data:{labels:['Pipeline'],datasets:[{data:[pipe],backgroundColor:colors[6]}]},
+                options:{responsive:true,scales:{y:{ticks:{color:'white'}}}}
+            });
+            
+            //7 Churn
+            let churn=(document.getElementById('lost').value*1||0)/(document.getElementById('start').value*1||1)*100;
+            if(charts.g7)charts.g7.destroy();
+            charts.g7=new Chart(document.getElementById('g7'),{
+                type:'doughnut',data:{labels:['Churn','Retención'],datasets:[{data:[churn,100-churn],backgroundColor:[colors[7],'#444']}]},
+                options:{responsive:true}
+            });
+            
+            //8 Velocity
+            let vel=(document.getElementById('opm').value*1||0)*9200*0.28/((document.getElementById('cycle').value*1||1)/30);
+            if(charts.g8)charts.g8.destroy();
+            charts.g8=new Chart(document.getElementById('g8'),{
+                type:'line',data:{labels:['Velocity'],datasets:[{data:[vel],borderColor:colors[0],backgroundColor:colors[0]+'20',fill:true}]},
+                options:{responsive:true,scales:{y:{ticks:{color:'white'}}}}
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded',()=>{
+            document.querySelectorAll('input').forEach(i=>i.addEventListener('input',updateAll));
+            setTimeout(updateAll,800);
+        });
+    </script>
+</body>
+</html>
