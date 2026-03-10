@@ -2,121 +2,66 @@
 <html>
 <head>
     <title>Hunter Sales KPIs - Mónica Acuña</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        /* TU CSS ESTÁ PERFECTO - NO CAMBIA */
         *{margin:0;padding:0;box-sizing:border-box;}
-        body{background:#1a1a2e;color:white;font-family:Arial,sans-serif;padding:20px;}
+        body{background:#1a1a2e;color:white;font-family:Arial,sans-serif;padding:20px;line-height:1.6;}
         .container{max-width:1400px;margin:auto;}
-        h1{text-align:center;color:#00d4ff;font-size:3em;margin:20px 0;text-shadow:0 0 20px #00d4ff;}
+        h1{text-align:center;color:#00d4ff;font-size:3em;margin:30px 0;text-shadow:0 0 20px #00d4ff;}
         h2{text-align:center;color:#aaa;font-size:1.5em;margin:20px 0;}
+        
         .hero-img{display:block;margin:30px auto;max-width:500px;border:3px solid #00d4ff;border-radius:15px;box-shadow:0 10px 30px rgba(0,212,255,0.3);}
         
         .cta-big{
-            text-align:center;background:linear-gradient(45deg,#003366,#00d4ff);padding:30px;border-radius:20px;
-            margin:30px 0;border:3px solid #00d4ff;box-shadow:0 10px 30px rgba(0,0,0,0.5);
+            text-align:center;background:linear-gradient(45deg,#003366,#00d4ff);padding:35px;border-radius:20px;
+            margin:40px 0;border:3px solid #00d4ff;box-shadow:0 15px 35px rgba(0,0,0,0.5);
         }
-        .cta-big h3{color:gold;font-size:2.2em;margin:0;font-weight:bold;}
-        .cta-big p{font-size:1.2em;color:white;margin:10px 0;}
+        .cta-big h3{color:gold;font-size:2.5em;margin:0 0 15px;font-weight:bold;}
+        .cta-big p{font-size:1.3em;color:white;margin:10px 0;}
         
-        .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:25px;margin:40px 0;}
-        .kpi-card{background:rgba(30,30,50,0.95);padding:25px;border-radius:15px;border:2px solid #333;transition:all 0.3s;}
-        .kpi-card:hover{transform:translateY(-8px);border-color:#00d4ff;box-shadow:0 20px 40px rgba(0,212,255,0.2);}
-        .kpi-card h3{color:#00d4ff;font-size:1.4em;margin:0 0 20px;font-weight:bold;}
-        label{display:block;color:#ddd;font-weight:bold;margin:12px 0 6px;}
-        input{width:100%;padding:12px;border:2px solid #555;border-radius:8px;background:#333;color:white;font-size:16px;}
-        input:focus{outline:none;border-color:#00d4ff;box-shadow:0 0 15px rgba(0,212,255,0.5);}
-        .chart-box{position:relative;height:280px;margin-top:15px;background:rgba(0,0,0,0.4);border-radius:10px;}
+        .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:30px;margin:50px 0;}
+        .kpi-card{background:rgba(30,30,55,0.95);padding:30px;border-radius:20px;border:2px solid #444;transition:all 0.3s ease;}
+        .kpi-card:hover{transform:translateY(-10px);border-color:#00d4ff;box-shadow:0 25px 50px rgba(0,212,255,0.2);}
         
-        .explanations{margin-top:60px;padding:40px;background:rgba(20,20,40,0.9);border-radius:20px;}
-        .explanations h3{color:#00d4ff;font-size:2em;text-align:center;margin-bottom:40px;}
-        .exp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px;}
-        .exp-card{background:rgba(40,40,70,0.8);padding:25px;border-radius:12px;border-left:5px solid #00d4ff;}
-        .exp-card h4{color:gold;font-size:1.3em;margin:0 0 15px;}
-        .exp-card p{font-size:1.1em;line-height:1.5;}
+        .kpi-card h3{color:#00d4ff;font-size:1.6em;margin:0 0 25px;font-weight:700;text-transform:uppercase;}
+        label{display:block;color:#e0e0ff;font-weight:600;margin:15px 0 8px 0;font-size:1em;}
+        input{width:100%;padding:14px;border:2px solid #666;border-radius:10px;background:rgba(60,60,90,0.8);color:white;font-size:16px;transition:all 0.3s;}
+        input:focus{outline:none;border-color:#00d4ff;box-shadow:0 0 20px rgba(0,212,255,0.4);background:rgba(0,120,180,0.9);}
+        
+        .metric-display{
+            background:linear-gradient(135deg,#00d4ff,#00ff88);color:#000;font-size:2.5em;font-weight:900;
+            padding:25px;text-align:center;border-radius:15px;margin:20px 0;font-family:monospace;
+            box-shadow:0 15px 35px rgba(0,212,255,0.4);text-shadow:0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .explanations{margin-top:70px;padding:50px;background:rgba(20,20,45,0.95);border-radius:25px;border:2px solid #00d4ff;}
+        .explanations h3{color:#00d4ff;font-size:2.2em;text-align:center;margin-bottom:50px;}
+        .exp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:25px;}
+        .exp-card{background:rgba(45,45,85,0.8);padding:30px;border-radius:18px;border-left:6px solid #00d4ff;}
+        .exp-card h4{color:gold;font-size:1.4em;margin:0 0 20px;font-weight:700;}
+        .exp-card p{font-size:1.1em;line-height:1.7;color:#e0e0ff;}
     </style>
 </head>
 <body>
-    <!-- TU HTML ESTÁ PERFECTO - NO CAMBIA -->
     <div class="container">
-        <h1>Hunter Sales KPIs</h1>
+        <h1>🏹 Hunter Sales KPIs</h1>
         <img src="vlue cost.PNG" class="hero-img" alt="Valor vs Costo">
-        <h2>Valor vs Costo</h2>
+        <h2>Dashboard Interactivo - Performance Real Time</h2>
         
         <div class="cta-big">
-            <h3>🎯 DESAFÍO: Optimiza estos KPIs como VP Sales</h3>
-            <p><strong>Ingresa tus números reales → Mira cómo cambian los gráficos al instante</strong></p>
-            <p>¡Este dashboard te muestra tu performance real de ventas!</p>
+            <h3>🎯 RETO VP SALES: Optimiza tu Dashboard</h3>
+            <p><strong>Ingresa TUS números → Métricas se actualizan INSTANTÁNEAMENTE</strong></p>
+            <p>¡Visualiza tu performance real de ventas en vivo!</p>
         </div>
 
         <div class="kpi-grid">
-            <!-- TUS 8 KPI CARDS - PERFECTAS -->
             <div class="kpi-card">
-                <h3>1. MRR Growth</h3>
+                <h3>01. MRR Growth</h3>
                 <label>MRR Mes Anterior:</label><input type="number" id="mrr1" value="45000">
                 <label>MRR Este Mes:</label><input type="number" id="mrr2" value="52000">
-                <div class="chart-box"><canvas id="g1"></canvas></div>
+                <div class="metric-display" id="mrrResult">$<span>7,000</span> (+15.6%)</div>
             </div>
 
             <div class="kpi-card">
-                <h3>2. CAC</h3>
+                <h3>02. CAC</h3>
                 <label>Gasto Marketing:</label><input type="number" id="mk" value="18000">
-                <label>Gasto Ventas:</label><input type="number" id="sales" value="32000">
-                <label>Clientes Nuevos:</label><input type="number" id="cust" value="42">
-                <div class="chart-box"><canvas id="g2"></canvas></div>
-            </div>
-
-            <div class="kpi-card">
-                <h3>3. LTV/CAC Ratio</h3>
-                <label>Valor Cliente (LTV):</label><input type="number" id="ltv" value="48000">
-                <label>Costo Cliente (CAC):</label><input type="number" id="cacv" value="11810">
-                <div class="chart-box"><canvas id="g3"></canvas></div>
-            </div>
-
-            <div class="kpi-card">
-                <h3>4. Conversion Rate</h3>
-                <label>Leads SQL:</label><input type="number" id="sql" value="650">
-                <label>Leads Convertidos:</label><input type="number" id="conv" value="78">
-                <div class="chart-box"><canvas id="g4"></canvas></div>
-            </div>
-
-            <div class="kpi-card">
-                <h3>5. Win Rate</h3>
-                <label>Deals Ganados:</label><input type="number" id="win" value="52">
-                <label>Deals Totales:</label><input type="number" id="dtotal" value="187">
-                <div class="chart-box"><canvas id="g5"></canvas></div>
-            </div>
-
-            <div class="kpi-card">
-                <h3>6. Pipeline Value</h3>
-                <label>Oportunidades:</label><input type="number" id="opps" value="135">
-                <label>Valor Promedio:</label><input type="number" id="avg" value="9200">
-                <div class="chart-box"><canvas id="g6"></canvas></div>
-            </div>
-
-            <div class="kpi-card">
-                <h3>7. Churn Rate</h3>
-                <label>Clientes Inicio Mes:</label><input type="number" id="start" value="820">
-                <label>Clientes Perdidos:</label><input type="number" id="lost" value="18">
-                <div class="chart-box"><canvas id="g7"></canvas></div>
-            </div>
-
-            <div class="kpi-card">
-                <h3>8. Sales Velocity</h3>
-                <label>Opp/Mes:</label><input type="number" id="opm" value="38">
-                <label>Ciclo Ventas (días):</label><input type="number" id="cycle" value="42">
-                <div class="chart-box"><canvas id="g8"></canvas></div>
-            </div>
-        </div>
-
-        <!-- TUS EXPLICACIONES - PERFECTAS -->
-        <div class="explanations">
-            <h3>📊 ¿Por qué estos 8 KPIs definen el éxito en ventas?</h3>
-            <div class="exp-grid">
-                <div class="exp-card">
-                    <h4>1️⃣ MRR Growth</h4>
-                    <p><strong>Mide:</strong> Crecimiento ingresos recurrentes<br><strong>Meta:</strong> +15% mensual<br><strong>Impacto:</strong> Tu capacidad de escalar revenue</p>
-                </div>
-                <div class="exp-card">
-                    <h4>2️⃣ CAC</h4>
-                    <p><strong>Mide:</strong> Costo total por cliente<br><strong>Meta:</strong> &lt;$12,000<br><strong>Impacto:</strong> Eficiencia adquisición
+                <label>Gasto Ventas:</label><input type="number" id="sales"
