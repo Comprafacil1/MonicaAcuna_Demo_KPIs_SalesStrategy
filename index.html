@@ -1,98 +1,129 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Hunter Sales KPIs Dashboard</title>
-
-<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
-
-<link rel="stylesheet" href="styles.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hunter Sales KPIs Game - SaaS Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+        body { 
+            font-family: 'Orbitron', monospace; 
+            margin: 0; padding: 20px; 
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%); 
+            color: #ffffff; 
+            overflow-x: hidden;
+        }
+        .container { max-width: 1600px; margin: auto; }
+        h1 { 
+            text-align: center; 
+            color: #00d4ff; 
+            font-size: 3.5em; 
+            font-weight: 900;
+            text-shadow: 0 0 30px #00d4ff, 0 0 60px #00d4ff;
+            animation: glow 2s ease-in-out infinite alternate;
+            margin-bottom: 10px;
+        }
+        @keyframes glow { from { text-shadow: 0 0 20px #00d4ff, 0 0 30px #00d4ff; } to { text-shadow: 0 0 30px #00d4ff, 0 0 60px #00d4ff; } }
+        h2 { text-align: center; color: #a0a0ff; font-size: 1.8em; margin: 20px 0 50px; font-weight: 700; }
+        .image-center { text-align: center; margin: 40px 0; }
+        .image-center img { max-width: 600px; height: auto; border-radius: 20px; box-shadow: 0 15px 50px rgba(0,212,255,0.4); border: 3px solid #00d4ff; }
+        .game-title { font-size: 2em; color: #ffd700; text-align: center; margin: 30px 0; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 30px; margin: 60px 0; }
+        .kpi-box { 
+            background: rgba(20,20,40,0.9); 
+            padding: 30px; 
+            border-radius: 20px; 
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.1);
+            border: 2px solid #333;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .kpi-box::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(0,212,255,0.2), transparent); transition: left 0.5s; }
+        .kpi-box:hover::before { left: 100%; }
+        .kpi-box:hover { transform: translateY(-10px); box-shadow: 0 30px 80px rgba(0,212,255,0.3); border-color: #00d4ff; }
+        .kpi-box h3 { margin: 0 0 25px; color: #00d4ff; font-size: 1.6em; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; }
+        .input-group { margin: 20px 0; }
+        .input-group label { display: block; font-weight: 700; margin-bottom: 10px; color: #e0e0ff; font-size: 0.95em; text-transform: uppercase; letter-spacing: 1px; }
+        .input-group input { width: 100%; padding: 15px; border: 2px solid #444; border-radius: 12px; background: rgba(50,50,80,0.8); color: #fff; font-size: 1.1em; font-family: inherit; transition: all 0.3s; }
+        .input-group input:focus { outline: none; border-color: #00d4ff; box-shadow: 0 0 20px rgba(0,212,255,0.5); background: rgba(0,50,100,0.9); }
+        .chart-container { position: relative; height: 320px; width: 100%; margin-top: 20px; border-radius: 15px; overflow: hidden; }
+        .score-section { background: linear-gradient(45deg, #ffd700, #ffaa00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 2em; text-align: center; margin: 30px 0; }
+        .explanation { margin-top: 80px; background: rgba(10,10,25,0.95); padding: 50px; border-radius: 25px; backdrop-filter: blur(20px); border: 1px solid #00d4ff; }
+        .explanation h3 { color: #00d4ff; font-size: 2.2em; text-align: center; margin-bottom: 40px; }
+        .explanation li { margin: 30px 0; padding: 25px; background: rgba(60,60,120,0.3); border-radius: 15px; border-left: 5px solid #00d4ff; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .explanation strong { color: #ffd700; }
+    </style>
 </head>
-
-
 <body>
+    <div class="container">
+        <h1>Hunter Sales KPIs</h1>
+        <div class="image-center">
+            <img src="vlue cost.PNG" alt="Valor vs Costo - Hunter Sales SaaS">
+        </div>
+        <h2>Valor vs Costo</h2>
+        
+        <div class="game-title">🎮 JUEGO: Optimiza tus KPIs SaaS</div>
+        
+        <div class="kpi-grid">
+            <!-- 1. MRR Growth -->
+            <div class="kpi-box">
+                <h3>1. MRR Growth</h3>
+                <div class="input-group"><label>MRR Anterior ($):</label><input type="number" id="mrrAnterior" value="45000"></div>
+                <div class="input-group"><label>MRR Actual ($):</label><input type="number" id="mrrActual" value="52000"></div>
+                <div class="chart-container"><canvas id="chart1"></canvas></div>
+            </div>
 
-<div class="container">
+            <!-- 2. CAC -->
+            <div class="kpi-box">
+                <h3>2. CAC</h3>
+                <div class="input-group"><label>Gasto Marketing ($):</label><input type="number" id="gastoMk" value="18000"></div>
+                <div class="input-group"><label>Gasto Ventas ($):</label><input type="number" id="gastoVentas" value="32000"></div>
+                <div class="input-group"><label>Clientes Nuevos:</label><input type="number" id="clientesNuevos" value="42"></div>
+                <div class="chart-container"><canvas id="chart2"></canvas></div>
+            </div>
 
-<h1>Hunter Sales KPI´s</h1>
+            <!-- 3. LTV/CAC Ratio -->
+            <div class="kpi-box">
+                <h3>3. LTV/CAC Ratio</h3>
+                <div class="input-group"><label>LTV ($):</label><input type="number" id="ltv" value="48000"></div>
+                <div class="input-group"><label>CAC ($):</label><input type="number" id="cacInput" value="11810"></div>
+                <div class="chart-container"><canvas id="chart3"></canvas></div>
+            </div>
 
-<div class="hero-image">
+            <!-- 4. Conversion Rate -->
+            <div class="kpi-box">
+                <h3>4. Conversion Rate</h3>
+                <div class="input-group"><label>Leads SQL:</label><input type="number" id="leadsSQL" value="650"></div>
+                <div class="input-group"><label>Leads Convertidos:</label><input type="number" id="leadsConvertidos" value="78"></div>
+                <div class="chart-container"><canvas id="chart4"></canvas></div>
+            </div>
 
-<img src="assets/value_cost.png">
+            <!-- 5. Win Rate -->
+            <div class="kpi-box">
+                <h3>5. Win Rate</h3>
+                <div class="input-group"><label>Deals Cerrados:</label><input type="number" id="dealsCerrados" value="52"></div>
+                <div class="input-group"><label>Deals Totales:</label><input type="number" id="dealsTotales" value="187"></div>
+                <div class="chart-container"><canvas id="chart5"></canvas></div>
+            </div>
 
-<h2>Valor vs Costo</h2>
+            <!-- 6. Pipeline Value -->
+            <div class="kpi-box">
+                <h3>6. Pipeline Value</h3>
+                <div class="input-group"><label>Oportunidades:</label><input type="number" id="oportunidades" value="135"></div>
+                <div class="input-group"><label>Valor Promedio ($):</label><input type="number" id="valorPromedio" value="9200"></div>
+                <div class="chart-container"><canvas id="chart6"></canvas></div>
+            </div>
 
-</div>
+            <!-- 7. Churn Rate -->
+            <div class="kpi-box">
+                <h3>7. Churn Rate</h3>
+                <div class="input-group"><label>Clientes Inicio:</label><input type="number" id="clientesInicio" value="820"></div>
+                <div class="input-group"><label>Clientes Perdidos:</label><input type="number" id="clientesPerdidos" value="18"></div>
+                <div class="chart-container"><canvas id="chart7"></canvas></div>
+            </div>
 
-
-<div class="grid">
-
-<div class="card">
-<h3>MRR Growth</h3>
-<input id="clientes" type="number" value="30">
-<input id="arpu" type="number" value="1200">
-<div id="mrrChart"></div>
-</div>
-
-<div class="card">
-<h3>CAC</h3>
-<input id="marketing" type="number" value="20000">
-<input id="sales" type="number" value="30000">
-<input id="clientesCAC" type="number" value="40">
-<div id="cacChart"></div>
-</div>
-
-<div class="card">
-<h3>LTV / CAC</h3>
-<input id="ltv" type="number" value="25000">
-<div id="ltvChart"></div>
-</div>
-
-<div class="card">
-<h3>Conversion Rate</h3>
-<input id="leads" type="number" value="900">
-<input id="closed" type="number" value="90">
-<div id="conversionChart"></div>
-</div>
-
-<div class="card">
-<h3>Pipeline Value</h3>
-<input id="opps" type="number" value="150">
-<input id="avgDeal" type="number" value="10000">
-<div id="pipelineChart"></div>
-</div>
-
-<div class="card">
-<h3>Win Rate</h3>
-<input id="wins" type="number" value="60">
-<input id="deals" type="number" value="200">
-<div id="winChart"></div>
-</div>
-
-<div class="card">
-<h3>Churn Rate</h3>
-<input id="clientesInicio" type="number" value="500">
-<input id="clientesLost" type="number" value="15">
-<div id="churnChart"></div>
-</div>
-
-<div class="card">
-<h3>Sales Velocity</h3>
-<input id="dealsMes" type="number" value="35">
-<input id="ciclo" type="number" value="40">
-<div id="velocityChart"></div>
-</div>
-
-</div>
-
-</div>
-
-<script src="dashboard.js"></script>
-
-</body>
-</html>
+            <!-- 8. Sales
