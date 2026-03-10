@@ -1,159 +1,341 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Interactive SaaS Sales KPI Simulator - Mónica Acuña</title>
+    <title>Hunter Sales KPIs - Mónica Acuña</title>
     <style>
         *{margin:0;padding:0;box-sizing:border-box;}
         body{
-            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             color: white;
-            font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Arial, sans-serif;
-            padding: 30px;
+            font-family: Arial, sans-serif;
+            padding: 20px;
             line-height: 1.6;
         }
-        .container{max-width:1500px;margin:auto;}
+        .container{max-width:1400px;margin:auto;}
         
+        /* NUEVO: Tech Stack arriba */
         .tech-stack{
-            text-align:center;font-size:0.9em;color:#a0a0ff;margin:20px 0;padding:15px;
-            background:rgba(255,255,255,0.05);border-radius:12px;border:1px solid rgba(160,160,255,0.2);
-            font-family:monospace;
+            text-align:center;font-size:0.9em;color:#a0a0ff;margin:20px 0;padding:12px;
+            background:rgba(255,255,255,0.05);border-radius:12px;border:1px solid rgba(160,160,255,0.3);
         }
         
-        h1{
-            text-align:center;font-size:2.8em;font-weight:800;line-height:1.1;
-            background:linear-gradient(135deg,#00d4ff 0%,#00ff88 50%,#ffd700 100%); 
-            -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-            margin:20px 0 10px;text-shadow:0 0 40px rgba(0,212,255,0.5);
-        }
-        h2{
-            text-align:center;font-size:1.25em;color:#b0b0ff;margin:0 0 50px;
-            font-weight:400;max-width:800px;margin-left:auto;margin-right:auto;
-            line-height:1.6;
-        }
+        h1{text-align:center;color:#00d4ff;font-size:3.2em;margin:20px 0;text-shadow:0 0 25px #00d4ff;font-weight:700;}
+        /* NUEVO: Título más impactante */
+        h2{text-align:center;color:#b0b0ff;font-size:1.4em;margin:10px 0 40px;}
+        h2 strong{color:#ffd700;font-size:1.6em;}
         
-        .hero-img{
-            display:block;margin:40px auto;max-width:520px;
-            border:3px solid rgba(0,212,255,0.3);border-radius:20px;
-            box-shadow:0 25px 50px rgba(0,0,0,0.4);
-        }
+        .hero-img{display:block;margin:30px auto;max-width:500px;border:4px solid #00d4ff;border-radius:20px;box-shadow:0 20px 40px rgba(0,212,255,0.3);}
         
-        .cta-hero{
-            text-align:center;background:linear-gradient(135deg,#1e3a8a,#1e40af);padding:45px;border-radius:25px;
-            margin:50px 0;border:2px solid rgba(0,212,255,0.4);box-shadow:0 30px 60px rgba(0,0,0,0.5);
+        .cta-big{
+            text-align:center;background:linear-gradient(45deg,#003366,#00d4ff);padding:40px;border-radius:25px;
+            margin:40px 0;border:3px solid #00d4ff;box-shadow:0 20px 40px rgba(0,0,0,0.5);
         }
-        .cta-hero h3{color:#ffd700;font-size:2.2em;margin:0 0 20px;font-weight:800;}
-        .cta-hero p{font-size:1.25em;color:#e0e8ff;margin:12px 0;font-weight:500;}
+        .cta-big h3{color:gold;font-size:2.5em;margin:0 0 20px;font-weight:900;}
+        .cta-big p{font-size:1.3em;color:white;margin:10px 0;font-weight:500;}
         
-        .dashboard-grid{
-            display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));
-            gap:28px;margin:60px 0;
-        }
-        
-        .kpi-premium{
-            background:#1f1f1f;border-radius:20px;padding:32px;border:1px solid #2f2f2f;
+        /* MEJORADO: Cards premium estilo Stripe */
+        .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:30px;margin:60px 0;}
+        .kpi-card{
+            background:#1f1f1f;border-radius:20px;padding:35px;border:1px solid #2f2f2f;
             box-shadow:0 15px 35px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.05);
-            transition:all 0.4s cubic-bezier(0.4,0,0.2,1);position:relative;overflow:hidden;
+            transition:all 0.4s ease;
+            position:relative;overflow:hidden;
         }
-        .kpi-premium::before{
-            content:'';position:absolute;top:0;left:0;right:0;height:4px;
-            background:linear-gradient(90deg,#00d4ff,#00ff88);
+        .kpi-card::before{
+            content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#00d4ff,#00ff88);
         }
-        .kpi-premium:hover{
-            transform:translateY(-8px) scale(1.02);border-color:rgba(0,212,255,0.6);
+        .kpi-card:hover{
+            transform:translateY(-10px);border-color:rgba(0,212,255,0.6);
             box-shadow:0 30px 60px rgba(0,212,255,0.15),inset 0 1px 0 rgba(255,255,255,0.1);
         }
-        
-        .kpi-title{
-            font-size:0.95em;color:#9ca3af;font-weight:500;text-transform:uppercase;
-            letter-spacing:0.5px;margin-bottom:24px;padding-bottom:12px;border-bottom:1px solid #333;
+        .kpi-card h3{
+            color:#9ca3af;font-size:1em;margin:0 0 25px;font-weight:500;
+            text-transform:uppercase;letter-spacing:0.5px;padding-bottom:12px;border-bottom:1px solid #333;
         }
         
-        .kpi-input-group{margin:16px 0;}
-        .kpi-input-group label{
-            display:block;font-size:0.85em;color:#a0a0ff;font-weight:500;margin-bottom:6px;
+        label{display:block;color:#a0a0ff;font-weight:500;margin:16px 0 8px;font-size:0.9em;}
+        input{
+            width:100%;padding:14px;border:1px solid #444;border-radius:10px;
+            background:rgba(40,40,50,0.8);color:white;font-size:16px;font-weight:500;
+            transition:all 0.3s;
         }
-        .kpi-input{
-            width:100%;padding:12px 14px;border:1px solid #444;border-radius:10px;
-            background:rgba(40,40,50,0.8);color:#fff;font-size:15px;font-weight:500;
-            transition:all 0.3s ease;
-        }
-        .kpi-input:focus{
+        input:focus{
             outline:none;border-color:#00d4ff;box-shadow:0 0 0 3px rgba(0,212,255,0.1);
             background:rgba(0,120,180,0.9);transform:translateY(-1px);
         }
         
-        .kpi-metric{
-            margin:28px 0 12px;font-size:2.4em;font-weight:800;color:#00e5ff;
-            font-family:'SF Pro Display','-apple-system',monospace;line-height:1;
+        /* MEJORADO: Métricas grandes estilo dashboard */
+        .metric-big{
+            font-size:2.8em;font-weight:900;color:#00e5ff;margin:25px 0 12px;
+            font-family:monospace;text-align:center;line-height:1;
             text-shadow:0 2px 8px rgba(0,229,255,0.3);
         }
         
-        .kpi-benchmark{
+        /* NUEVO: Indicadores benchmark visuales */
+        .benchmark-tag{
             font-size:0.95em;font-weight:700;padding:10px 16px;border-radius:12px;
-            display:inline-block;letter-spacing:0.3px;
+            display:inline-block;margin:8px 0;text-align:center;width:100%;
+            letter-spacing:0.3px;
         }
         .world-class{background:linear-gradient(135deg,#10b981,#059669);color:#fff;box-shadow:0 4px 12px rgba(16,185,129,0.3);}
         .good{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;box-shadow:0 4px 12px rgba(245,158,11,0.3);}
         .risk{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;box-shadow:0 4px 12px rgba(239,68,68,0.4);}
         
         .explanations{
-            margin-top:100px;padding:60px 40px;background:rgba(15,15,35,0.95);
-            border-radius:30px;border:2px solid rgba(0,212,255,0.3);box-shadow:0 40px 80px rgba(0,0,0,0.6);
+            margin-top:80px;padding:60px;background:rgba(20,20,45,0.98);
+            border-radius:30px;border:3px solid #00d4ff;box-shadow:0 30px 80px rgba(0,0,0,0.6);
         }
-        .explanations h3{
-            text-align:center;font-size:2.1em;color:#00d4ff;margin-bottom:50px;
-            text-shadow:0 0 20px rgba(0,212,255,0.4);font-weight:700;
-        }
-        .exp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:30px;}
+        .explanations h3{color:#00d4ff;font-size:2.3em;text-align:center;margin-bottom:60px;text-shadow:0 0 25px rgba(0,212,255,0.5);}
+        .exp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:30px;}
         .exp-card{
-            background:rgba(25,25,45,0.8);padding:35px;border-radius:20px;
-            border-left:5px solid #00d4ff;transition:transform 0.3s,box-shadow 0.3s;
+            background:rgba(45,45,85,0.9);padding:35px;border-radius:20px;border-left:6px solid #00d4ff;
+            transition:transform 0.3s;
         }
-        .exp-card:hover{
-            transform:translateX(10px);box-shadow:0 20px 40px rgba(0,212,255,0.15);
+        .exp-card:hover{transform:translateX(12px);}
+        .exp-card h4{color:#ffd700;font-size:1.45em;margin:0 0 18px;font-weight:800;}
+        .exp-card p{font-size:1.15em;line-height:1.7;color:#e8e8ff;}
+        .benchmark-bar{
+            background:rgba(16,185,129,0.2);padding:12px;border-radius:10px;border-left:4px solid #10b981;
+            margin:15px 0;font-weight:600;font-size:0.95em;
         }
-        .exp-card h4{color:#ffd700;font-size:1.4em;margin:0 0 18px;font-weight:800;}
-        .exp-card .benchmark-bar{
-            background:rgba(16,185,129,0.2);padding:14px;border-radius:12px;border-left:4px solid #10b981;
-            margin:18px 0;font-weight:600;font-size:0.98em;
-        }
-        .exp-card p{font-size:1.12em;line-height:1.7;color:#e8e8ff;}
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="tech-stack">
-            Built with: HTML • JavaScript • KPI Modeling • SaaS Benchmarking
-        </div>
-        
-        <h1>Interactive SaaS Sales KPI Simulator</h1>
-        <h2>Adjust your sales metrics and compare with<br>world-class SaaS benchmarks in real time</h2>
-        
-        <img src="vlue cost.PNG" class="hero-img" alt="Valor vs Costo Matrix">
-        
-        <div class="cta-hero">
-            <h3>🎯 Test Your Sales Performance</h3>
-            <p><strong>Enter your metrics → Get instant World Class benchmark</strong></p>
-            <p>Compare against TOP 1% SaaS companies performance standards</p>
+<div class="container">
+    <!-- NUEVO: Tech stack -->
+    <div class="tech-stack">Built with: HTML • JavaScript • KPI Modeling • SaaS Benchmarking</div>
+    
+    <h1>🏹 Hunter Sales KPIs</h1>
+    <!-- NUEVO: Título impactante -->
+    <h2><strong>Interactive SaaS KPI Simulator</strong><br>Benchmark vs TOP 1% Companies</h2>
+    
+    <img src="vlue cost.PNG" class="hero-img" alt="Valor vs Costo">
+    
+    <div class="cta-big">
+        <h3>🎯 RETO VP SALES: Test Your Performance</h3>
+        <p><strong>⚡ Cambia números → Benchmark instantáneo vs World Class</strong></p>
+        <p>¡Compara tu performance con estándares TOP 1% SaaS!</p>
+    </div>
+
+    <div class="kpi-grid">
+        <div class="kpi-card">
+            <h3>MRR Growth Rate</h3>
+            <label>MRR Mes Anterior:</label><input type="number" id="mrr1" value="45000">
+            <label>MRR Este Mes:</label><input type="number" id="mrr2" value="52000">
+            <div class="metric-big" id="mrr">$52K (+15.6%)</div>
+            <div class="benchmark-tag world-class" id="mrrBench">🟢 WORLD CLASS</div>
         </div>
 
-        <div class="dashboard-grid">
-            <div class="kpi-premium">
-                <div class="kpi-title">MRR Growth Rate</div>
-                <div class="kpi-input-group">
-                    <label>Previous Month MRR</label>
-                    <input class="kpi-input" type="number" id="mrr1" value="45000">
+        <div class="kpi-card">
+            <h3>Customer Acquisition Cost</h3>
+            <label>Gasto Marketing:</label><input type="number" id="mk" value="18000">
+            <label>Gasto Ventas:</label><input type="number" id="sales" value="32000">
+            <label>Clientes Nuevos:</label><input type="number" id="cust" value="42">
+            <div class="metric-big" id="cac">$11,810</div>
+            <div class="benchmark-tag good" id="cacBench">🟡 GOOD</div>
+        </div>
+
+        <div class="kpi-card">
+            <h3>LTV/CAC Ratio</h3>
+            <label>Valor Cliente (LTV):</label><input type="number" id="ltv" value="48000">
+            <label>Costo Cliente (CAC):</label><input type="number" id="cacv" value="11810">
+            <div class="metric-big" id="ratio">4.1x</div>
+            <div class="benchmark-tag world-class" id="ratioBench">🟢 WORLD CLASS</div>
+        </div>
+
+        <div class="kpi-card">
+            <h3>Conversion Rate</h3>
+            <label>Leads SQL:</label><input type="number" id="sql" value="650">
+            <label>Leads Convertidos:</label><input type="number" id="conv" value="78">
+            <div class="metric-big" id="conv">12.0%</div>
+            <div class="benchmark-tag good" id="convBench">🟡 GOOD</div>
+        </div>
+
+        <div class="kpi-card">
+            <h3>Win Rate</h3>
+            <label>Deals Ganados:</label><input type="number" id="win" value="52">
+            <label>Deals Totales:</label><input type="number" id="dtotal" value="187">
+            <div class="metric-big" id="win">27.8%</div>
+            <div class="benchmark-tag good" id="winBench">🟡 GOOD</div>
+        </div>
+
+        <div class="kpi-card">
+            <h3>Pipeline Value</h3>
+            <label>Oportunidades:</label><input type="number" id="opps" value="135">
+            <label>Valor Promedio:</label><input type="number" id="avg" value="9200">
+            <div class="metric-big" id="pipe">$1.24M</div>
+            <div class="benchmark-tag world-class" id="pipeBench">🟢 WORLD CLASS</div>
+        </div>
+
+        <div class="kpi-card">
+            <h3>Churn Rate</h3>
+            <label>Clientes Inicio:</label><input type="number" id="start" value="820">
+            <label>Clientes Perdidos:</label><input type="number" id="lost" value="18">
+            <div class="metric-big" id="churn">2.2%</div>
+            <div class="benchmark-tag world-class" id="churnBench">🟢 WORLD CLASS</div>
+        </div>
+
+        <div class="kpi-card">
+            <h3>Sales Velocity</h3>
+            <label>Opp/Mes:</label><input type="number" id="opm" value="38">
+            <label>Ciclo Ventas (días):</label><input type="number" id="cycle" value="42">
+            <div class="metric-big" id="vel">$261K/mes</div>
+            <div class="benchmark-tag world-class" id="velBench">🟢 WORLD CLASS</div>
+        </div>
+    </div>
+
+    <div class="explanations">
+        <h3>📊 WORLD CLASS BENCHMARKS - TOP 1% SaaS</h3>
+        <div class="exp-grid">
+            <div class="exp-card">
+                <h4>01️⃣ MRR Growth</h4>
+                <p><strong>Mide:</strong> Crecimiento ingresos recurrentes</p>
+                <div class="benchmark-bar">
+                    🟢 WORLD CLASS: <strong>+20% mensual</strong> | ⭐ GOOD: 12-18% | 🔴 RISK: <8%
                 </div>
-                <div class="kpi-input-group">
-                    <label>Current Month MRR</label>
-                    <input class="kpi-input" type="number" id="mrr2" value="52000">
-                </div>
-                <div class="kpi-metric" id="mrrVal">$52K</div>
-                <div class="kpi-benchmark world-class" id="mrrBench">🟢 WORLD CLASS</div>
             </div>
+            <div class="exp-card">
+                <h4>02️⃣ CAC</h4>
+                <p><strong>Mide:</strong> Costo total por cliente</p>
+                <div class="benchmark-bar">
+                    🟢 WORLD CLASS: <strong>&lt;$8K</strong> | ⭐ GOOD: $8-12K | 🔴 RISK: >$15K
+                </div>
+            </div>
+            <div class="exp-card">
+                <h4>03️⃣ LTV/CAC</h4>
+                <p><strong>Mide:</strong> ROI adquisición</p>
+                <div class="benchmark-bar">
+                    🟢 WORLD CLASS: <strong>>5x</strong> | ⭐ GOOD: 3-5x | 🔴 RISK: <2x
+                </div>
+            </div>
+            <div class="exp-card">
+                <h4>04️⃣ Conversion Rate</h4>
+                <p><strong>Mide:</strong> % leads que cierran</p>
+                <div class="benchmark-bar">
+                    🟢 WORLD CLASS: <strong>>20%</strong> | ⭐ GOOD: 12-18% | 🔴 RISK: <10%
+                </div>
+            </div>
+            <div class="exp-card">
+                <h4>05️⃣ Win Rate</h4>
+                <p><strong>Mide:</strong> % deals ganados</p>
+                <div class="benchmark-bar">
+                    🟢 WORLD CLASS: <strong>>35%</strong> | ⭐ GOOD: 25-35% | 🔴 RISK: <20%
+                </div>
+            </div>
+            <div class="exp-card">
+                <h4>06️⃣ Pipeline Value</h4>
+                <p><strong>Mide:</strong> Revenue futuro</p>
+                <div class="benchmark-bar">
+                    🟢 WORLD CLASS: <strong>>6x quota</strong> | ⭐ GOOD: 4-6x | 🔴 RISK: <3x
+                </div>
+            </div>
+            <div class="exp-card">
+                <h4>07️⃣ Churn Rate</h4>
+                <p><strong>Mide:</strong> % clientes perdidos</p>
+                <div class="benchmark-bar">
+                    🟢 WORLD CLASS: <strong><3%</strong> | ⭐ GOOD: 3-5% | 🔴 RISK: >8%
+                </div>
+            </div>
+            <div class="exp-card">
+                <h4>08️⃣ Sales Velocity</h4>
+                <p><strong>Mide:</strong> Velocidad revenue</p>
+                <div class="benchmark-bar">
+                    🟢 WORLD CLASS: <strong><60 días ciclo</strong> | ⭐ GOOD: 60-90 días | 🔴 RISK: >120 días
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-            <div class="kpi-premium">
-                <div class="kpi-title">Customer Acquisition Cost</div>
-                <div class="kpi-input-group">
-                    <label>Marketing Spend</label>
-                    <input class="kpi-input"
+<script>
+function calculateAll(){
+    // MRR Growth
+    let m1=document.getElementById('mrr1').value*1||45000;
+    let m2=document.getElementById('mrr2').value*1||52000;
+    let mgr=((m2-m1)/m1*100).toFixed(1);
+    let mrrBench = mgr>20 ? 'world-class' : (mgr>12 ? 'good' : 'risk');
+    document.getElementById('mrr').innerHTML='$'+(m2/1000).toFixed(0)+'K (+' + mgr + '%)';
+    document.getElementById('mrrBench').className='benchmark-tag ' + mrrBench;
+    document.getElementById('mrrBench').textContent = '🟢🟡🔴'[mrrBench=='world-class' ? 0 : mrrBench=='good' ? 1 : 2] + 
+        (mrrBench=='world-class' ? ' WORLD CLASS' : mrrBench=='good' ? ' GOOD' : ' RISK');
+    
+    // CAC
+    let mk=document.getElementById('mk').value*1||18000;
+    let sl=document.getElementById('sales').value*1||32000;
+    let cu=document.getElementById('cust').value*1||42;
+    let cacVal=Math.round((mk+sl)/cu);
+    let cacBench = cacVal<8000 ? 'world-class' : (cacVal<12000 ? 'good' : 'risk');
+    document.getElementById('cac').innerHTML='$' + cacVal.toLocaleString();
+    document.getElementById('cacBench').className='benchmark-tag ' + cacBench;
+    document.getElementById('cacBench').textContent = '🟢🟡🔴'[cacBench=='world-class' ? 0 : cacBench=='good' ? 1 : 2] + 
+        (cacBench=='world-class' ? ' WORLD CLASS' : cacBench=='good' ? ' GOOD' : ' RISK');
+    
+    // LTV/CAC
+    let lt=document.getElementById('ltv').value*1||48000;
+    let cv=document.getElementById('cacv').value*1||11810;
+    let rt=(lt/cv).toFixed(1);
+    let ratioBench = lt/cv>5 ? 'world-class' : (lt/cv>3 ? 'good' : 'risk');
+    document.getElementById('ratio').innerHTML=rt + 'x';
+    document.getElementById('ratioBench').className='benchmark-tag ' + ratioBench;
+    document.getElementById('ratioBench').textContent = '🟢🟡🔴'[ratioBench=='world-class' ? 0 : ratioBench=='good' ? 1 : 2] + 
+        (ratioBench=='world-class' ? ' WORLD CLASS' : ratioBench=='good' ? ' GOOD' : ' RISK');
+    
+    // Conversion Rate
+    let sq=document.getElementById('sql').value*1||650;
+    let cn=document.getElementById('conv').value*1||78;
+    let convRate=((cn/sq)*100).toFixed(1);
+    let convBench = convRate>20 ? 'world-class' : (convRate>12 ? 'good' : 'risk');
+    document.getElementById('conv').innerHTML=convRate + '%';
+    document.getElementById('convBench').className='benchmark-tag ' + convBench;
+    document.getElementById('convBench').textContent = '🟢🟡🔴'[convBench=='world-class' ? 0 : convBench=='good' ? 1 : 2] + 
+        (convBench=='world-class' ? ' WORLD CLASS' : convBench=='good' ? ' GOOD' : ' RISK');
+    
+    // Win Rate
+    let wn=document.getElementById('win').value*1||52;
+    let dt=document.getElementById('dtotal').value*1||187;
+    let winRate=((wn/dt)*100).toFixed(1);
+    let winBench = winRate>35 ? 'world-class' : (winRate>25 ? 'good' : 'risk');
+    document.getElementById('win').innerHTML=winRate + '%';
+    document.getElementById('winBench').className='benchmark-tag ' + winBench;
+    document.getElementById('winBench').textContent = '🟢🟡🔴'[winBench=='world-class' ? 0 : winBench=='good' ? 1 : 2] + 
+        (winBench=='world-class' ? ' WORLD CLASS' : winBench=='good' ? ' GOOD' : ' RISK');
+    
+    // Pipeline
+    let op=document.getElementById('opps').value*1||135;
+    let av=document.getElementById('avg').value*1||9200;
+    let pipeVal=(op*av/1000000).toFixed(2);
+    document.getElementById('pipe').innerHTML='$' + pipeVal + 'M';
+    document.getElementById('pipeBench').className='benchmark-tag world-class';
+    document.getElementById('pipeBench').textContent='🟢 WORLD CLASS';
+    
+    // Churn
+    let st=document.getElementById('start').value*1||820;
+    let ls=document.getElementById('lost').value*1||18;
+    let ch=((ls/st)*100).toFixed(1);
+    let churnBench = ls/st<0.03 ? 'world-class' : (ls/st<0.05 ? 'good' : 'risk');
+    document.getElementById('churn').innerHTML=ch + '%';
+    document.getElementById('churnBench').className='benchmark-tag ' + churnBench;
+    document.getElementById('churnBench').textContent = '🟢🟡🔴'[churnBench=='world-class' ? 0 : churnBench=='good' ? 1 : 2] + 
+        (churnBench=='world-class' ? ' WORLD CLASS' : churnBench=='good' ? ' GOOD' : ' RISK');
+    
+    // Velocity
+    let om=document.getElementById('opm').value*1||38;
+    let cy=document.getElementById('cycle').value*1||42;
+    let vl=Math.round(om*9200*0.28*(30/cy));
+    let velBench = cy<60 ? 'world-class' : (cy<90 ? 'good' : 'risk');
+    document.getElementById('vel').innerHTML='$' + (vl/1000).toFixed(0) + 'K/mes';
+    document.getElementById('velBench').className='benchmark-tag ' + velBench;
+    document.getElementById('velBench').textContent = '🟢🟡🔴'[velBench=='world-class' ? 0 : velBench=='good' ? 1 : 2] + 
+        (velBench=='world-class' ? ' WORLD CLASS' : velBench=='good' ? ' GOOD' : ' RISK');
+}
+
+document.addEventListener('DOMContentLoaded',function(){
+    document.querySelectorAll('input').forEach(function(el){
+        el.addEventListener('input',calculateAll);
+        el.addEventListener('change',calculateAll);
+    });
+    setTimeout(calculateAll,200);
+});
+</script>
+</body>
+</html>
