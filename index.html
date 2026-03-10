@@ -3,182 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hunter Sales KPIs - Demo Mónica Acuña</title>
+    <title>Hunter Sales KPIs - SaaS Game</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f4f4f4; }
-        .container { max-width: 1200px; margin: auto; }
-        h1 { text-align: center; color: #333; }
-        h2 { text-align: center; color: #666; margin-top: 10px; }
-        .image-center { text-align: center; margin: 20px 0; }
-        .image-center img { max-width: 400px; height: auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; margin-top: 40px; }
-        .kpi-box { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        .kpi-box h3 { margin-top: 0; color: #333; }
-        .input-group { margin: 10px 0; }
-        .input-group label { display: block; font-weight: bold; margin-bottom: 5px; }
-        .input-group input { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px; }
-        canvas { max-height: 250px; }
-        button { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 10px; }
-        button:hover { background: #0056b3; }
+        * { box-sizing: border-box; }
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 0; padding: 20px; 
+            background: #1a1a2e; 
+            color: #ffffff; 
+        }
+        .container { max-width: 1400px; margin: auto; }
+        h1 { text-align: center; color: #00d4ff; font-size: 3em; text-shadow: 0 0 20px #00d4ff; }
+        h2 { text-align: center; color: #a0a0ff; font-size: 1.5em; margin: 20px 0 40px; }
+        
+        .cta-game { 
+            text-align: center; 
+            background: rgba(0,212,255,0.1); 
+            padding: 30px; 
+            border-radius: 15px; 
+            border: 2px solid #00d4ff; 
+            margin: 30px 0; 
+        }
+        .cta-game h3 { color: #ffd700; font-size: 2em; margin: 0; }
+        
+        .image-center { text-align: center; margin: 30px 0; }
+        .image-center img { max-width: 500px; height: auto; border-radius: 15px; border: 2px solid #00d4ff; box-shadow: 0 10px 30px rgba(0,212,255,0.3); }
+        
+        .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 25px; margin: 40px 0; }
+        .kpi-box { 
+            background: rgba(30,30,50,0.9); 
+            padding: 25px; 
+            border-radius: 15px; 
+            border: 1px solid #444; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .kpi-box h3 { margin: 0 0 20px; color: #00d4ff; font-size: 1.4em; }
+        .input-group { margin: 15px 0; }
+        .input-group label { display: block; color: #e0e0ff; font-weight: bold; margin-bottom: 5px; }
+        .input-group input { 
+            width: 100%; padding: 12px; border: 1px solid #555; border-radius: 8px; 
+            background: #333; color: #fff; font-size: 1em; 
+        }
+        .input-group input:focus { border-color: #00d4ff; outline: none; box-shadow: 0 0 10px #00d4ff; }
+        .chart-container { position: relative; height: 280px; margin-top: 15px; background: rgba(0,0,0,0.3); border-radius: 10px; }
+        
+        .explanations { margin-top: 60px; display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; }
+        .kpi-explain { background: rgba(20,20,40,0.9); padding: 20px; border-radius: 10px; border-left: 4px solid #00d4ff; }
+        .kpi-explain h4 { color: #ffd700; margin-top: 0; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Hunter Sales KPIs</h1>
         <div class="image-center">
-            <img src="imagen.jpg" alt="Imagen principal Hunter Sales"> <!-- Sube tu imagen como 'imagen.jpg' al repo -->
+            <img src="vlue cost.PNG" alt="Valor vs Costo">
         </div>
         <h2>Valor vs Costo</h2>
         
+        <!-- CTA JUEGO -->
+        <div class="cta-game">
+            <h3>🎮 CAMBIA LOS NÚMEROS → VE LOS GRÁFICOS ACTUALIZARSE</h3>
+            <p>¡Este es tu dashboard SaaS! Modifica cualquier input y observa la magia.</p>
+        </div>
+
         <div class="kpi-grid">
-            <!-- KPI 1: Ingresos vs Costos -->
             <div class="kpi-box">
-                <h3>Ingresos vs Costos</h3>
+                <h3>1. MRR Growth</h3>
                 <div class="input-group">
-                    <label>Ingresos Totales ($):</label>
-                    <input type="number" id="ingresos" value="100000" min="0">
+                    <label>MRR Anterior ($):</label>
+                    <input type="number" id="mrr1" value="45000">
                 </div>
                 <div class="input-group">
-                    <label>Costos Totales ($):</label>
-                    <input type="number" id="costos" value="60000" min="0">
+                    <label>MRR Actual ($):</label>
+                    <input type="number" id="mrr2" value="52000">
                 </div>
-                <canvas id="chart1"></canvas>
+                <div class="chart-container"><canvas id="c1"></canvas></div>
             </div>
 
-            <!-- KPI 2: Tasa de Conversión -->
             <div class="kpi-box">
-                <h3>Tasa de Conversión (%)</h3>
+                <h3>2. CAC</h3>
                 <div class="input-group">
-                    <label>Leads Generados:</label>
-                    <input type="number" id="leads" value="500" min="0">
+                    <label>Gasto Marketing ($):</label>
+                    <input type="number" id="mk" value="18000">
                 </div>
                 <div class="input-group">
-                    <label>Ventas Cerradas:</label>
-                    <input type="number" id="ventas" value="50" min="0">
-                </div>
-                <canvas id="chart2"></canvas>
-            </div>
-
-            <!-- KPI 3: CAC (Costo Adquisición Cliente) -->
-            <div class="kpi-box">
-                <h3>CAC (Costo por Cliente)</h3>
-                <div class="input-group">
-                    <label>Gastos Marketing ($):</label>
-                    <input type="number" id="marketing" value="20000" min="0">
-                </div>
-                <div class="input-group">
-                    <label>Salarios Ventas ($):</label>
-                    <input type="number" id="salarios" value="30000" min="0">
+                    <label>Gasto Ventas ($):</label>
+                    <input type="number" id="sales" value="32000">
                 </div>
                 <div class="input-group">
                     <label>Clientes Nuevos:</label>
-                    <input type="number" id="clientes" value="100" min="1">
+                    <input type="number" id="newcust" value="42">
                 </div>
-                <canvas id="chart3"></canvas>
+                <div class="chart-container"><canvas id="c2"></canvas></div>
             </div>
 
-            <!-- KPI 4: Pipeline Value -->
             <div class="kpi-box">
-                <h3>Valor Pipeline</h3>
+                <h3>3. LTV/CAC Ratio</h3>
+                <div class="input-group">
+                    <label>LTV ($):</label>
+                    <input type="number" id="ltv" value="48000">
+                </div>
+                <div class="input-group">
+                    <label>CAC ($):</label>
+                    <input type="number" id="cac" value="11810">
+                </div>
+                <div class="chart-container"><canvas id="c3"></canvas></div>
+            </div>
+
+            <div class="kpi-box">
+                <h3>4. Conversion Rate</h3>
+                <div class="input-group">
+                    <label>Leads SQL:</label>
+                    <input type="number" id="sql" value="650">
+                </div>
+                <div class="input-group">
+                    <label>Leads Convertidos:</label>
+                    <input type="number" id="conv" value="78">
+                </div>
+                <div class="chart-container"><canvas id="c4"></canvas></div>
+            </div>
+
+            <div class="kpi-box">
+                <h3>5. Win Rate</h3>
+                <div class="input-group">
+                    <label>Deals Ganados:</label>
+                    <input type="number" id="wins" value="52">
+                </div>
+                <div class="input-group">
+                    <label>Deals Total:</label>
+                    <input type="number" id="totaldeals" value="187">
+                </div>
+                <div class="chart-container"><canvas id="c5"></canvas></div>
+            </div>
+
+            <div class="kpi-box">
+                <h3>6. Pipeline Value</h3>
                 <div class="input-group">
                     <label>Oportunidades:</label>
-                    <input type="number" id="oportunidades" value="20" min="0">
+                    <input type="number" id="ops" value="135">
                 </div>
                 <div class="input-group">
-                    <label>Valor Promedio por Oportunidad ($):</label>
-                    <input type="number" id="valorOport" value="5000" min="0">
-                </div>
-                <canvas id="chart4"></canvas>
-            </div>
-
-            <!-- KPI 5: Win Rate -->
-            <div class="kpi-box">
-                <h3>Win Rate (%)</h3>
-                <div class="input-group">
-                    <label>Propuestas Presentadas:</label>
-                    <input type="number" id="propuestas" value="100" min="0">
-                </div>
-                <div class="input-group">
-                    <label>Propuestas Ganadas:</label>
-                    <input type="number" id="ganadas" value="25" min="0">
-                </div>
-                <canvas id="chart5"></canvas>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Función para actualizar todos los gráficos
-        function actualizarGraficos() {
-            // Chart 1: Ingresos vs Costos (Barra)
-            const ctx1 = document.getElementById('chart1').getContext('2d');
-            const ingresos = parseFloat(document.getElementById('ingresos').value) || 0;
-            const costos = parseFloat(document.getElementById('costos').value) || 0;
-            if (window.chart1) chart1.destroy();
-            window.chart1 = new Chart(ctx1, {
-                type: 'bar',
-                data: { labels: ['Ingresos', 'Costos'], datasets: [{ label: 'Valor ($)', data: [ingresos, costos], backgroundColor: ['#28a745', '#dc3545'] }] },
-                options: { responsive: true, scales: { y: { beginAtZero: true } } }
-            });
-
-            // Chart 2: Tasa Conversión (Doughnut)
-            const ctx2 = document.getElementById('chart2').getContext('2d');
-            const leads = parseFloat(document.getElementById('leads').value) || 0;
-            const ventasC = parseFloat(document.getElementById('ventas').value) || 0;
-            const tasa = leads > 0 ? (ventasC / leads * 100) : 0;
-            if (window.chart2) chart2.destroy();
-            window.chart2 = new Chart(ctx2, {
-                type: 'doughnut',
-                data: { labels: ['Convertidos', 'No Convertidos'], datasets: [{ data: [tasa, 100 - tasa], backgroundColor: ['#007bff', '#6c757d'] }] },
-                options: { responsive: true }
-            });
-
-            // Chart 3: CAC (Gauge simulado con Doughnut)
-            const ctx3 = document.getElementById('chart3').getContext('2d');
-            const marketing = parseFloat(document.getElementById('marketing').value) || 0;
-            const salariosV = parseFloat(document.getElementById('salarios').value) || 0;
-            const clientesN = parseFloat(document.getElementById('clientes').value) || 1;
-            const cac = (marketing + salariosV) / clientesN;
-            if (window.chart3) chart3.destroy();
-            window.chart3 = new Chart(ctx3, {
-                type: 'doughnut',
-                data: { labels: ['CAC ($)', 'Benchmark'], datasets: [{ data: [cac, 500], backgroundColor: ['#ffc107', '#28a745'] }] }, // Benchmark ejemplo $500 [web:1]
-                options: { responsive: true }
-            });
-
-            // Chart 4: Pipeline (Barra)
-            const ctx4 = document.getElementById('chart4').getContext('2d');
-            const oportunidades = parseFloat(document.getElementById('oportunidades').value) || 0;
-            const valorO = parseFloat(document.getElementById('valorOport').value) || 0;
-            const pipeline = oportunidades * valorO;
-            if (window.chart4) chart4.destroy();
-            window.chart4 = new Chart(ctx4, {
-                type: 'bar',
-                data: { labels: ['Pipeline Total'], datasets: [{ label: 'Valor ($)', data: [pipeline], backgroundColor: '#17a2b8' }] },
-                options: { responsive: true, scales: { y: { beginAtZero: true } } }
-            });
-
-            // Chart 5: Win Rate (Doughnut)
-            const ctx5 = document.getElementById('chart5').getContext('2d');
-            const propuestas = parseFloat(document.getElementById('propuestas').value) || 0;
-            const ganadasP = parseFloat(document.getElementById('ganadas').value) || 0;
-            const winrate = propuestas > 0 ? (ganadasP / propuestas * 100) : 0;
-            if (window.chart5) chart5.destroy();
-            window.chart5 = new Chart(ctx5, {
-                type: 'doughnut',
-                data: { labels: ['Ganadas', 'Perdidas'], datasets: [{ data: [winrate, 100 - winrate], backgroundColor: ['#28a745', '#dc3545'] }] },
-                options: { responsive: true }
-            });
-        }
-
-        // Event listeners para inputs
-        document.querySelectorAll('input[type="number"]').forEach(input => {
-            input.addEventListener('input', actualizarGraficos);
-        });
-
-        // Inicializar gráficos
-        window.onload = actualizarGraficos;
-    </script>
-</body>
-</html>
+                    <label>Valor Promedio ($):</label>
+                    <input type="number" id="avgval" value="9200">
