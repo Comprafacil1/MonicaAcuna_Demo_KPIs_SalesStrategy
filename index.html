@@ -1,294 +1,159 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Hunter Sales KPIs - Mónica Acuña</title>
+    <title>Interactive SaaS Sales KPI Simulator - Mónica Acuña</title>
     <style>
         *{margin:0;padding:0;box-sizing:border-box;}
         body{
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
             color: white;
-            font-family: -apple-system, Arial, sans-serif;
-            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Arial, sans-serif;
+            padding: 30px;
             line-height: 1.6;
         }
-        .container{max-width:1400px;margin:auto;}
-        h1{text-align:center;color:#00d4ff;font-size:3.2em;margin:30px 0;text-shadow:0 0 25px #00d4ff;font-weight:700;}
-        h2{text-align:center;color:#b0b0ff;font-size:1.6em;margin:20px 0 40px;}
+        .container{max-width:1500px;margin:auto;}
         
-        .hero-img{display:block;margin:30px auto;max-width:500px;border:4px solid #00d4ff;border-radius:20px;box-shadow:0 20px 40px rgba(0,212,255,0.3);}
-        
-        .cta-big{
-            text-align:center;background:linear-gradient(45deg,#003366,#00d4ff);padding:40px;border-radius:25px;
-            margin:40px 0;border:3px solid #00d4ff;box-shadow:0 20px 40px rgba(0,0,0,0.5);
-        }
-        .cta-big h3{color:#ffd700;font-size:2.5em;margin:0 0 20px;font-weight:900;}
-        .cta-big p{font-size:1.3em;color:white;margin:10px 0;font-weight:500;}
-        
-        .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:30px;margin:60px 0;}
-        .kpi-card{
-            background:rgba(30,30,55,0.98);padding:35px;border-radius:25px;border:2px solid #444;
-            transition:all 0.4s ease;box-shadow:0 20px 40px rgba(0,0,0,0.4);
-        }
-        .kpi-card:hover{transform:translateY(-10px);border-color:#00d4ff;box-shadow:0 30px 60px rgba(0,212,255,0.25);}
-        .kpi-card h3{color:#00d4ff;font-size:1.7em;margin:0 0 25px;font-weight:700;text-transform:uppercase;}
-        
-        label{display:block;color:#e0e0ff;font-weight:600;margin:18px 0 8px;font-size:1em;}
-        input{
-            width:100%;padding:15px;border:2px solid #666;border-radius:12px;
-            background:rgba(60,60,90,0.9);color:white;font-size:17px;font-weight:500;
-            transition:all 0.3s;
-        }
-        input:focus{
-            outline:none;border-color:#00d4ff;box-shadow:0 0 20px rgba(0,212,255,0.5);
-            background:rgba(0,120,180,0.95);transform:scale(1.02);
+        .tech-stack{
+            text-align:center;font-size:0.9em;color:#a0a0ff;margin:20px 0;padding:15px;
+            background:rgba(255,255,255,0.05);border-radius:12px;border:1px solid rgba(160,160,255,0.2);
+            font-family:monospace;
         }
         
-        .metric-big{
-            background:linear-gradient(135deg,#00d4ff,#00ff88);color:#000;font-size:2.8em;font-weight:900;
-            padding:28px;text-align:center;border-radius:18px;margin:25px 0;font-family:monospace;
-            box-shadow:0 18px 40px rgba(0,212,255,0.4);position:relative;overflow:hidden;
+        h1{
+            text-align:center;font-size:2.8em;font-weight:800;line-height:1.1;
+            background:linear-gradient(135deg,#00d4ff 0%,#00ff88 50%,#ffd700 100%); 
+            -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+            margin:20px 0 10px;text-shadow:0 0 40px rgba(0,212,255,0.5);
         }
-        .metric-big::after{
-            content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
-            background:linear-gradient(90deg,transparent,rgba(255,255,255,0.4),transparent);
-            animation:shine 2s infinite;
+        h2{
+            text-align:center;font-size:1.25em;color:#b0b0ff;margin:0 0 50px;
+            font-weight:400;max-width:800px;margin-left:auto;margin-right:auto;
+            line-height:1.6;
         }
-        @keyframes shine{0%{left:-100%}100%{left:100%}}
+        
+        .hero-img{
+            display:block;margin:40px auto;max-width:520px;
+            border:3px solid rgba(0,212,255,0.3);border-radius:20px;
+            box-shadow:0 25px 50px rgba(0,0,0,0.4);
+        }
+        
+        .cta-hero{
+            text-align:center;background:linear-gradient(135deg,#1e3a8a,#1e40af);padding:45px;border-radius:25px;
+            margin:50px 0;border:2px solid rgba(0,212,255,0.4);box-shadow:0 30px 60px rgba(0,0,0,0.5);
+        }
+        .cta-hero h3{color:#ffd700;font-size:2.2em;margin:0 0 20px;font-weight:800;}
+        .cta-hero p{font-size:1.25em;color:#e0e8ff;margin:12px 0;font-weight:500;}
+        
+        .dashboard-grid{
+            display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));
+            gap:28px;margin:60px 0;
+        }
+        
+        .kpi-premium{
+            background:#1f1f1f;border-radius:20px;padding:32px;border:1px solid #2f2f2f;
+            box-shadow:0 15px 35px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.05);
+            transition:all 0.4s cubic-bezier(0.4,0,0.2,1);position:relative;overflow:hidden;
+        }
+        .kpi-premium::before{
+            content:'';position:absolute;top:0;left:0;right:0;height:4px;
+            background:linear-gradient(90deg,#00d4ff,#00ff88);
+        }
+        .kpi-premium:hover{
+            transform:translateY(-8px) scale(1.02);border-color:rgba(0,212,255,0.6);
+            box-shadow:0 30px 60px rgba(0,212,255,0.15),inset 0 1px 0 rgba(255,255,255,0.1);
+        }
+        
+        .kpi-title{
+            font-size:0.95em;color:#9ca3af;font-weight:500;text-transform:uppercase;
+            letter-spacing:0.5px;margin-bottom:24px;padding-bottom:12px;border-bottom:1px solid #333;
+        }
+        
+        .kpi-input-group{margin:16px 0;}
+        .kpi-input-group label{
+            display:block;font-size:0.85em;color:#a0a0ff;font-weight:500;margin-bottom:6px;
+        }
+        .kpi-input{
+            width:100%;padding:12px 14px;border:1px solid #444;border-radius:10px;
+            background:rgba(40,40,50,0.8);color:#fff;font-size:15px;font-weight:500;
+            transition:all 0.3s ease;
+        }
+        .kpi-input:focus{
+            outline:none;border-color:#00d4ff;box-shadow:0 0 0 3px rgba(0,212,255,0.1);
+            background:rgba(0,120,180,0.9);transform:translateY(-1px);
+        }
+        
+        .kpi-metric{
+            margin:28px 0 12px;font-size:2.4em;font-weight:800;color:#00e5ff;
+            font-family:'SF Pro Display','-apple-system',monospace;line-height:1;
+            text-shadow:0 2px 8px rgba(0,229,255,0.3);
+        }
+        
+        .kpi-benchmark{
+            font-size:0.95em;font-weight:700;padding:10px 16px;border-radius:12px;
+            display:inline-block;letter-spacing:0.3px;
+        }
+        .world-class{background:linear-gradient(135deg,#10b981,#059669);color:#fff;box-shadow:0 4px 12px rgba(16,185,129,0.3);}
+        .good{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;box-shadow:0 4px 12px rgba(245,158,11,0.3);}
+        .risk{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;box-shadow:0 4px 12px rgba(239,68,68,0.4);}
         
         .explanations{
-            margin-top:80px;padding:60px;background:rgba(20,20,45,0.98);
-            border-radius:30px;border:3px solid #00d4ff;box-shadow:0 30px 80px rgba(0,0,0,0.6);
+            margin-top:100px;padding:60px 40px;background:rgba(15,15,35,0.95);
+            border-radius:30px;border:2px solid rgba(0,212,255,0.3);box-shadow:0 40px 80px rgba(0,0,0,0.6);
         }
         .explanations h3{
-            color:#00d4ff;font-size:2.3em;text-align:center;margin-bottom:60px;
-            text-shadow:0 0 25px rgba(0,212,255,0.5);
+            text-align:center;font-size:2.1em;color:#00d4ff;margin-bottom:50px;
+            text-shadow:0 0 20px rgba(0,212,255,0.4);font-weight:700;
         }
-        .exp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:30px;}
+        .exp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:30px;}
         .exp-card{
-            background:rgba(45,45,85,0.9);padding:35px;border-radius:20px;
-            border-left:6px solid #00d4ff;transition:transform 0.3s;
+            background:rgba(25,25,45,0.8);padding:35px;border-radius:20px;
+            border-left:5px solid #00d4ff;transition:transform 0.3s,box-shadow 0.3s;
         }
-        .exp-card:hover{transform:translateX(12px);}
-        .exp-card h4{color:#ffd700;font-size:1.45em;margin:0 0 18px;font-weight:800;}
-        .exp-card p{font-size:1.15em;line-height:1.7;color:#e8e8ff;}
-        .benchmark{ 
-            background:rgba(0,212,255,0.2);padding:12px;border-radius:10px;
-            border-left:4px solid #ffd700;margin:15px 0;font-weight:600;
+        .exp-card:hover{
+            transform:translateX(10px);box-shadow:0 20px 40px rgba(0,212,255,0.15);
         }
+        .exp-card h4{color:#ffd700;font-size:1.4em;margin:0 0 18px;font-weight:800;}
+        .exp-card .benchmark-bar{
+            background:rgba(16,185,129,0.2);padding:14px;border-radius:12px;border-left:4px solid #10b981;
+            margin:18px 0;font-weight:600;font-size:0.98em;
+        }
+        .exp-card p{font-size:1.12em;line-height:1.7;color:#e8e8ff;}
     </style>
 </head>
 <body>
-<div class="container">
-    <h1>🏹 Hunter Sales KPIs</h1>
-    <img src="vlue cost.PNG" class="hero-img" alt="Valor vs Costo">
-    <h2>Dashboard Interactivo - 8 KPIs World Class</h2>
-    
-    <div class="cta-big">
-        <h3>🎯 RETO VP SALES: Benchmark World Class</h3>
-        <p><strong>⚡ Escribe números → Compara vs TOP 1% empresas</strong></p>
-        <p>¡Mide tu performance vs estándares globales EN VIVO!</p>
-    </div>
-
-    <div class="kpi-grid">
-        <div class="kpi-card">
-            <h3>01. MRR Growth</h3>
-            <label>MRR Mes Anterior:</label><input type="number" id="mrr1" value="45000">
-            <label>MRR Este Mes:</label><input type="number" id="mrr2" value="52000">
-            <div class="metric-big" id="mrr">$52K (+15.6%)</div>
+    <div class="container">
+        <div class="tech-stack">
+            Built with: HTML • JavaScript • KPI Modeling • SaaS Benchmarking
+        </div>
+        
+        <h1>Interactive SaaS Sales KPI Simulator</h1>
+        <h2>Adjust your sales metrics and compare with<br>world-class SaaS benchmarks in real time</h2>
+        
+        <img src="vlue cost.PNG" class="hero-img" alt="Valor vs Costo Matrix">
+        
+        <div class="cta-hero">
+            <h3>🎯 Test Your Sales Performance</h3>
+            <p><strong>Enter your metrics → Get instant World Class benchmark</strong></p>
+            <p>Compare against TOP 1% SaaS companies performance standards</p>
         </div>
 
-        <div class="kpi-card">
-            <h3>02. CAC</h3>
-            <label>Gasto Marketing:</label><input type="number" id="mk" value="18000">
-            <label>Gasto Ventas:</label><input type="number" id="sales" value="32000">
-            <label>Clientes Nuevos:</label><input type="number" id="cust" value="42">
-            <div class="metric-big" id="cac">$11,810</div>
-        </div>
-
-        <div class="kpi-card">
-            <h3>03. LTV/CAC Ratio</h3>
-            <label>Valor Cliente (LTV):</label><input type="number" id="ltv" value="48000">
-            <label>Costo Cliente (CAC):</label><input type="number" id="cacv" value="11810">
-            <div class="metric-big" id="ratio">4.1x ✅</div>
-        </div>
-
-        <div class="kpi-card">
-            <h3>04. Conversion Rate</h3>
-            <label>Leads SQL:</label><input type="number" id="sql" value="650">
-            <label>Leads Convertidos:</label><input type="number" id="conv" value="78">
-            <div class="metric-big" id="conv">12.0%</div>
-        </div>
-
-        <div class="kpi-card">
-            <h3>05. Win Rate</h3>
-            <label>Deals Ganados:</label><input type="number" id="win" value="52">
-            <label>Deals Totales:</label><input type="number" id="dtotal" value="187">
-            <div class="metric-big" id="win">27.8%</div>
-        </div>
-
-        <div class="kpi-card">
-            <h3>06. Pipeline Value</h3>
-            <label>Oportunidades:</label><input type="number" id="opps" value="135">
-            <label>Valor Promedio:</label><input type="number" id="avg" value="9200">
-            <div class="metric-big" id="pipe">$1.24M</div>
-        </div>
-
-        <div class="kpi-card">
-            <h3>07. Churn Rate</h3>
-            <label>Clientes Inicio:</label><input type="number" id="start" value="820">
-            <label>Clientes Perdidos:</label><input type="number" id="lost" value="18">
-            <div class="metric-big" id="churn">2.2% ✅</div>
-        </div>
-
-        <div class="kpi-card">
-            <h3>08. Sales Velocity</h3>
-            <label>Opp/Mes:</label><input type="number" id="opm" value="38">
-            <label>Ciclo Ventas (días):</label><input type="number" id="cycle" value="42">
-            <div class="metric-big" id="vel">$261K/mes</div>
-        </div>
-    </div>
-
-    <div class="explanations">
-        <h3>📊 BENCHMARKS WORLD CLASS - TOP 1% EMPRESAS</h3>
-        <div class="exp-grid">
-            <div class="exp-card">
-                <h4>01️⃣ MRR Growth</h4>
-                <p><strong>✅ Mide:</strong> Crecimiento ingresos recurrentes</p>
-                <div class="benchmark">
-                    <strong>🏆 WORLD CLASS:</strong> <span style="color:#00ff88">+20% mensual</span><br>
-                    <strong>⭐ GOOD:</strong> +12-18% | <strong>⚠️ RISK:</strong> &lt;8%
+        <div class="dashboard-grid">
+            <div class="kpi-premium">
+                <div class="kpi-title">MRR Growth Rate</div>
+                <div class="kpi-input-group">
+                    <label>Previous Month MRR</label>
+                    <input class="kpi-input" type="number" id="mrr1" value="45000">
                 </div>
-                <p><strong>💰 Impacto:</strong> Escala revenue sostenible</p>
+                <div class="kpi-input-group">
+                    <label>Current Month MRR</label>
+                    <input class="kpi-input" type="number" id="mrr2" value="52000">
+                </div>
+                <div class="kpi-metric" id="mrrVal">$52K</div>
+                <div class="kpi-benchmark world-class" id="mrrBench">🟢 WORLD CLASS</div>
             </div>
 
-            <div class="exp-card">
-                <h4>02️⃣ CAC</h4>
-                <p><strong>✅ Mide:</strong> Costo total por cliente</p>
-                <div class="benchmark">
-                    <strong>🏆 WORLD CLASS:</strong> <span style="color:#00ff88">&lt;$8K</span><br>
-                    <strong>⭐ GOOD:</strong> $8-12K | <strong>⚠️ RISK:</strong> &gt;$15K
-                </div>
-                <p><strong>💰 Impacto:</strong> Eficiencia adquisición máxima</p>
-            </div>
-
-            <div class="exp-card">
-                <h4>03️⃣ LTV/CAC Ratio</h4>
-                <p><strong>✅ Mide:</strong> ROI adquisición clientes</p>
-                <div class="benchmark">
-                    <strong>🏆 WORLD CLASS:</strong> <span style="color:#00ff88">&gt;5x</span><br>
-                    <strong>⭐ GOOD:</strong> 3-5x | <strong>⚠️ RISK:</strong> &lt;2x
-                </div>
-                <p><strong>💰 Impacto:</strong> Rentabilidad a largo plazo</p>
-            </div>
-
-            <div class="exp-card">
-                <h4>04️⃣ Conversion Rate</h4>
-                <p><strong>✅ Mide:</strong> % leads SQL que cierran</p>
-                <div class="benchmark">
-                    <strong>🏆 WORLD CLASS:</strong> <span style="color:#00ff88">&gt;20%</span><br>
-                    <strong>⭐ GOOD:</strong> 12-18% | <strong>⚠️ RISK:</strong> &lt;10%
-                </div>
-                <p><strong>💰 Impacto:</strong> Efectividad funnel ventas</p>
-            </div>
-
-            <div class="exp-card">
-                <h4>05️⃣ Win Rate</h4>
-                <p><strong>✅ Mide:</strong> % deals ganados</p>
-                <div class="benchmark">
-                    <strong>🏆 WORLD CLASS:</strong> <span style="color:#00ff88">&gt;35%</span><br>
-                    <strong>⭐ GOOD:</strong> 25-35% | <strong>⚠️ RISK:</strong> &lt;20%
-                </div>
-                <p><strong>💰 Impacto:</strong> Skill equipo hunters</p>
-            </div>
-
-            <div class="exp-card">
-                <h4>06️⃣ Pipeline Value</h4>
-                <p><strong>✅ Mide:</strong> Revenue futuro potencial</p>
-                <div class="benchmark">
-                    <strong>🏆 WORLD CLASS:</strong> <span style="color:#00ff88">&gt;6x quota</span><br>
-                    <strong>⭐ GOOD:</strong> 4-6x | <strong>⚠️ RISK:</strong> &lt;3x
-                </div>
-                <p><strong>💰 Impacto:</strong> Forecasting ultra preciso</p>
-            </div>
-
-            <div class="exp-card">
-                <h4>07️⃣ Churn Rate</h4>
-                <p><strong>✅ Mide:</strong> % clientes perdidos mensual</p>
-                <div class="benchmark">
-                    <strong>🏆 WORLD CLASS:</strong> <span style="color:#00ff88">&lt;3%</span><br>
-                    <strong>⭐ GOOD:</strong> 3-5% | <strong>⚠️ RISK:</strong> &gt;8%
-                </div>
-                <p><strong>💰 Impacto:</strong> Salud negocio enterprise</p>
-            </div>
-
-            <div class="exp-card">
-                <h4>08️⃣ Sales Velocity</h4>
-                <p><strong>✅ Mide:</strong> Velocidad revenue por mes</p>
-                <div class="benchmark">
-                    <strong>🏆 WORLD CLASS:</strong> <span style="color:#00ff88">&lt;60 días ciclo</span><br>
-                    <strong>⭐ GOOD:</strong> 60-90 días | <strong>⚠️ RISK:</strong> &gt;120 días
-                </div>
-                <p><strong>💰 Impacto:</strong> Capacidad hyper-scale</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-function calculateAll(){
-    // MRR
-    let m1=document.getElementById('mrr1').value*1||45000;
-    let m2=document.getElementById('mrr2').value*1||52000;
-    let mgr=((m2-m1)/m1*100).toFixed(1);
-    document.getElementById('mrr').innerHTML='$'+(m2/1000).toFixed(0)+'K <span>(+'+mgr+'%)</span>';
-    
-    // CAC
-    let mk=document.getElementById('mk').value*1||18000;
-    let sl=document.getElementById('sales').value*1||32000;
-    let cu=document.getElementById('cust').value*1||42;
-    document.getElementById('cac').innerHTML='$' + Math.round((mk+sl)/cu).toLocaleString();
-    
-    // LTV/CAC
-    let lt=document.getElementById('ltv').value*1||48000;
-    let cv=document.getElementById('cacv').value*1||11810;
-    let rt=(lt/cv).toFixed(1)+'x '+(lt/cv>3?'✅':'⚠️');
-    document.getElementById('ratio').innerHTML=rt;
-    
-    // Conversion
-    let sq=document.getElementById('sql').value*1||650;
-    let cn=document.getElementById('conv').value*1||78;
-    document.getElementById('conv').innerHTML=((cn/sq)*100).toFixed(1)+'%';
-    
-    // Win Rate
-    let wn=document.getElementById('win').value*1||52;
-    let dt=document.getElementById('dtotal').value*1||187;
-    document.getElementById('win').innerHTML=((wn/dt)*100).toFixed(1)+'%';
-    
-    // Pipeline
-    let op=document.getElementById('opps').value*1||135;
-    let av=document.getElementById('avg').value*1||9200;
-    document.getElementById('pipe').innerHTML='$' + (op*av/1000000).toFixed(2) + 'M';
-    
-    // Churn
-    let st=document.getElementById('start').value*1||820;
-    let ls=document.getElementById('lost').value*1||18;
-    let ch=((ls/st)*100).toFixed(1)+'% '+(ls/st<0.05?'✅':'⚠️');
-    document.getElementById('churn').innerHTML=ch;
-    
-    // Velocity
-    let om=document.getElementById('opm').value*1||38;
-    let cy=document.getElementById('cycle').value*1||42;
-    let vl=Math.round(om*9200*0.28*(30/cy));
-    document.getElementById('vel').innerHTML='$' + (vl/1000).toFixed(0) + 'K/mes';
-}
-
-document.addEventListener('DOMContentLoaded',function(){
-    document.querySelectorAll('input').forEach(function(el){
-        el.addEventListener('input',calculateAll);
-        el.addEventListener('change',calculateAll);
-    });
-    setTimeout(calculateAll,200);
-});
-</script>
-</body>
-</html>
+            <div class="kpi-premium">
+                <div class="kpi-title">Customer Acquisition Cost</div>
+                <div class="kpi-input-group">
+                    <label>Marketing Spend</label>
+                    <input class="kpi-input"
