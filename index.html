@@ -4,6 +4,7 @@
     <title>Hunter Sales KPIs - Mónica Acuña</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+        /* TU CSS ESTÁ PERFECTO - NO CAMBIA */
         *{margin:0;padding:0;box-sizing:border-box;}
         body{background:#1a1a2e;color:white;font-family:Arial,sans-serif;padding:20px;}
         .container{max-width:1400px;margin:auto;}
@@ -36,6 +37,7 @@
     </style>
 </head>
 <body>
+    <!-- TU HTML ESTÁ PERFECTO - NO CAMBIA -->
     <div class="container">
         <h1>Hunter Sales KPIs</h1>
         <img src="vlue cost.PNG" class="hero-img" alt="Valor vs Costo">
@@ -48,6 +50,7 @@
         </div>
 
         <div class="kpi-grid">
+            <!-- TUS 8 KPI CARDS - PERFECTAS -->
             <div class="kpi-card">
                 <h3>1. MRR Growth</h3>
                 <label>MRR Mes Anterior:</label><input type="number" id="mrr1" value="45000">
@@ -106,6 +109,7 @@
             </div>
         </div>
 
+        <!-- TUS EXPLICACIONES - PERFECTAS -->
         <div class="explanations">
             <h3>📊 ¿Por qué estos 8 KPIs definen el éxito en ventas?</h3>
             <div class="exp-grid">
@@ -115,111 +119,4 @@
                 </div>
                 <div class="exp-card">
                     <h4>2️⃣ CAC</h4>
-                    <p><strong>Mide:</strong> Costo total por cliente<br><strong>Meta:</strong> &lt;$12,000<br><strong>Impacto:</strong> Eficiencia adquisición clientes</p>
-                </div>
-                <div class="exp-card">
-                    <h4>3️⃣ LTV/CAC Ratio</h4>
-                    <p><strong>Mide:</strong> ROI de adquisición<br><strong>Meta:</strong> &gt;3x<br><strong>Impacto:</strong> Rentabilidad del negocio</p>
-                </div>
-                <div class="exp-card">
-                    <h4>4️⃣ Conversion Rate</h4>
-                    <p><strong>Mide:</strong> % leads que cierran<br><strong>Meta:</strong> 12-18%<br><strong>Impacto:</strong> Efectividad del funnel</p>
-                </div>
-                <div class="exp-card">
-                    <h4>5️⃣ Win Rate</h4>
-                    <p><strong>Mide:</strong> % deals ganados<br><strong>Meta:</strong> 25-35%<br><strong>Impacto:</strong> Skill del equipo ventas</p>
-                </div>
-                <div class="exp-card">
-                    <h4>6️⃣ Pipeline Value</h4>
-                    <p><strong>Mide:</strong> Potencial revenue futuro<br><strong>Meta:</strong> 4x quota<br><strong>Impacto:</strong> Visibilidad forecasting</p>
-                </div>
-                <div class="exp-card">
-                    <h4>7️⃣ Churn Rate</h4>
-                    <p><strong>Mide:</strong> % clientes perdidos<br><strong>Meta:</strong> &lt;5% mensual<br><strong>Impacto:</strong> Salud del negocio</p>
-                </div>
-                <div class="exp-card">
-                    <h4>8️⃣ Sales Velocity</h4>
-                    <p><strong>Mide:</strong> Velocidad revenue<br><strong>Meta:</strong> Acelerar siempre<br><strong>Impacto:</strong> Capacidad de scale</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        let charts={};
-        function updateAll(){
-            const colors=['#00d4ff','#00ff88','#ffd700','#ff6b9d','#4ecdc4','#45b7d1','#f9ca24','#ff9f43'];
-            
-            //1 MRR
-            if(charts.g1)charts.g1.destroy();
-            charts.g1=new Chart(document.getElementById('g1'),{
-                type:'bar',data:{
-                    labels:['Anterior','Actual'],
-                    datasets:[{data:[document.getElementById('mrr1').value*1||0,document.getElementById('mrr2').value*1||0],backgroundColor:colors.slice(0,2)}]
-                },options:{responsive:true,scales:{x:{ticks:{color:'white'}},y:{ticks:{color:'white'}}}}
-            });
-            
-            //2 CAC
-            let cac=((document.getElementById('mk').value*1||0)+(document.getElementById('sales').value*1||0))/(document.getElementById('cust').value*1||1);
-            if(charts.g2)charts.g2.destroy();
-            charts.g2=new Chart(document.getElementById('g2'),{
-                type:'doughnut',data:{datasets:[{data:[cac,15000],backgroundColor:[colors[2],'#444']}]},
-                options:{responsive:true}
-            });
-            
-            //3 LTV/CAC
-            let ratio=(document.getElementById('ltv').value*1||0)/(document.getElementById('cacv').value*1||1);
-            if(charts.g3)charts.g3.destroy();
-            charts.g3=new Chart(document.getElementById('g3'),{
-                type:'bar',data:{labels:['Ratio'],datasets:[{data:[ratio],backgroundColor:colors[3]}]},
-                options:{indexAxis:'y',responsive:true,scales:{x:{ticks:{color:'white'}}}}
-            });
-            
-            //4 Conversion
-            let convr=(document.getElementById('conv').value*1||0)/(document.getElementById('sql').value*1||1)*100;
-            if(charts.g4)charts.g4.destroy();
-            charts.g4=new Chart(document.getElementById('g4'),{
-                type:'doughnut',data:{labels:['Convertidos','Pendientes'],datasets:[{data:[convr,100-convr],backgroundColor:[colors[4],'#444']}]},
-                options:{responsive:true}
-            });
-            
-            //5 Win Rate
-            let winr=(document.getElementById('win').value*1||0)/(document.getElementById('dtotal').value*1||1)*100;
-            if(charts.g5)charts.g5.destroy();
-            charts.g5=new Chart(document.getElementById('g5'),{
-                type:'doughnut',data:{labels:['Ganados','Perdidos'],datasets:[{data:[winr,100-winr],backgroundColor:[colors[5],'#444']}]},
-                options:{responsive:true}
-            });
-            
-            //6 Pipeline
-            let pipe=(document.getElementById('opps').value*1||0)*(document.getElementById('avg').value*1||0);
-            if(charts.g6)charts.g6.destroy();
-            charts.g6=new Chart(document.getElementById('g6'),{
-                type:'bar',data:{labels:['Pipeline'],datasets:[{data:[pipe],backgroundColor:colors[6]}]},
-                options:{responsive:true,scales:{y:{ticks:{color:'white'}}}}
-            });
-            
-            //7 Churn
-            let churn=(document.getElementById('lost').value*1||0)/(document.getElementById('start').value*1||1)*100;
-            if(charts.g7)charts.g7.destroy();
-            charts.g7=new Chart(document.getElementById('g7'),{
-                type:'doughnut',data:{labels:['Churn','Retención'],datasets:[{data:[churn,100-churn],backgroundColor:[colors[7],'#444']}]},
-                options:{responsive:true}
-            });
-            
-            //8 Velocity
-            let vel=(document.getElementById('opm').value*1||0)*9200*0.28/((document.getElementById('cycle').value*1||1)/30);
-            if(charts.g8)charts.g8.destroy();
-            charts.g8=new Chart(document.getElementById('g8'),{
-                type:'line',data:{labels:['Velocity'],datasets:[{data:[vel],borderColor:colors[0],backgroundColor:colors[0]+'20',fill:true}]},
-                options:{responsive:true,scales:{y:{ticks:{color:'white'}}}}
-            });
-        }
-        
-        document.addEventListener('DOMContentLoaded',()=>{
-            document.querySelectorAll('input').forEach(i=>i.addEventListener('input',updateAll));
-            setTimeout(updateAll,800);
-        });
-    </script>
-</body>
-</html>
+                    <p><strong>Mide:</strong> Costo total por cliente<br><strong>Meta:</strong> &lt;$12,000<br><strong>Impacto:</strong> Eficiencia adquisición
