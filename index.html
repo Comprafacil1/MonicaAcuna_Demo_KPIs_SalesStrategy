@@ -121,9 +121,9 @@
     <div class="kpi-grid">
         <div class="kpi-card">
             <h3>MRR Growth Rate</h3>
-            <label>MRR Mes Anterior:</label><input type="number" id="mrr1" value="41000">
-            <label>MRR Este Mes:</label><input type="number" id="mrr2" value="52000">
-            <div class="metric-big" id="mrr">$52K (+26.8%)</div>
+            <label>MRR Mes Anterior:</label><input type="number" id="mrr1" value="45000">
+            <label>MRR Este Mes:</label><input type="number" id="mrr2" value="58500">
+            <div class="metric-big" id="mrr">$58.5K (+30.0%)</div>
             <div class="benchmark-tag world-class" id="mrrBench">🟢 WORLD CLASS</div>
         </div>
 
@@ -257,28 +257,89 @@
 </div>
 
 <script>
-function calculateAll(){
-    let m1=document.getElementById('mrr1').value*1||41000;
-    let m2=document.getElementById('mrr2').value*1||52000;
-    let mgr=((m2-m1)/m1*100).toFixed(1);
-    let mrrBench = mgr>20 ? 'world-class' : (mgr>12 ? 'good' : 'risk');
-    document.getElementById('mrr').innerHTML='$'+(m2/1000).toFixed(0)+'K (+' + mgr + '%)';
-    document.getElementById('mrrBench').className='benchmark-tag ' + mrrBench;
-    document.getElementById('mrrBench').textContent = '🟢🟡🔴'[mrrBench=='world-class' ? 0 : mrrBench=='good' ? 1 : 2] + 
-        (mrrBench=='world-class' ? ' WORLD CLASS' : mrrBench=='good' ? ' GOOD' : ' RISK');
+function updateBenchmark(element, benchmarkClass, text) {
+    element.className = 'benchmark-tag ' + benchmarkClass;
+    element.textContent = '🟢🟡🔴'[benchmarkClass=='world-class' ? 0 : benchmarkClass=='good' ? 1 : 2] + 
+        (benchmarkClass=='world-class' ? ' WORLD CLASS' : benchmarkClass=='good' ? ' GOOD' : ' RISK');
+}
+
+function calculateAll() {
+    // MRR Growth Rate
+    let m1 = document.getElementById('mrr1').value * 1 || 45000;
+    let m2 = document.getElementById('mrr2').value * 1 || 58500;
+    let mgr = ((m2 - m1) / m1 * 100).toFixed(1);
+    let mrrBench = mgr > 20 ? 'world-class' : (mgr > 12 ? 'good' : 'risk');
+    document.getElementById('mrr').innerHTML = '$' + (m2 / 1000).toFixed(1) + 'K (+' + mgr + '%)';
+    updateBenchmark(document.getElementById('mrrBench'), mrrBench, '');
     
-    let mk=document.getElementById('mk').value*1||18000;
-    let sl=document.getElementById('sales').value*1||32000;
-    let cu=document.getElementById('cust').value*1||42;
-    let cacVal=Math.round((mk+sl)/cu);
-    let cacBench = cacVal<8000 ? 'world-class' : (cacVal<12000 ? 'good' : 'risk');
-    document.getElementById('cac').innerHTML='$' + cacVal.toLocaleString();
-    document.getElementById('cacBench').className='benchmark-tag ' + cacBench;
-    document.getElementById('cacBench').textContent = '🟢🟡🔴'[cacBench=='world-class' ? 0 : cacBench=='good' ? 1 : 2] + 
-        (cacBench=='world-class' ? ' WORLD CLASS' : cacBench=='good' ? ' GOOD' : ' RISK');
+    // CAC
+    let mk = document.getElementById('mk').value * 1 || 18000;
+    let sl = document.getElementById('sales').value * 1 || 32000;
+    let cu = document.getElementById('cust').value * 1 || 42;
+    let cacVal = Math.round((mk + sl) / cu);
+    let cacBench = cacVal < 8000 ? 'world-class' : (cacVal < 12000 ? 'good' : 'risk');
+    document.getElementById('cac').innerHTML = '$' + cacVal.toLocaleString();
+    updateBenchmark(document.getElementById('cacBench'), cacBench, '');
     
-    let lt=document.getElementById('ltv').value*1||48000;
-    let cv=document.getElementById('cacv').value*1||11810;
-    let rt=(lt/cv).toFixed(1);
-    let ratioBench = lt/cv>5 ? 'world-class' : (lt/cv>3 ? 'good' : 'risk');
-    document.getElementById('ratio').inner
+    // LTV/CAC Ratio
+    let lt = document.getElementById('ltv').value * 1 || 48000;
+    let cv = document.getElementById('cacv').value * 1 || cacVal;
+    let rt = (lt / cv).toFixed(1);
+    let ratioBench = (lt / cv) > 5 ? 'world-class' : ((lt / cv) > 3 ? 'good' : 'risk');
+    document.getElementById('ratio').innerHTML = rt + 'x';
+    updateBenchmark(document.getElementById('ratioBench'), ratioBench, '');
+    
+    // Conversion Rate
+    let sql = document.getElementById('sql').value * 1 || 650;
+    let convNum = document.getElementById('conv').value * 1 || 78;
+    let convRate = ((convNum / sql) * 100).toFixed(1);
+    let convBench = (convNum / sql) > 0.20 ? 'world-class' : ((convNum / sql) > 0.12 ? 'good' : 'risk');
+    document.getElementById('conv').innerHTML = convRate + '%';
+    updateBenchmark(document.getElementById('convBench'), convBench, '');
+    
+    // Win Rate
+    let winNum = document.getElementById('win').value * 1 || 52;
+    let dtotal = document.getElementById('dtotal').value * 1 || 187;
+    let winRate = ((winNum / dtotal) * 100).toFixed(1);
+    let winBench = (winNum / dtotal) > 0.35 ? 'world-class' : ((winNum / dtotal) > 0.25 ? 'good' : 'risk');
+    document.getElementById('win').innerHTML = winRate + '%';
+    updateBenchmark(document.getElementById('winBench'), winBench, '');
+    
+    // Pipeline Value
+    let opps = document.getElementById('opps').value * 1 || 135;
+    let avg = document.getElementById('avg').value * 1 || 9200;
+    let pipeVal = (opps * avg).toLocaleString();
+    document.getElementById('pipe').innerHTML = '$' + pipeVal;
+    updateBenchmark(document.getElementById('pipeBench'), 'world-class', '');
+    
+    // Churn Rate
+    let start = document.getElementById('start').value * 1 || 820;
+    let lost = document.getElementById('lost').value * 1 || 18;
+    let churnRate = ((lost / start) * 100).toFixed(1);
+    let churnBench = (lost / start) < 0.03 ? 'world-class' : ((lost / start) < 0.05 ? 'good' : 'risk');
+    document.getElementById('churn').innerHTML = churnRate + '%';
+    updateBenchmark(document.getElementById('churnBench'), churnBench, '');
+    
+    // Sales Velocity
+    let opm = document.getElementById('opm').value * 1 || 38;
+    let cycle = document.getElementById('cycle').value * 1 || 42;
+    let vel = Math.round((opm * avg * 30) / cycle / 1000);
+    document.getElementById('vel').innerHTML = '$' + vel + 'K/mes';
+    let velBench = cycle < 60 ? 'world-class' : (cycle < 90 ? 'good' : 'risk');
+    updateBenchmark(document.getElementById('velBench'), velBench, '');
+}
+
+// Event listeners para todos los inputs
+document.addEventListener('DOMContentLoaded', function() {
+    calculateAll(); // Calcular valores iniciales
+    
+    // Agregar event listeners a todos los inputs
+    const inputs = document.querySelectorAll('input[type="number"]');
+    inputs.forEach(input => {
+        input.addEventListener('input', calculateAll);
+        input.addEventListener('change', calculateAll);
+    });
+});
+</script>
+</body>
+</html>
