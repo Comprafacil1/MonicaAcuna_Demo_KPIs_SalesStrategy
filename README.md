@@ -1,3 +1,8 @@
+🔒 **Este proyecto se muestra como demo público, pero el código fuente está en un repositorio privado.**  
+📖 Puedes interactuar con la app sin acceso al código completo.  
+🛡️ El uso comercial o reutilización de la lógica debe coordinarse directamente conmigo.
+
+
 # 📊 Hunter Sales KPI Dashboard
 
 Dashboard interactivo de **KPIs de ventas SaaS** diseñado para demostrar cómo los equipos de ventas tipo **Hunter** analizan el rendimiento comercial mediante indicadores clave.
